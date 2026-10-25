@@ -1,20 +1,19 @@
 ---
 import FormShell from './FormShell.astro';
 import Field from './Field.astro';
-import { dict, type Lang } from '../../i18n/index.ts';
+import { t } from '../../content/copy.ts';
 import { LIMITS } from '../../lib/schemas.ts';
 
 interface Props {
-  lang: Lang;
   title: string;
 }
-const { lang, title } = Astro.props;
-const f = dict(lang).form;
+const { title } = Astro.props;
+const f = t.form;
 const k = 'contact';
 const tags = { requiredText: f.required, optionalText: f.optional };
 ---
 
-<FormShell kind={k} lang={lang} title={title}>
+<FormShell kind={k} title={title}>
   <Field form={k} name="name" label={f.fields.name} required autocomplete="name" maxlength={LIMITS.name} {...tags} />
   <Field form={k} name="contact" label={f.fields.contact} required hint={f.fields.contactHint} {...tags} />
   <Field

@@ -1,15 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { en } from '../i18n/en.ts';
-import { kn } from '../i18n/kn.ts';
+import { t } from '../content/copy.ts';
 import { site } from '../config/site.ts';
 ---
 
 <BaseLayout
-  lang="en"
   path="/404/"
-  title={en.meta.notFoundTitle}
-  description={en.meta.notFoundDesc}
+  title={t.meta.notFoundTitle}
+  description={t.meta.notFoundDesc}
   single
   noindex
   searchable={false}
@@ -19,20 +17,12 @@ import { site } from '../config/site.ts';
       <div class="lattice-panel" aria-hidden="true"></div>
       <div class="stack-lg">
         <div class="stack">
-          <h1>{en.notFound.title}</h1>
-          <p>{en.notFound.lead}</p>
+          <h1>{t.notFound.title}</h1>
+          <p>{t.notFound.lead}</p>
           <div class="btn-row">
-            <a class="btn" href="/">{en.notFound.home}</a>
-            <a class="btn btn--ghost" href="/menu/">{en.notFound.menu}</a>
-            <a class="btn btn--ghost" href="/visit/">{en.notFound.visit}</a>
-          </div>
-        </div>
-        <div class="stack" lang="kn">
-          <h2>{kn.notFound.title}</h2>
-          <p>{kn.notFound.lead}</p>
-          <div class="btn-row">
-            <a class="btn btn--ghost" href="/kn/">{kn.notFound.home}</a>
-            <a class="btn btn--ghost" href="/kn/menu/">{kn.notFound.menu}</a>
+            <a class="btn" href="/">{t.notFound.home}</a>
+            <a class="btn btn--ghost" href="/menu/">{t.notFound.menu}</a>
+            <a class="btn btn--ghost" href="/visit/">{t.notFound.visit}</a>
           </div>
         </div>
         <p><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></p>

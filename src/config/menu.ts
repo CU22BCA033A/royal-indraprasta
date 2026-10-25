@@ -4,72 +4,63 @@
  * Every item records where it was seen (ids from docs/RESEARCH.md; S0 is the
  * research brief supplied with the project). `price` stays null until the owner
  * supplies a current price list. Prices from aggregators are never used.
- *
- * Kannada names: NEEDS-NATIVE-REVIEW
  */
 
 export interface MenuItem {
   id: string;
-  en: string;
-  kn: string;
+  name: string;
   price: number | null;
   sources: string[];
 }
 
 export interface MenuCategory {
   id: string;
-  en: string;
-  kn: string;
+  name: string;
   items: MenuItem[];
 }
 
 export const menu: MenuCategory[] = [
   {
     id: 'tiffin',
-    en: 'Tiffin',
-    kn: 'ತಿಂಡಿ',
+    name: 'Tiffin',
     items: [
-      { id: 'idli', en: 'Idli', kn: 'ಇಡ್ಲಿ', price: null, sources: ['S0', 'S1', 'S2'] },
-      { id: 'vada', en: 'Vada', kn: 'ವಡೆ', price: null, sources: ['S0', 'S2'] },
-      { id: 'rice-bath', en: 'Rice bath', kn: 'ರೈಸ್ ಬಾತ್', price: null, sources: ['S2'] },
+      { id: 'idli', name: 'Idli', price: null, sources: ['S0', 'S1', 'S2'] },
+      { id: 'vada', name: 'Vada', price: null, sources: ['S0', 'S2'] },
+      { id: 'rice-bath', name: 'Rice bath', price: null, sources: ['S2'] },
     ],
   },
   {
     id: 'dosa',
-    en: 'Dosa',
-    kn: 'ದೋಸೆ',
+    name: 'Dosa',
     items: [
-      { id: 'butter-masala-dosa', en: 'Butter masala dosa', kn: 'ಬೆಣ್ಣೆ ಮಸಾಲೆ ದೋಸೆ', price: null, sources: ['S0'] },
-      { id: 'onion-dosa', en: 'Onion dosa', kn: 'ಈರುಳ್ಳಿ ದೋಸೆ', price: null, sources: ['S0'] },
+      { id: 'butter-masala-dosa', name: 'Butter masala dosa', price: null, sources: ['S0'] },
+      { id: 'onion-dosa', name: 'Onion dosa', price: null, sources: ['S0'] },
     ],
   },
   {
     id: 'north-indian',
-    en: 'North Indian',
-    kn: 'ಉತ್ತರ ಭಾರತೀಯ',
+    name: 'North Indian',
     items: [
-      { id: 'butter-kulcha', en: 'Butter kulcha', kn: 'ಬಟರ್ ಕುಲ್ಚಾ', price: null, sources: ['S1'] },
-      { id: 'paneer-butter-masala', en: 'Paneer butter masala', kn: 'ಪನೀರ್ ಬಟರ್ ಮಸಾಲಾ', price: null, sources: ['S1'] },
-      { id: 'soup', en: 'Soup', kn: 'ಸೂಪ್', price: null, sources: ['S0'] },
+      { id: 'butter-kulcha', name: 'Butter kulcha', price: null, sources: ['S1'] },
+      { id: 'paneer-butter-masala', name: 'Paneer butter masala', price: null, sources: ['S1'] },
+      { id: 'soup', name: 'Soup', price: null, sources: ['S0'] },
     ],
   },
   {
     id: 'chaat',
-    en: 'Chaat',
-    kn: 'ಚಾಟ್',
-    items: [{ id: 'masala-puri', en: 'Masala puri', kn: 'ಮಸಾಲೆ ಪುರಿ', price: null, sources: ['S0', 'S1'] }],
+    name: 'Chaat',
+    items: [{ id: 'masala-puri', name: 'Masala puri', price: null, sources: ['S0', 'S1'] }],
   },
   {
     id: 'beverages-desserts',
-    en: 'Beverages and desserts',
-    kn: 'ಪಾನೀಯ ಮತ್ತು ಸಿಹಿ',
+    name: 'Beverages and desserts',
     items: [
-      { id: 'coffee', en: 'Coffee', kn: 'ಕಾಫಿ', price: null, sources: ['S0', 'S1', 'S2'] },
-      { id: 'tea', en: 'Tea', kn: 'ಚಹಾ', price: null, sources: ['S0', 'S1'] },
-      { id: 'badam-milk', en: 'Badam milk', kn: 'ಬಾದಾಮಿ ಹಾಲು', price: null, sources: ['S0', 'S1'] },
-      { id: 'juices', en: 'Fresh juices', kn: 'ಹಣ್ಣಿನ ರಸ', price: null, sources: ['S0', 'S1', 'S2'] },
-      { id: 'milkshakes', en: 'Milkshakes', kn: 'ಮಿಲ್ಕ್‌ಶೇಕ್', price: null, sources: ['S0', 'S1'] },
-      { id: 'ice-cream', en: 'Ice cream', kn: 'ಐಸ್ ಕ್ರೀಮ್', price: null, sources: ['S0'] },
+      { id: 'coffee', name: 'Coffee', price: null, sources: ['S0', 'S1', 'S2'] },
+      { id: 'tea', name: 'Tea', price: null, sources: ['S0', 'S1'] },
+      { id: 'badam-milk', name: 'Badam milk', price: null, sources: ['S0', 'S1'] },
+      { id: 'juices', name: 'Fresh juices', price: null, sources: ['S0', 'S1', 'S2'] },
+      { id: 'milkshakes', name: 'Milkshakes', price: null, sources: ['S0', 'S1'] },
+      { id: 'ice-cream', name: 'Ice cream', price: null, sources: ['S0'] },
     ],
   },
 ];

@@ -6,43 +6,34 @@ import '../styles/layout.css';
 import '../styles/components.css';
 import '../styles/print.css';
 
-import { dict, localPath, type Lang } from '../i18n/index.ts';
+import { t } from '../content/copy.ts';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Floating from '../components/Floating.astro';
 import { restaurantJsonLd, jsonForScript } from '../lib/seo.ts';
 
 interface Props {
-  lang: Lang;
-  /** English path of this page, for example "/menu/". */
+  /** Path of this page, for example "/menu/". */
   path: string;
   title: string;
   description: string;
   /** Extra JSON-LD objects for this page. */
   jsonld?: Record<string, unknown>[];
-  /** Pages that exist in one language only (404). */
+  /** Pages without a canonical URL (404). */
   single?: boolean;
   noindex?: boolean;
   /** Include the page in site search. */
   searchable?: boolean;
 }
-const { lang, path, title, description, jsonld = [], single = false, noindex = false, searchable = true } = Astro.props;
-const t = dict(lang);
+const { path, title, description, jsonld = [], single = false, noindex = false, searchable = true } = Astro.props;
 const origin = (Astro.site?.href ?? 'https://royal-indraprastha.pages.dev/').replace(/\/$/, '');
-const canonical = `${origin}${localPath(path, lang)}`;
-const enUrl = `${origin}${localPath(path, 'en')}`;
-const knUrl = `${origin}${localPath(path, 'kn')}`;
-const otherHref = localPath(single ? '/' : path, lang === 'en' ? 'kn' : 'en');
+const canonical = `${origin}${path}`;
 const ld = [restaurantJsonLd(origin), ...jsonld];
-const preloads =
-  lang === 'kn'
-    ? ['/fonts/noto-sans-kannada-400.woff2', '/fonts/noto-serif-kannada-600.woff2']
-    : ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
-const isEnHome = lang === 'en' && path === '/';
+const preloads = ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
 ---
 
 <!doctype html>
-<html lang={lang} dir="ltr">
+<html lang="en-IN" dir="ltr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,15 +41,6 @@ const isEnHome = lang === 'en' && path === '/';
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     {!single && <link rel="canonical" href={canonical} />}
-    {
-      !single && (
-        <>
-          <link rel="alternate" hreflang="en-IN" href={enUrl} />
-          <link rel="alternate" hreflang="kn-IN" href={knUrl} />
-          <link rel="alternate" hreflang="x-default" href={enUrl} />
-        </>
-      )
-    }
     <meta name="theme-color" content="#f6efe2" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1c1512" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -72,8 +54,7 @@ const isEnHome = lang === 'en' && path === '/';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:locale" content={lang === 'kn' ? 'kn_IN' : 'en_IN'} />
-    <meta property="og:locale:alternate" content={lang === 'kn' ? 'en_IN' : 'kn_IN'} />
+    <meta property="og:locale" content="en_IN" />
     <meta property="og:image" content={`${origin}/og.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -91,31 +72,17 @@ const isEnHome = lang === 'en' && path === '/';
         } catch (e) {}
       })();
     </script>
-    {
-      isEnHome && (
-        <script is:inline>
-          (function () {
-            try {
-              var sameSite = document.referrer.indexOf(location.origin) === 0;
-              if (!sameSite && localStorage.getItem('ri-lang') === 'kn' && location.search.indexOf('lang=en') === -1) {
-                location.replace('/kn/');
-              }
-            } catch (e) {}
-          })();
-        </script>
-      )
-    }
     {ld.map((d) => <script type="application/ld+json" set:html={jsonForScript(d)} />)}
   </head>
   <body id="top">
     <a class="skip" href="#main">{t.common.skip}</a>
     <div class="progress" aria-hidden="true"></div>
-    <Header lang={lang} path={path} otherHref={otherHref} />
+    <Header path={path} />
     <main id="main" tabindex="-1" data-pagefind-body={searchable ? '' : undefined}>
       <slot />
     </main>
-    <Footer lang={lang} otherHref={otherHref} />
-    <Floating lang={lang} />
+    <Footer />
+    <Floating />
     <script>
       import '../client/main.ts';
     </script>

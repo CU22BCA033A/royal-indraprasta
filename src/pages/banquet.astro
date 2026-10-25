@@ -1,22 +1,14 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Photo from '../../components/Photo.astro';
-import FaqList from '../../components/FaqList.astro';
-import VegMark from '../../components/VegMark.astro';
-import EnquiryForm from '../../components/forms/EnquiryForm.astro';
-import { dict, fmt, langPaths, type Lang } from '../../i18n/index.ts';
-import { site } from '../../config/site.ts';
-import { faqsFor } from '../../config/faq.ts';
-import { venueJsonLd } from '../../lib/seo.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import FaqList from '../components/FaqList.astro';
+import VegMark from '../components/VegMark.astro';
+import EnquiryForm from '../components/forms/EnquiryForm.astro';
+import { t, fmt } from '../content/copy.ts';
+import { site } from '../config/site.ts';
+import { faqsFor } from '../config/faq.ts';
+import { venueJsonLd } from '../lib/seo.ts';
 
-export function getStaticPaths() {
-  return langPaths();
-}
-interface Props {
-  lang: Lang;
-}
-const { lang } = Astro.props;
-const t = dict(lang);
 const b = site.banquet;
 const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
 const venue = venueJsonLd(origin);
@@ -24,7 +16,6 @@ const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !
 ---
 
 <BaseLayout
-  lang={lang}
   path="/banquet/"
   title={t.meta.banquetTitle}
   description={t.meta.banquetDesc}
@@ -72,14 +63,14 @@ const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !
               {b.inclusions && (
                 <div>
                   <dt>{t.banquet.included}</dt>
-                  <dd>{b.inclusions[lang].join(', ')}</dd>
+                  <dd>{b.inclusions.join(', ')}</dd>
                 </div>
               )}
             </dl>
           )
         }
-        <Photo slug="banquet-wide" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
-        <Photo slug="banquet-stage" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Photo slug="banquet-wide" sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Photo slug="banquet-stage" sizes="(min-width: 52rem) 60vw, 100vw" />
       </div>
     </div>
   </section>
@@ -91,7 +82,7 @@ const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !
           <a class="tel-label" href={`tel:${site.phone}`}>{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
         </p>
       </div>
-      <EnquiryForm lang={lang} title={t.banquet.formTitle} />
+      <EnquiryForm title={t.banquet.formTitle} />
     </div>
   </section>
 
@@ -100,7 +91,7 @@ const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !
       <div>
         <h2 id="bfaq-title">{t.banquet.faqTitle}</h2>
       </div>
-      <FaqList items={faqsFor('banquet')} lang={lang} />
+      <FaqList items={faqsFor('banquet')} />
     </div>
   </section>
 </BaseLayout>

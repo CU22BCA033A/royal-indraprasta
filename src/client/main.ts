@@ -4,7 +4,7 @@
  */
 import { openStatus, formatTime, type DayHours, type DayKey } from '../config/hours.ts';
 
-const KEYS = { theme: 'ri-theme', lang: 'ri-lang', notice: 'ri-notice', utm: 'ri-utm' } as const;
+const KEYS = { theme: 'ri-theme', notice: 'ri-notice', utm: 'ri-utm' } as const;
 
 function store(kind: 'local' | 'session') {
   try {
@@ -50,11 +50,6 @@ document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((b) 
 });
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncThemeButtons);
 syncThemeButtons();
-
-/* Language preference */
-document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch]').forEach((a) => {
-  a.addEventListener('click', () => set(KEYS.lang, a.dataset.langSwitch ?? 'en'));
-});
 
 /* Dialogs: mobile menu and search. Native modal dialogs trap focus and close on Escape. */
 let lastOpener: HTMLElement | null = null;

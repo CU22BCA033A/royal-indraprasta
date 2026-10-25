@@ -1,22 +1,20 @@
 ---
 import { site, addressText, mapsUrl, directionsUrl } from '../config/site.ts';
-import { dict, type Lang } from '../i18n/index.ts';
+import { t } from '../content/copy.ts';
 import CopyButton from './CopyButton.astro';
 import Icon from './Icon.astro';
 
 interface Props {
-  lang: Lang;
   showPhone?: boolean;
   buttons?: boolean;
 }
-const { lang, showPhone = false, buttons = true } = Astro.props;
-const t = dict(lang);
+const { showPhone = false, buttons = true } = Astro.props;
 const addr = addressText();
 ---
 
 <div class="stack">
   <address class="address">
-    <a href={mapsUrl()} rel="noopener" target="_blank" lang="en"
+    <a href={mapsUrl()} rel="noopener" target="_blank"
       >{site.tradingName}<br />{addr}<span class="visually-hidden"> ({t.common.newTab})</span></a
     >
   </address>

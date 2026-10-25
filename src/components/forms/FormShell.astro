@@ -5,19 +5,17 @@
  * Behaviour is in src/client/forms.ts.
  */
 import '../../styles/forms.css';
-import { dict, fmt, localPath, type Lang } from '../../i18n/index.ts';
+import { t, fmt } from '../../content/copy.ts';
 import { site } from '../../config/site.ts';
 import type { FormKind } from '../../lib/schemas.ts';
 
 interface Props {
   kind: FormKind;
-  lang: Lang;
   title: string;
   /** Show a confirmation dialog before sending. */
   confirm?: boolean;
 }
-const { kind, lang, title, confirm = false } = Astro.props;
-const t = dict(lang);
+const { kind, title, confirm = false } = Astro.props;
 const f = t.form;
 const id = `form-${kind}`;
 const purpose = kind === 'enquiry' ? f.purpose.enquiry : kind === 'contact' ? f.purpose.contact : f.purpose.data;
@@ -41,7 +39,6 @@ const messages = {
     novalidate
     aria-labelledby={`${id}-title`}
     data-form={kind}
-    data-lang={lang}
     data-confirm={confirm ? 'true' : undefined}
     data-messages={JSON.stringify(messages)}
   >
@@ -67,7 +64,7 @@ const messages = {
         <input id={`${id}-consent`} name="consent" type="checkbox" required aria-describedby={`${id}-consent-error`} />
         <label for={`${id}-consent`}>
           {f.consent}{' '}
-          <a href={localPath('/privacy/', lang)}>{f.consentLink}</a>.
+          <a href={'/privacy/'}>{f.consentLink}</a>.
         </label>
       </div>
       <p class="error" id={`${id}-consent-error`} hidden></p>

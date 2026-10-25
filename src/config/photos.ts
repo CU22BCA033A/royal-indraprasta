@@ -1,9 +1,7 @@
 /**
  * Alt text for each photo in docs/SHOT-LIST.md. Write what the photo actually
  * shows once it exists. A photo is only shown when the file has been processed
- * by `npm run photos` AND both alt texts are filled in here.
- *
- * Kannada alt text: NEEDS-NATIVE-REVIEW
+ * by `npm run photos` AND its alt text is filled in here.
  */
 export type PhotoSlug =
   | 'exterior'
@@ -19,7 +17,7 @@ export type PhotoSlug =
   | 'banquet-stage'
   | 'parking';
 
-export const photoAlt: Record<PhotoSlug, { en: string; kn: string } | null> = {
+export const photoAlt: Record<PhotoSlug, string | null> = {
   exterior: null,
   entrance: null,
   'dosa-plate': null,

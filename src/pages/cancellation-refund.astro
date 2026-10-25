@@ -1,0 +1,16 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../content/copy.ts';
+import { cancellation } from '../content/legal.ts';
+
+const heading = 'Cancellation and Refund Policy';
+---
+
+<LegalPage
+  path="/cancellation-refund/"
+  title={t.meta.cancellationTitle}
+  description={t.meta.cancellationDesc}
+  heading={heading}
+  dateKey="cancellation"
+  doc={cancellation()}
+/>

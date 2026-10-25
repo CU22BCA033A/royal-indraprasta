@@ -24,7 +24,6 @@ const good = {
   message: '',
   consent: true,
   elapsed: 5000,
-  lang: 'en',
   utm: { utm_source: 'flyer' },
 };
 function mockFetch(ok = true) {

@@ -1,0 +1,16 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../content/copy.ts';
+import { terms } from '../content/legal.ts';
+
+const heading = 'Terms and Conditions';
+---
+
+<LegalPage
+  path="/terms/"
+  title={t.meta.termsTitle}
+  description={t.meta.termsDesc}
+  heading={heading}
+  dateKey="terms"
+  doc={terms()}
+/>

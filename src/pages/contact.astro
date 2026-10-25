@@ -1,21 +1,13 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import AddressBlock from '../../components/AddressBlock.astro';
-import ContactForm from '../../components/forms/ContactForm.astro';
-import { dict, langPaths, type Lang } from '../../i18n/index.ts';
-import { site } from '../../config/site.ts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AddressBlock from '../components/AddressBlock.astro';
+import ContactForm from '../components/forms/ContactForm.astro';
+import { t } from '../content/copy.ts';
+import { site } from '../config/site.ts';
 
-export function getStaticPaths() {
-  return langPaths();
-}
-interface Props {
-  lang: Lang;
-}
-const { lang } = Astro.props;
-const t = dict(lang);
 ---
 
-<BaseLayout lang={lang} path="/contact/" title={t.meta.contactTitle} description={t.meta.contactDesc}>
+<BaseLayout path="/contact/" title={t.meta.contactTitle} description={t.meta.contactDesc}>
   <div class="page-head">
     <div class="wrap">
       <h1>{t.contact.title}</h1>
@@ -28,7 +20,7 @@ const t = dict(lang);
         <h2 id="direct-title">{t.visit.phoneTitle}</h2>
       </div>
       <div class="stack-lg">
-        <AddressBlock lang={lang} showPhone />
+        <AddressBlock showPhone />
         {
           site.email && (
             <p>
@@ -42,7 +34,7 @@ const t = dict(lang);
   <section class="section section--surface" aria-label={t.contact.formTitle}>
     <div class="wrap split">
       <div></div>
-      <ContactForm lang={lang} title={t.contact.formTitle} />
+      <ContactForm title={t.contact.formTitle} />
     </div>
   </section>
 </BaseLayout>

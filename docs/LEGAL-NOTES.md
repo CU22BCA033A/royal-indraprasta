@@ -27,7 +27,7 @@ Apply only if the site starts taking orders or payments. The site takes neither.
 
 ## What the site does as a result
 
-- No cookies. Two `localStorage` keys (theme, language) and one for the notice; one `sessionStorage` key for UTM values. All listed in the Cookie Policy.
+- No cookies. One `localStorage` key for the theme and one for the notice; one `sessionStorage` key for UTM values. All listed in the Cookie Policy.
 - No third-party scripts, analytics off.
 - Consent checkbox unticked, required, with a privacy link.
 - Data Request page with access, correction and deletion.

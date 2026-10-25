@@ -57,27 +57,6 @@ test('theme toggle switches and persists', async ({ page }) => {
   expect(bg).toBe('rgb(28, 21, 18)');
 });
 
-test('language switch goes to the same page in Kannada and is remembered', async ({ page }) => {
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await page.goto('/menu/');
-  await page.locator('.header-tools [data-lang-switch="kn"]').click();
-  await expect(page).toHaveURL(/\/kn\/menu\/$/);
-  await expect(page.locator('html')).toHaveAttribute('lang', 'kn');
-  await expect(page.locator('h1')).toHaveText('ಮೆನು');
-  // A fresh visit to the English home page from outside follows the saved choice.
-  await page.goto('about:blank');
-  await page.goto('/');
-  await expect(page).toHaveURL(/\/kn\/$/);
-  await page.locator('.header-tools [data-lang-switch="en"]').click();
-  await expect(page).toHaveURL(/localhost:4321\/$/);
-});
-
-test('hreflang alternates are present', async ({ page }) => {
-  await page.goto('/banquet/');
-  await expect(page.locator('link[hreflang="kn-IN"]')).toHaveAttribute('href', /\/kn\/banquet\/$/);
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/banquet\/$/);
-});
-
 test('search finds pages and reports no results', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/');
@@ -117,6 +96,13 @@ test('open status and hours never show a guess', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.status[data-hours]')).toHaveCount(0);
   await expect(page.locator('.board__time').first()).toHaveText('Closes at 10:30 PM');
+});
+
+test('canonical link is set and no language alternates remain', async ({ page }) => {
+  await page.goto('/banquet/');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/banquet\/$/);
+  await expect(page.locator('link[hreflang]')).toHaveCount(0);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en-IN');
 });
 
 test('storage notice is dismissed once', async ({ page }) => {
@@ -207,7 +193,7 @@ test('enquiry: confirm dialog, edit, send, success', async ({ page }) => {
   await expect(success).toBeVisible();
   await expect(success).toBeFocused();
   await expect(page.locator('#form-enquiry')).toBeHidden();
-  expect(seen[0]).toMatchObject({ name: 'Asha Rao', eventType: 'birthday', utm: { utm_source: 'flyer' }, lang: 'en' });
+  expect(seen[0]).toMatchObject({ name: 'Asha Rao', eventType: 'birthday', utm: { utm_source: 'flyer' } });
 });
 
 test('enquiry: general error state on server failure', async ({ page }) => {
@@ -233,11 +219,11 @@ test('enquiry: server field errors are mapped to fields', async ({ page }) => {
 
 test('enquiry: not-configured message offers a call', async ({ page }) => {
   await mockApi(page, 503, { ok: false, code: 'not_configured' });
-  await page.goto('/kn/banquet/');
+  await page.goto('/banquet/');
   await fillEnquiry(page);
   await page.locator('[data-review]').click();
   await page.locator('[data-confirm-send]').click();
-  await expect(page.locator('[data-general-error]')).toContainText('ಆನ್‌ಲೈನ್ ಸಂದೇಶ');
+  await expect(page.locator('[data-general-error]')).toContainText('Online messages are not switched on yet');
 });
 
 test('contact form: success and send another', async ({ page }) => {

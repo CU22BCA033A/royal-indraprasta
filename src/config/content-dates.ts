@@ -15,9 +15,9 @@ export const contentDates = {
 
 export type ContentDateKey = keyof typeof contentDates;
 
-export function formatDate(iso: string, lang: 'en' | 'kn'): string {
+export function formatDate(iso: string): string {
   const d = new Date(`${iso}T00:00:00+05:30`);
-  return new Intl.DateTimeFormat(lang === 'kn' ? 'kn-IN' : 'en-IN', {
+  return new Intl.DateTimeFormat('en-IN', {
     day: 'numeric',
     month: 'long',
     year: 'numeric',

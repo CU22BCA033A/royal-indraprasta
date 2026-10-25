@@ -2,7 +2,6 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { openStatus, hoursComplete, formatTime, type DayHours, type DayKey } from '../../src/config/hours.ts';
 import { normalizeIndianMobile, contactSchema, todayIST } from '../../src/lib/schemas.ts';
-import { localPath, basePath } from '../../src/i18n/index.ts';
 import { faqsFor } from '../../src/config/faq.ts';
 
 const full: Record<DayKey, DayHours> = {
@@ -55,14 +54,6 @@ test('contact accepts phone or email', () => {
 
 test('today in IST', () => {
   assert.equal(todayIST(new Date('2026-10-25T19:00:00Z')), '2026-10-26');
-});
-
-test('language paths', () => {
-  assert.equal(localPath('/', 'kn'), '/kn/');
-  assert.equal(localPath('/menu/', 'kn'), '/kn/menu/');
-  assert.equal(localPath('/menu/', 'en'), '/menu/');
-  assert.equal(basePath('/kn/menu/'), '/menu/');
-  assert.equal(basePath('/kn/'), '/');
 });
 
 test('home FAQ has five to seven questions', () => {

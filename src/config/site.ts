@@ -39,21 +39,21 @@ export interface Site {
   gstin: string | null;
   grievanceOfficer: { name: string; email: string } | null;
   social: { instagram: string | null; facebook: string | null };
-  cuisines: { en: string[]; kn: string[] };
+  cuisines: string[];
   /** Banquet facts. Any null value is left off the page. */
   banquet: {
     hallName: string | null;
     capacitySeated: number | null;
     capacityFloating: number | null;
-    inclusions: { en: string[]; kn: string[] } | null;
+    inclusions: string[] | null;
   };
-  /** Owner-supplied cancellation and refund terms, plain text per language. */
-  cancellationTerms: { en: string[]; kn: string[] } | null;
+  /** Owner-supplied cancellation and refund terms, one paragraph per entry. */
+  cancellationTerms: string[] | null;
   /** Owner-supplied story for the About page. The page is not built while null. */
-  story: { en: string[]; kn: string[] } | null;
+  story: string[] | null;
   /** Verified access and parking facts, shown only when supplied. */
-  access: { en: string[]; kn: string[] } | null;
-  parking: { en: string[]; kn: string[] } | null;
+  access: string[] | null;
+  parking: string[] | null;
   /** Royal Indraprastha The Hotel, shown only with modules.stay. */
   stayDetails: { address: string; phone: string | null; phoneDisplay: string | null } | null;
   modules: {
@@ -87,10 +87,7 @@ export const site: Site = {
   gstin: null,
   grievanceOfficer: null,
   social: { instagram: null, facebook: null },
-  cuisines: {
-    en: ['South Indian', 'North Indian'],
-    kn: ['ದಕ್ಷಿಣ ಭಾರತೀಯ', 'ಉತ್ತರ ಭಾರತೀಯ'],
-  },
+  cuisines: ['South Indian', 'North Indian'],
   banquet: {
     hallName: null,
     capacitySeated: null,

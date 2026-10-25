@@ -1,8 +1,7 @@
 /**
- * English interface strings. `{name}` placeholders are filled by `fmt()`.
- * Kannada lives in kn.ts with the same shape.
+ * Interface text for the whole site. `{name}` placeholders are filled by `fmt()`.
  */
-export const en = {
+export const t = {
   meta: {
     homeTitle: 'Royal Indraprastha, pure veg restaurant in RR Nagar',
     homeDesc:
@@ -72,10 +71,6 @@ export const en = {
     searchUnavailable: 'Search is not available right now. Use the menu above instead.',
     close: 'Close',
     theme: 'Dark theme',
-    langLabel: 'Language',
-    langOther: 'ಕನ್ನಡ',
-    langOtherName: 'Read this page in Kannada',
-    langOtherCode: 'kn',
     call: 'Call',
     callNumber: 'Call {phone}',
     directions: 'Get directions',
@@ -93,7 +88,7 @@ export const en = {
     newTab: 'opens in a new tab',
   },
   notice: {
-    text: 'This site keeps your theme and language choice in your browser. No cookies, no tracking.',
+    text: 'This site keeps your light or dark theme choice in your browser. No cookies, no tracking.',
     ok: 'Got it',
     textConsent:
       'We would like to count visits with privacy-friendly analytics that sets no cookies. Essential storage is always on.',
@@ -115,6 +110,7 @@ export const en = {
     cookies: 'Cookies',
     cancellation: 'Cancellation and refunds',
     dataRequest: 'Data request',
+    follow: 'Follow',
     instagram: 'Instagram',
     facebook: 'Facebook',
   },
@@ -209,11 +205,6 @@ export const en = {
   about: {
     title: 'About',
   },
-  legal: {
-    summary: 'Summary in Kannada',
-    knNote: '',
-    fullText: 'Full text',
-  },
   notFound: {
     title: 'Page not found',
     lead: 'This page does not exist. It may have moved, or the link may be mistyped.',
@@ -302,10 +293,7 @@ export const en = {
   },
 } as const;
 
-type Widen<T> = T extends string
-  ? string
-  : T extends readonly (infer U)[]
-    ? readonly Widen<U>[]
-    : { readonly [K in keyof T]: Widen<T[K]> };
-
-export type Dict = Widen<typeof en>;
+/** Replaces `{key}` placeholders. */
+export function fmt(s: string, vars: Record<string, string | number>): string {
+  return s.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? `{${k}}`));
+}

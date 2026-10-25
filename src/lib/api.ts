@@ -113,7 +113,7 @@ function ownerEmail(kind: FormKind, d: Data): { subject: string; text: string } 
       'Reply within the time stated in the privacy policy (the law allows at most 90 days).',
     );
   }
-  lines.push('', '---', `Page language: ${d.lang ?? 'en'}`);
+  lines.push('', '---');
   const utm = d.utm as Record<string, string> | undefined;
   if (utm && Object.keys(utm).length) {
     lines.push(
@@ -126,23 +126,7 @@ function ownerEmail(kind: FormKind, d: Data): { subject: string; text: string } 
   return { subject, text: lines.join('\n') };
 }
 
-function confirmEmail(kind: FormKind, lang: string): { subject: string; text: string } {
-  if (lang === 'kn') {
-    return {
-      subject: 'ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥ: ನಿಮ್ಮ ಸಂದೇಶ ತಲುಪಿದೆ',
-      text: [
-        'ನಮಸ್ಕಾರ,',
-        '',
-        kind === 'enquiry'
-          ? 'ನಿಮ್ಮ ಸಮಾರಂಭದ ವಿಚಾರಣೆ ನಮಗೆ ತಲುಪಿದೆ. ದಿನಾಂಕ ಮತ್ತು ವಿವರಗಳ ಬಗ್ಗೆ ಮಾತನಾಡಲು ನಾವು ಕರೆ ಮಾಡುತ್ತೇವೆ. ನಾವು ಖಚಿತಪಡಿಸುವವರೆಗೆ ಇದು ಕಾಯ್ದಿರಿಸುವಿಕೆ ಅಲ್ಲ.'
-          : 'ನಿಮ್ಮ ಸಂದೇಶ ನಮಗೆ ತಲುಪಿದೆ. ಬೇಗ ಉತ್ತರಿಸುತ್ತೇವೆ.',
-        '',
-        'ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥ',
-        '',
-        'ಈ ಇಮೇಲ್ ನಿಮ್ಮ ಸಂದೇಶಕ್ಕೆ ಮಾತ್ರ ಉತ್ತರ. ನಾವು ಮಾರಾಟದ ಇಮೇಲ್ ಕಳುಹಿಸುವುದಿಲ್ಲ.',
-      ].join('\n'),
-    };
-  }
+function confirmEmail(kind: FormKind): { subject: string; text: string } {
   return {
     subject: 'Royal Indraprastha: we have your message',
     text: [
@@ -240,7 +224,7 @@ export async function handle(
 
   if (reply) {
     try {
-      await sendEmail(env, { to: reply, ...confirmEmail(kind, String(data.lang ?? 'en')) }, fetchImpl);
+      await sendEmail(env, { to: reply, ...confirmEmail(kind) }, fetchImpl);
     } catch {
       /* The owner has the message; a failed confirmation is not an error for the visitor. */
     }

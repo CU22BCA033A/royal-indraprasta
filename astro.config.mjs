@@ -19,7 +19,6 @@ export default defineConfig({
   devToolbar: { enabled: false },
   integrations: [
     sitemap({
-      i18n: { defaultLocale: 'en', locales: { en: 'en-IN', kn: 'kn-IN' } },
       filter: (page) => !page.includes('/404'),
     }),
   ],

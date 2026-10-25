@@ -1,20 +1,18 @@
 ---
 /** Proposed wordmark: lattice mark plus name. Replace if the owner has a logo. */
-import { localPath, type Lang } from '../i18n/index.ts';
 interface Props {
-  lang: Lang;
   homeLabel: string;
 }
-const { lang, homeLabel } = Astro.props;
+const { homeLabel } = Astro.props;
 ---
 
-<a class="wordmark" href={localPath('/', lang)}>
+<a class="wordmark" href="/">
   <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
     <path d="M16 2 30 16 16 30 2 16Z"></path>
     <path d="M16 9 23 16 16 23 9 16Z"></path>
     <path d="M9 9 23 23M23 9 9 23" stroke-width="1"></path>
   </svg>
-  <span class="wordmark__text" lang="en">
+  <span class="wordmark__text">
     <span class="wordmark__royal">Royal</span>
     <span class="wordmark__name">Indraprastha</span>
   </span>

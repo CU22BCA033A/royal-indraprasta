@@ -53,7 +53,7 @@ for (const path of ALL) {
 
 test('dark theme passes axe on key pages', async ({ page }) => {
   await page.emulateMedia({ colorScheme: 'dark' });
-  for (const path of ['/', '/menu/', '/banquet/', '/kn/', '/privacy/']) {
+  for (const path of ['/', '/menu/', '/banquet/', '/contact/', '/privacy/']) {
     await page.goto(path);
     await page.waitForTimeout(250);
     const results = await new AxeBuilder({ page }).withTags(['wcag2aa']).analyze();

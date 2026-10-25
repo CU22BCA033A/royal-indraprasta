@@ -114,11 +114,6 @@
     text-transform: uppercase;
     color: var(--brass-text);
   }
-  :lang(kn) .eyebrow,
-  .eyebrow:lang(kn) {
-    letter-spacing: 0;
-    text-transform: none;
-  }
 
   /* Split: label column and content column, like a menu card */
   .split {
@@ -194,10 +189,6 @@
     text-transform: uppercase;
     color: var(--brass-text);
     margin-bottom: var(--space-3);
-  }
-  .site-footer h2:lang(kn) {
-    letter-spacing: 0;
-    text-transform: none;
   }
   .site-footer ul {
     list-style: none;

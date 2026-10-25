@@ -1,0 +1,16 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../content/copy.ts';
+import { cookies } from '../content/legal.ts';
+
+const heading = 'Cookie Policy';
+---
+
+<LegalPage
+  path="/cookies/"
+  title={t.meta.cookiesTitle}
+  description={t.meta.cookiesDesc}
+  heading={heading}
+  dateKey="cookies"
+  doc={cookies()}
+/>

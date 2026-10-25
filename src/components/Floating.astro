@@ -1,14 +1,9 @@
 ---
 /** Mobile contact button, back-to-top button and the storage notice. */
-import { dict, localPath, type Lang } from '../i18n/index.ts';
+import { t } from '../content/copy.ts';
 import { site, directionsUrl, whatsappUrl } from '../config/site.ts';
 import Icon from './Icon.astro';
 
-interface Props {
-  lang: Lang;
-}
-const { lang } = Astro.props;
-const t = dict(lang);
 const wa = whatsappUrl();
 const consent = site.modules.analytics;
 ---
@@ -50,7 +45,7 @@ const consent = site.modules.analytics;
   <div class="wrap">
     <p>
       {consent ? t.notice.textConsent : t.notice.text}{' '}
-      <a href={localPath('/cookies/', lang)}>{t.notice.policy}</a>
+      <a href={'/cookies/'}>{t.notice.policy}</a>
     </p>
     {
       consent ? (

@@ -20,7 +20,7 @@ export function restaurantJsonLd(origin: string): Record<string, unknown> {
     name: site.tradingName,
     url: `${origin}/`,
     telephone: site.phone,
-    servesCuisine: [...site.cuisines.en, 'Vegetarian'],
+    servesCuisine: [...site.cuisines, 'Vegetarian'],
     hasMenu: `${origin}/menu/`,
     menu: `${origin}/menu/`,
     address: {

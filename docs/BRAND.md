@@ -38,7 +38,6 @@ The supplied values all pass. Light accent (2.75:1 on background) is restricted 
 
 - Headings: Young Serif 400. Checked at 56 px and above: its soft bracketed serifs read like a hotel signboard and hold up at display sizes, so Newsreader was not needed.
 - Body and UI: Figtree 400 and 600.
-- Kannada: Noto Serif Kannada 600 for headings, Noto Sans Kannada 400 and 600 for body, subset to the glyphs used in `src/i18n/kn.ts` (run `npm run fonts` after changing Kannada copy).
 - Fluid scale with `clamp()`, ratio about 1.25 on mobile, 1.333 on desktop.
 - Numerals for hours use Figtree tabular figures.
 
@@ -48,4 +47,4 @@ The supplied values all pass. Light accent (2.75:1 on background) is restricted 
 
 ## Voice
 
-Plain and specific. Name the dish, the road, the park. Short sentences. No superlatives we cannot prove. Kannada is written natively in tone, not word for word, and every Kannada string is marked `NEEDS-NATIVE-REVIEW`.
+Plain and specific. Name the dish, the road, the park. Short sentences. No superlatives we cannot prove.

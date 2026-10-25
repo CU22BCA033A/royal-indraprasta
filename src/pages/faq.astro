@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FaqList from '../components/FaqList.astro';
+import { t } from '../content/copy.ts';
+import { faqsFor } from '../config/faq.ts';
+import { contentDates, formatDate } from '../config/content-dates.ts';
+
+const items = faqsFor();
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout path="/faq/" title={t.meta.faqTitle} description={t.meta.faqDesc} jsonld={[faqLd]}>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{t.faq.title}</h1>
+      <p>{t.faq.lead}</p>
+      <p class="meta-line">
+        {t.common.lastUpdated}: <time datetime={contentDates.faq}>{formatDate(contentDates.faq)}</time>
+      </p>
+    </div>
+  </div>
+  <section class="section" aria-label={t.faq.title}>
+    <div class="wrap">
+      <div class="prose">
+        <FaqList items={items} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

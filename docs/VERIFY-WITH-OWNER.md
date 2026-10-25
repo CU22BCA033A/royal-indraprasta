@@ -46,8 +46,7 @@ Each item below is `null` or hidden on the site until the owner confirms it. Upd
 
 ## Content
 
-29. Native Kannada review of every string marked `NEEDS-NATIVE-REVIEW`.
-30. Photographs per `docs/SHOT-LIST.md`.
+29. Photographs per `docs/SHOT-LIST.md`.
 
 ## Decisions taken where research could not settle a question
 

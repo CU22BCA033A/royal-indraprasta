@@ -1,11 +1,10 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { dict, type Lang } from '../i18n/index.ts';
+import { t } from '../content/copy.ts';
 import { contentDates, formatDate, type ContentDateKey } from '../config/content-dates.ts';
 import type { LegalDoc } from '../content/legal.ts';
 
 interface Props {
-  lang: Lang;
   path: string;
   title: string;
   heading: string;
@@ -13,35 +12,21 @@ interface Props {
   dateKey: ContentDateKey;
   doc: LegalDoc;
 }
-const { lang, path, title, heading, description, dateKey, doc } = Astro.props;
-const t = dict(lang);
+const { path, title, heading, description, dateKey, doc } = Astro.props;
 const slug = path.replace(/\//g, '');
 ---
 
-<BaseLayout lang={lang} path={path} title={title} description={description}>
+<BaseLayout path={path} title={title} description={description}>
   <div class="page-head">
     <div class="wrap">
       <h1>{heading}</h1>
       <p class="meta-line">
-        {t.common.lastUpdated}: <time datetime={contentDates[dateKey]}>{formatDate(contentDates[dateKey], lang)}</time>
+        {t.common.lastUpdated}: <time datetime={contentDates[dateKey]}>{formatDate(contentDates[dateKey])}</time>
       </p>
     </div>
   </div>
   <div class="wrap section">
     <div class="prose">
-      {
-        lang === 'kn' && (
-          <>
-            <h2 id={`${slug}-summary`}>{t.legal.summary}</h2>
-            {doc.kn.map((p) => (
-              <p>{p}</p>
-            ))}
-            <p class="note">{t.legal.knNote}</p>
-            <h2 id={`${slug}-full`}>{t.legal.fullText}</h2>
-          </>
-        )
-      }
-      <div lang={lang === 'kn' ? 'en' : undefined} class="prose">
         {
           doc.sections.map((s, i) => (
             <>
@@ -81,7 +66,6 @@ const slug = path.replace(/\//g, '');
             </>
           ))
         }
-      </div>
       <slot />
     </div>
   </div>

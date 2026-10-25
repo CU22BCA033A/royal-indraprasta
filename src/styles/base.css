@@ -61,9 +61,6 @@
     flex-direction: column;
     overflow-x: clip;
   }
-  :lang(kn) {
-    line-height: 1.75;
-  }
   h1,
   h2,
   h3 {
@@ -71,11 +68,6 @@
     font-weight: 400;
     line-height: 1.15;
     text-wrap: balance;
-  }
-  :lang(kn) :is(h1, h2, h3),
-  :is(h1, h2, h3):lang(kn) {
-    font-weight: 600;
-    line-height: 1.4;
   }
   h1 {
     font-size: var(--step-4);

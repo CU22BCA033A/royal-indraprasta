@@ -1,6 +1,6 @@
 # Royal Indraprastha website
 
-Bilingual (English and Kannada) website for Royal Indraprastha, a pure vegetarian restaurant with a banquet hall on Field Marshal Cariappa Road, Rajarajeshwari Nagar, Bengaluru.
+English website for Royal Indraprastha, a pure vegetarian restaurant with a banquet hall on Field Marshal Cariappa Road, Rajarajeshwari Nagar, Bengaluru.
 
 - Static site built with Astro, hosted on Cloudflare Pages.
 - Three small serverless functions send enquiry, contact and data request forms by email.
@@ -15,4 +15,4 @@ npm run build      # production build into dist/
 npm run qa         # every quality gate, writes docs/QA-REPORT.md
 ```
 
-Requires Node 22.12 or later. `npm run fonts` additionally needs Python with `fonttools` and `brotli`.
+Requires Node 22.12 or later.

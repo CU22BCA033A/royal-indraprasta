@@ -1,33 +1,25 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import HoursBoard from '../../components/HoursBoard.astro';
-import AddressBlock from '../../components/AddressBlock.astro';
-import FaqList from '../../components/FaqList.astro';
-import Photo from '../../components/Photo.astro';
-import VegMark from '../../components/VegMark.astro';
-import LatticeRule from '../../components/LatticeRule.astro';
-import { dict, fmt, langPaths, localPath, type Lang } from '../../i18n/index.ts';
-import { menu } from '../../config/menu.ts';
-import { faqsFor } from '../../config/faq.ts';
-import { site, mapsUrl, directionsUrl, addressText } from '../../config/site.ts';
-import { commonClose, formatTime } from '../../config/hours.ts';
-import { hasPhoto } from '../../lib/photos.ts';
-import Icon from '../../components/Icon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HoursBoard from '../components/HoursBoard.astro';
+import AddressBlock from '../components/AddressBlock.astro';
+import FaqList from '../components/FaqList.astro';
+import Photo from '../components/Photo.astro';
+import VegMark from '../components/VegMark.astro';
+import LatticeRule from '../components/LatticeRule.astro';
+import { t, fmt } from '../content/copy.ts';
+import { menu } from '../config/menu.ts';
+import { faqsFor } from '../config/faq.ts';
+import { site, mapsUrl, directionsUrl, addressText } from '../config/site.ts';
+import { commonClose, formatTime } from '../config/hours.ts';
+import { hasPhoto } from '../lib/photos.ts';
+import Icon from '../components/Icon.astro';
 
-export function getStaticPaths() {
-  return langPaths();
-}
-interface Props {
-  lang: Lang;
-}
-const { lang } = Astro.props;
-const t = dict(lang);
 const b = site.banquet;
 const heroPhoto = hasPhoto('exterior');
 const close = commonClose();
 ---
 
-<BaseLayout lang={lang} path="/" title={t.meta.homeTitle} description={t.meta.homeDesc}>
+<BaseLayout path="/" title={t.meta.homeTitle} description={t.meta.homeDesc}>
   <section class="hero" aria-labelledby="hero-title">
     <div class="wrap hero-grid">
       <div class="hero-text">
@@ -39,7 +31,7 @@ const close = commonClose();
           heroPhoto && (
             <p class="today">
               {close && <span>{fmt(t.hours.closesAt, { time: formatTime(close) })}. </span>}
-              <span lang="en">{addressText()}</span>
+              <span>{addressText()}</span>
             </p>
           )
         }
@@ -53,11 +45,11 @@ const close = commonClose();
       <div class="hero-media">
         {
           heroPhoto ? (
-            <Photo slug="exterior" lang={lang} sizes="(min-width: 60rem) 40vw, 100vw" eager />
+            <Photo slug="exterior" sizes="(min-width: 60rem) 40vw, 100vw" eager />
           ) : (
-            <HoursBoard lang={lang}>
+            <HoursBoard>
               <hr />
-              <AddressBlock lang={lang} buttons={false} />
+              <AddressBlock buttons={false} />
             </HoursBoard>
           )
         }
@@ -70,14 +62,14 @@ const close = commonClose();
       <div>
         <h2 id="menu-title">{t.home.menuTitle}</h2>
         <p>{t.home.menuLead}</p>
-        <p><a class="text-link" href={localPath('/menu/', lang)}>{t.home.menuLink}</a></p>
+        <p><a class="text-link" href={'/menu/'}>{t.home.menuLink}</a></p>
       </div>
       <ul class="ruled ruled--two">
         {
           menu.map((c) => (
             <li>
-              <span class="cat-name">{c[lang]}</span>
-              <span class="cat-items">{c.items.map((i) => i[lang]).join(', ')}</span>
+              <span class="cat-name">{c.name}</span>
+              <span class="cat-items">{c.items.map((i) => i.name).join(', ')}</span>
             </li>
           ))
         }
@@ -96,18 +88,18 @@ const close = commonClose();
         }
       </div>
       <div class="stack">
-        <Photo slug="banquet-wide" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Photo slug="banquet-wide" sizes="(min-width: 52rem) 60vw, 100vw" />
         <p>{t.home.banquetLead}</p>
         {
           b.inclusions && (
             <ul>
-              {b.inclusions[lang].map((i) => (
+              {b.inclusions.map((i) => (
                 <li>{i}</li>
               ))}
             </ul>
           )
         }
-        <p><a class="btn" href={localPath('/banquet/', lang)}>{t.home.banquetLink}</a></p>
+        <p><a class="btn" href={'/banquet/'}>{t.home.banquetLink}</a></p>
       </div>
     </div>
   </section>
@@ -119,15 +111,15 @@ const close = commonClose();
       <div>
         <h2 id="visit-title">{t.home.visitTitle}</h2>
         <p>{t.visit.lead}</p>
-        <p><a class="text-link" href={localPath('/visit/', lang)}>{t.home.visitLink}</a></p>
+        <p><a class="text-link" href={'/visit/'}>{t.home.visitLink}</a></p>
       </div>
       <div class="stack-lg">
-        <Photo slug="dining-hall" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Photo slug="dining-hall" sizes="(min-width: 52rem) 60vw, 100vw" />
         {
           heroPhoto && (
-            <HoursBoard lang={lang} headingLevel="h3">
+            <HoursBoard headingLevel="h3">
               <hr />
-              <AddressBlock lang={lang} buttons={false} />
+              <AddressBlock buttons={false} />
             </HoursBoard>
           )
         }
@@ -135,7 +127,7 @@ const close = commonClose();
           site.access && (
             <div class="stack">
               <h3>{t.visit.accessTitle}</h3>
-              {site.access[lang].map((p) => (
+              {site.access.map((p) => (
                 <p>{p}</p>
               ))}
             </div>
@@ -145,7 +137,7 @@ const close = commonClose();
           site.parking && (
             <div class="stack">
               <h3>{t.visit.parkingTitle}</h3>
-              {site.parking[lang].map((p) => (
+              {site.parking.map((p) => (
                 <p>{p}</p>
               ))}
             </div>
@@ -167,9 +159,9 @@ const close = commonClose();
     <div class="wrap split">
       <div>
         <h2 id="faq-title">{t.home.faqTitle}</h2>
-        <p><a class="text-link" href={localPath('/faq/', lang)}>{t.home.faqLink}</a></p>
+        <p><a class="text-link" href={'/faq/'}>{t.home.faqLink}</a></p>
       </div>
-      <FaqList items={faqsFor('home')} lang={lang} />
+      <FaqList items={faqsFor('home')} />
     </div>
   </section>
 </BaseLayout>

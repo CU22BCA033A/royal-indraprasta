@@ -61,4 +61,4 @@ npm run pages:dev        # site plus functions on http://localhost:8788
 
 ## 6. Content updates
 
-Edit only `src/config/*.ts`, `src/i18n/*.ts` and `src/content/legal.ts`, then commit. Cloudflare rebuilds on every push. See `docs/HANDOFF.md`.
+Edit only `src/config/*.ts`, `src/content/copy.ts` and `src/content/legal.ts`, then commit. Cloudflare rebuilds on every push. See `docs/HANDOFF.md`.

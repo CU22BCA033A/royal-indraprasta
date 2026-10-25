@@ -1,7 +1,7 @@
 /**
  * Form schemas shared by the browser (for instant feedback) and the Pages
  * Functions (the source of truth). Error messages are codes; the UI turns
- * them into text in the visitor's language (see i18n `form.errors`).
+ * them into text (see `form.errors` in src/content/copy.ts).
  */
 import * as z from 'zod/mini';
 
@@ -85,7 +85,6 @@ const meta = {
   company: z.optional(z.string()),
   /** Milliseconds the form was open before sending. */
   elapsed: z.optional(z.number()),
-  lang: z.optional(z.enum(['en', 'kn'])),
   utm: z.optional(z.record(z.string(), z.string().check(z.maxLength(200)))),
 };
 

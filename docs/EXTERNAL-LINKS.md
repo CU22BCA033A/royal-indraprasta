@@ -12,17 +12,6 @@ Checked 2026-10-25 (listed only: outbound requests blocked in the build environm
 | https://royal-indraprastha.pages.dev/cookies/ | listed, not fetched |
 | https://royal-indraprastha.pages.dev/data-request/ | listed, not fetched |
 | https://royal-indraprastha.pages.dev/faq/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/banquet/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/cancellation-refund/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/contact/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/cookies/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/data-request/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/faq/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/menu/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/privacy/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/terms/ | listed, not fetched |
-| https://royal-indraprastha.pages.dev/kn/visit/ | listed, not fetched |
 | https://royal-indraprastha.pages.dev/menu/ | listed, not fetched |
 | https://royal-indraprastha.pages.dev/og.png | listed, not fetched |
 | https://royal-indraprastha.pages.dev/privacy/ | listed, not fetched |

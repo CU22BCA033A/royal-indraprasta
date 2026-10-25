@@ -17,8 +17,8 @@
     --rule: #b8893b;
     --line: #5b4a3f;
 
-    --font-head: 'Young Serif', 'Noto Serif Kannada', Georgia, serif;
-    --font-body: 'Figtree', 'Noto Sans Kannada', system-ui, sans-serif;
+    --font-head: 'Young Serif', Georgia, serif;
+    --font-body: 'Figtree', system-ui, sans-serif;
 
     --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
     --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);

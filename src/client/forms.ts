@@ -160,7 +160,7 @@ function setup(form: HTMLFormElement): void {
       b.disabled = true;
       b.textContent = msg.sending;
     });
-    const body = { ...values(), lang: form.dataset.lang, elapsed: Date.now() - started, utm: readUtm() };
+    const body = { ...values(), elapsed: Date.now() - started, utm: readUtm() };
     let outcome: 'ok' | 'fields' | 'rate' | 'config' | 'offline' | 'error' = 'error';
     let serverErrors: Record<string, string> = {};
     try {

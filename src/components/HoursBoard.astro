@@ -5,15 +5,13 @@
  * With incomplete hours it shows only what is confirmed.
  */
 import { DAYS, hours, hoursComplete, commonClose, formatTime } from '../config/hours.ts';
-import { dict, fmt, type Lang } from '../i18n/index.ts';
+import { t, fmt } from '../content/copy.ts';
 import { site } from '../config/site.ts';
 
 interface Props {
-  lang: Lang;
   headingLevel?: 'h2' | 'h3';
 }
-const { lang, headingLevel = 'h2' } = Astro.props;
-const t = dict(lang);
+const { headingLevel = 'h2' } = Astro.props;
 const complete = hoursComplete();
 const close = commonClose();
 const H = headingLevel;

@@ -1,0 +1,20 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import DataRequestForm from '../components/forms/DataRequestForm.astro';
+import { t } from '../content/copy.ts';
+import { dataRequest } from '../content/legal.ts';
+
+const heading = 'Data request';
+const formTitle = 'Send a request';
+---
+
+<LegalPage
+  path="/data-request/"
+  title={t.meta.dataRequestTitle}
+  description={t.meta.dataRequestDesc}
+  heading={heading}
+  dateKey="dataRequest"
+  doc={dataRequest()}
+>
+  <DataRequestForm title={formTitle} />
+</LegalPage>

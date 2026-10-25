@@ -127,10 +127,6 @@
     text-transform: uppercase;
     color: var(--brass-text);
   }
-  .board__label:lang(kn) {
-    letter-spacing: 0;
-    text-transform: none;
-  }
   .board__time {
     font-family: var(--font-head);
     font-size: var(--step-2);

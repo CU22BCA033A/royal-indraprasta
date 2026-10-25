@@ -119,7 +119,7 @@ Honest finding: the nearby peers found in this search (Anantha Pure Veg, RR Vati
 5. Phone numbers on venue marketplaces route to the marketplace, not the venue.
 6. No privacy policy that covers the venue itself, and enquiry forms owned by third parties.
 
-So the bar this site has to clear is: one fast page with correct facts, a readable text menu, Kannada, and a direct phone line.
+So the bar this site has to clear is: one fast page with correct facts, a readable text menu and a direct phone line.
 
 ## 7. Technical references
 

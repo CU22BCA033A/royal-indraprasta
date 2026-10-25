@@ -11,7 +11,6 @@ module.exports = {
         'http://localhost/visit/',
         'http://localhost/contact/',
         'http://localhost/faq/',
-        'http://localhost/kn/',
       ],
       numberOfRuns: 1,
       chromePath: process.env.CHROME_PATH || undefined,

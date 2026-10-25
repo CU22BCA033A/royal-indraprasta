@@ -2,12 +2,12 @@
 
 ## What was built
 
-- A bilingual static website (English at `/`, Kannada at `/kn/`) with 11 pages per language plus a bilingual 404: Home, Menu, Banquet and Events, Visit, Contact, Questions, Privacy Policy, Terms and Conditions, Cookie Policy, Cancellation and Refund Policy, Data Request.
+- An English static website with 11 pages plus a 404: Home, Menu, Banquet and Events, Visit, Contact, Questions, Privacy Policy, Terms and Conditions, Cookie Policy, Cancellation and Refund Policy, Data Request.
 - Stay (`/stay/`) and About (`/about/`) pages exist in code and are built only when their content is confirmed (`site.modules.stay` with `site.stayDetails`, and `site.story`). While off they are absent from navigation, sitemap and search.
 - Three form endpoints (`/api/enquiry`, `/api/contact`, `/api/data-request`) as Cloudflare Pages Functions. They validate with the same zod schemas the browser uses, check origin, content type, size, honeypot and fill time, optionally rate limit with Workers KV, email the owner through Resend and keep nothing.
-- Design system: ivory, maroon and brass tokens with a warm brown dark theme, Young Serif and Figtree with subset Noto Kannada fonts, all self-hosted. Ruled "printed menu" layouts, one stroke-only lattice ornament, square corners, no cards or gradients.
+- Design system: ivory, maroon and brass tokens with a warm brown dark theme, Young Serif and Figtree, self-hosted. Ruled "printed menu" layouts, one stroke-only lattice ornament, square corners, no cards or gradients.
 - Proposed wordmark, favicon set and Open Graph image, generated with `npm run brand`. Replace if the owner has a logo.
-- Site search (Pagefind, built at deploy, no third party), theme toggle, language switch with remembered preference, mobile menu, mobile contact button, copy buttons, back to top, 2 px progress bar, storage notice, UTM capture, print stylesheet for the menu, JSON-LD for the restaurant and FAQ.
+- Site search (Pagefind, built at deploy, no third party), theme toggle, mobile menu, mobile contact button, copy buttons, back to top, 2 px progress bar, storage notice, UTM capture, print stylesheet for the menu, JSON-LD for the restaurant and FAQ.
 
 ## How to edit content
 
@@ -20,7 +20,7 @@ Everything a non-developer should change lives in these files. After editing, co
 | Menu items and prices                                                                                              | `src/config/menu.ts` (a price shows only where it is set)                              |
 | Questions and answers                                                                                              | `src/config/faq.ts`                                                                    |
 | "Last updated" dates                                                                                               | `src/config/content-dates.ts`                                                          |
-| Interface text                                                                                                     | `src/i18n/en.ts`, `src/i18n/kn.ts` (run `npm run fonts` after changing Kannada)        |
+| Interface text                                                                                                     | `src/content/copy.ts`                                                                  |
 | Legal text                                                                                                         | `src/content/legal.ts`                                                                 |
 | Photo alt text                                                                                                     | `src/config/photos.ts`, photos go in `public/photos-incoming/`, then `npm run photos`  |
 
@@ -36,7 +36,7 @@ Run `DEMO=1 npm run audit:placeholders` for the live list. At hand-off:
 
 - Launch-blocking: legal entity name, domain, door number, business email, Google Maps listing link, FSSAI licence number, grievance officer.
 - Not shown until confirmed: opening time (listings conflict: 6:00, 6:30 or 8:00 AM), banquet hall name, capacity and inclusions, access and parking details, WhatsApp, social accounts, menu prices, cancellation terms, the About story, and whether the hotel at SN Plaza is the same business.
-- Content work: native Kannada review, the 12 photos in `SHOT-LIST.md`, lawyer review of the legal pages.
+- Content work: the 12 photos in `SHOT-LIST.md`, lawyer review of the legal pages.
 
 Full question list: `VERIFY-WITH-OWNER.md`. Research and sources: `RESEARCH.md`.
 
@@ -53,7 +53,8 @@ Full question list: `VERIFY-WITH-OWNER.md`. Research and sources: `RESEARCH.md`.
 
 ## Other decisions worth knowing
 
-- **Kannada legal pages** show a Kannada summary followed by the English text, marked as the operative version, until a lawyer approves a full Kannada translation. Two unreviewed legal texts in different languages could contradict each other.
+- **English only.** The Kannada version was removed at the client's request on 25 October 2026: no `/kn/` pages, no language switch, no Kannada fonts. The brief's Kannada requirements (section 3.3, 3.5, 4.1) no longer apply.
+
 - **Hero without photos:** with no exterior photo, the hours and address board fills the hero's second column; once a photo is added it takes that place and the board moves to the Visit section.
 - **Menu:** items come from public listings and the research brief, presented as a partial list with no prices. Seven items seen on only one listing are flagged for confirmation.
 - **Hours:** only the closing time (10:30 PM, consistent across three listings) is shown, with a prompt to call for the opening time.

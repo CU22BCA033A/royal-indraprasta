@@ -1,6 +1,5 @@
 // Lists every business fact still null in src/config and fails in production
 // mode if any launch-required fact is missing. DEMO=1 reports without failing.
-import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
@@ -37,11 +36,6 @@ const noPhotos = Object.entries(photoAlt)
   .filter(([, v]) => v === null)
   .map(([k]) => k);
 if (noPhotos.length) advisory.push(`photos: none supplied yet for ${noPhotos.length} of 12 shots`);
-const kn = readFileSync(join(root, 'src/i18n/kn.ts'), 'utf8').match(/NEEDS-NATIVE-REVIEW/g)?.length ?? 0;
-if (kn)
-  advisory.push(
-    `kannada: ${kn} string(s) marked NEEDS-NATIVE-REVIEW in src/i18n/kn.ts (plus menu, FAQ and legal summaries)`,
-  );
 
 console.log('Null values in src/config/site.ts (the site hides whatever depends on them):');
 for (const n of nulls) console.log(`  ${blocking.includes(n) ? 'BLOCKS LAUNCH' : 'optional     '}  ${n}`);

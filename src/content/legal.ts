@@ -1,7 +1,5 @@
 /**
- * Legal page text. English is the operative text; the Kannada pages show a
- * Kannada summary followed by the English text, until a lawyer has approved a
- * full Kannada version. Drafting aid only: have a lawyer review before launch.
+ * Legal page text. Drafting aid only: have a lawyer review before launch.
  */
 import { site, addressText } from '../config/site.ts';
 
@@ -12,8 +10,6 @@ export interface Section {
 }
 export interface LegalDoc {
   sections: Section[];
-  /** Kannada summary paragraphs. NEEDS-NATIVE-REVIEW */
-  kn: string[];
 }
 
 const who = site.legalName ?? 'the business that runs Royal Indraprastha';
@@ -52,7 +48,7 @@ export function privacy(): LegalDoc {
               ],
             },
           },
-          'With each form we also receive: the language of the page, how long the form was open (to filter out automated spam), and, if you reached this site through a link with campaign tags (utm_source, utm_medium, utm_campaign, utm_term, utm_content), those tags. Campaign tags tell us which link or notice brought you here. They do not identify you.',
+          'With each form we also receive: how long the form was open (to filter out automated spam), and, if you reached this site through a link with campaign tags (utm_source, utm_medium, utm_campaign, utm_term, utm_content), those tags. Campaign tags tell us which link or notice brought you here. They do not identify you.',
         ],
       },
       {
@@ -146,12 +142,6 @@ export function privacy(): LegalDoc {
         ],
       },
     ],
-    kn: [
-      'ಈ ಜಾಲತಾಣದ ಫಾರ್ಮ್‌ಗಳಲ್ಲಿ ನೀವು ಬರೆಯುವ ವಿವರಗಳನ್ನು ಮಾತ್ರ ನಾವು ಪಡೆಯುತ್ತೇವೆ, ಮತ್ತು ನಿಮಗೆ ಉತ್ತರಿಸಲು ಮಾತ್ರ ಬಳಸುತ್ತೇವೆ.',
-      'ಜಾಲತಾಣ ಸ್ವತಃ ಏನನ್ನೂ ಸಂಗ್ರಹಿಸುವುದಿಲ್ಲ; ವಿವರಗಳು ಇಮೇಲ್ ಮೂಲಕ ನಮಗೆ ತಲುಪುತ್ತವೆ. ನಿಮ್ಮ ಮಾಹಿತಿಯನ್ನು ಮಾರುವುದಿಲ್ಲ, ಜಾಹೀರಾತಿಗೆ ಬಳಸುವುದಿಲ್ಲ, ಮಾರಾಟದ ಇಮೇಲ್ ಕಳುಹಿಸುವುದಿಲ್ಲ.',
-      'ಡಿಜಿಟಲ್ ವೈಯಕ್ತಿಕ ದತ್ತಾಂಶ ಸಂರಕ್ಷಣಾ ಕಾಯ್ದೆ 2023 ರ ಅಡಿಯಲ್ಲಿ ನಿಮ್ಮ ಮಾಹಿತಿಯನ್ನು ನೋಡಲು, ತಿದ್ದಲು ಅಥವಾ ಅಳಿಸಲು ಕೇಳುವ ಹಕ್ಕು ನಿಮಗಿದೆ. ಮಾಹಿತಿ ವಿನಂತಿ ಪುಟ ಬಳಸಿ ಅಥವಾ ಕರೆ ಮಾಡಿ.',
-      'ಫಾರ್ಮ್‌ಗಳು 18 ವರ್ಷ ಮೇಲ್ಪಟ್ಟವರಿಗೆ ಮಾತ್ರ.',
-    ],
   };
 }
 
@@ -211,18 +201,12 @@ export function terms(): LegalDoc {
         body: [contactLine()],
       },
     ],
-    kn: [
-      'ಈ ಜಾಲತಾಣದಲ್ಲಿನ ಮೆನು, ದರ ಮತ್ತು ಸಮಯ ಬದಲಾಗಬಹುದು; ಆ ದಿನ ಹೋಟೆಲ್‌ನಲ್ಲಿರುವುದೇ ಅನ್ವಯವಾಗುತ್ತದೆ.',
-      'ವಿಚಾರಣೆ ಕಳುಹಿಸಿದರೆ ಕಾಯ್ದಿರಿಸಿದಂತಲ್ಲ. ನಾವು ನೇರವಾಗಿ ಖಚಿತಪಡಿಸಿದಾಗ ಮಾತ್ರ ಕಾಯ್ದಿರಿಸುವಿಕೆ. ಈ ಜಾಲತಾಣ ಆರ್ಡರ್ ಅಥವಾ ಹಣ ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.',
-      'ಭಾರತದ ಕಾನೂನು ಅನ್ವಯಿಸುತ್ತದೆ; ಬೆಂಗಳೂರಿನ ನ್ಯಾಯಾಲಯಗಳ ವ್ಯಾಪ್ತಿ.',
-    ],
   };
 }
 
 export function cookies(): LegalDoc {
   const rows = [
     ['ri-theme', 'Local storage', 'Remembers if you chose the light or dark theme', 'Until you clear it'],
-    ['ri-lang', 'Local storage', 'Remembers if you chose English or Kannada', 'Until you clear it'],
     ['ri-notice', 'Local storage', 'Remembers that you closed the notice about storage', 'Until you clear it'],
     [
       'ri-utm',
@@ -258,10 +242,6 @@ export function cookies(): LegalDoc {
         ],
       },
     ],
-    kn: [
-      'ಈ ತಾಣ ಯಾವುದೇ ಕುಕೀ ಇಡುವುದಿಲ್ಲ.',
-      'ನಿಮ್ಮ ಬಣ್ಣದ ಆಯ್ಕೆ, ಭಾಷೆಯ ಆಯ್ಕೆ ಮತ್ತು ಸೂಚನೆಯನ್ನು ಮುಚ್ಚಿದ್ದನ್ನು ನೆನಪಿಡಲು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಸಣ್ಣ ಮಾಹಿತಿ ಇಡುತ್ತದೆ. ಬ್ರೌಸರ್ ಸೆಟ್ಟಿಂಗ್‌ನಲ್ಲಿ ನೀವು ಅದನ್ನು ಅಳಿಸಬಹುದು.',
-    ],
   };
 }
 
@@ -276,20 +256,13 @@ export function cancellation(): LegalDoc {
       {
         h: site.modules.stay ? 'Banquet and room bookings' : 'Banquet bookings',
         body: terms
-          ? terms.en
+          ? terms
           : [
               'Bookings are confirmed directly with the venue. Any advance, cancellation charge and refund is agreed with you when you book, and the venue confirms it to you at that time.',
               `If you have paid an advance and want to change or cancel a booking, call ${site.phoneDisplay} as early as possible.`,
             ],
       },
     ],
-    kn: terms
-      ? terms.kn
-      : [
-          'ಈ ಜಾಲತಾಣ ಕಾಯ್ದಿರಿಸುವಿಕೆ, ಆರ್ಡರ್ ಅಥವಾ ಹಣ ಸ್ವೀಕರಿಸುವುದಿಲ್ಲ.',
-          'ಸಭಾಂಗಣದ ಕಾಯ್ದಿರಿಸುವಿಕೆ ನೇರವಾಗಿ ನಮ್ಮೊಂದಿಗೆ ಖಚಿತವಾಗುತ್ತದೆ. ಮುಂಗಡ, ರದ್ದತಿ ಶುಲ್ಕ ಮತ್ತು ಮರುಪಾವತಿಯನ್ನು ಕಾಯ್ದಿರಿಸುವಾಗಲೇ ನಿಮ್ಮೊಂದಿಗೆ ಒಪ್ಪಿಕೊಳ್ಳಲಾಗುತ್ತದೆ.',
-          `ಬದಲಾವಣೆ ಅಥವಾ ರದ್ದತಿಗೆ ಸಾಧ್ಯವಾದಷ್ಟು ಬೇಗ ${site.phoneDisplay} ಗೆ ಕರೆ ಮಾಡಿ.`,
-        ],
   };
 }
 
@@ -304,10 +277,6 @@ export function dataRequest(): LegalDoc {
           'We will respond as soon as we can, and within the time the law allows (currently 90 days at most). There is no charge.',
         ],
       },
-    ],
-    kn: [
-      'ನಾವು ನಿಮ್ಮ ಬಗ್ಗೆ ಹೊಂದಿರುವ ಮಾಹಿತಿಯನ್ನು ನೋಡಲು, ತಿದ್ದಲು ಅಥವಾ ಅಳಿಸಲು ಕೆಳಗಿನ ಫಾರ್ಮ್ ಬಳಸಿ ಅಥವಾ ಕರೆ ಮಾಡಿ.',
-      'ವಿನಂತಿ ನಿಮ್ಮದೇ ಎಂದು ಖಚಿತಪಡಿಸಲು ನಾವು ಕರೆ ಮಾಡಬಹುದು. ಕಾನೂನು ಅನುಮತಿಸುವ ಅವಧಿಯೊಳಗೆ (ಈಗ ಗರಿಷ್ಠ 90 ದಿನ) ಉತ್ತರಿಸುತ್ತೇವೆ. ಯಾವುದೇ ಶುಲ್ಕವಿಲ್ಲ.',
     ],
   };
 }
