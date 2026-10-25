@@ -30,9 +30,13 @@ for (const [name, size] of [
   ['icon-192.png', 192],
   ['icon-512.png', 512],
 ]) {
-  await sharp(Buffer.from(mark(size, MAROON, IVORY))).png().toFile(pub(name));
+  await sharp(Buffer.from(mark(size, MAROON, IVORY)))
+    .png()
+    .toFile(pub(name));
 }
-const png32 = await sharp(Buffer.from(mark(32, MAROON, IVORY))).png().toBuffer();
+const png32 = await sharp(Buffer.from(mark(32, MAROON, IVORY)))
+  .png()
+  .toBuffer();
 // ICO container holding one PNG image.
 const header = Buffer.alloc(6);
 header.writeUInt16LE(0, 0);
@@ -111,7 +115,9 @@ const line = await text(
 const meta = async (b) => sharp(b).metadata();
 const [mr, mn, ml] = await Promise.all([meta(royal), meta(name), meta(line)]);
 const markSize = 170;
-const markPng = await sharp(Buffer.from(mark(markSize, MAROON))).png().toBuffer();
+const markPng = await sharp(Buffer.from(mark(markSize, MAROON)))
+  .png()
+  .toBuffer();
 const gap = 44;
 const groupW = markSize + gap + Math.max(mr.width, mn.width);
 const left = Math.round((W - groupW) / 2);

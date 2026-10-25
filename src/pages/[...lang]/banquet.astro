@@ -88,7 +88,7 @@ const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !
     <div class="wrap split">
       <div>
         <p>
-          <a href={`tel:${site.phone}`}>{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
+          <a class="tel-label" href={`tel:${site.phone}`}>{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
         </p>
       </div>
       <EnquiryForm lang={lang} title={t.banquet.formTitle} />

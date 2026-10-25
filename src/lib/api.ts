@@ -116,7 +116,11 @@ function ownerEmail(kind: FormKind, d: Data): { subject: string; text: string } 
   lines.push('', '---', `Page language: ${d.lang ?? 'en'}`);
   const utm = d.utm as Record<string, string> | undefined;
   if (utm && Object.keys(utm).length) {
-    lines.push(`Came from: ${Object.entries(utm).map(([k, v]) => `${k}=${v}`).join(', ')}`);
+    lines.push(
+      `Came from: ${Object.entries(utm)
+        .map(([k, v]) => `${k}=${v}`)
+        .join(', ')}`,
+    );
   }
   lines.push('Sent through the website form. The website keeps no copy.');
   return { subject, text: lines.join('\n') };
@@ -179,7 +183,11 @@ async function sendEmail(
   return res.ok;
 }
 
-export async function handle(kind: FormKind, { request, env }: Ctx, fetchImpl: typeof fetch = fetch): Promise<Response> {
+export async function handle(
+  kind: FormKind,
+  { request, env }: Ctx,
+  fetchImpl: typeof fetch = fetch,
+): Promise<Response> {
   const origin = allowedOrigin(request, env);
   if (request.method !== 'POST') return json(405, { ok: false, code: 'method' });
   if (request.headers.get('Origin') !== origin) return json(403, { ok: false, code: 'origin' });

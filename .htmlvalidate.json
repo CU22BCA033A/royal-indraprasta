@@ -1,0 +1,22 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "no-inline-style": "error",
+    "require-sri": "off",
+    "no-trailing-whitespace": "off",
+    "attribute-boolean-style": "off",
+    "void-style": "off",
+    "long-title": [
+      "error",
+      {
+        "maxlength": 60
+      }
+    ],
+    "tel-non-breaking": [
+      "error",
+      {
+        "ignoreClasses": ["btn", "tel-label"]
+      }
+    ]
+  }
+}

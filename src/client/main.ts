@@ -71,6 +71,28 @@ document.querySelectorAll<HTMLDialogElement>('dialog').forEach((d) => {
   d.addEventListener('click', (e) => {
     if (e.target === d) d.close();
   });
+  d.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      d.close();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    // Keep Tab and Shift+Tab inside the open dialog.
+    const items = [
+      ...d.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input, select, textarea'),
+    ].filter((el) => el.offsetParent !== null);
+    const first = items[0];
+    const last = items.at(-1);
+    if (!first || !last) return;
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
 });
 const menu = document.querySelector<HTMLDialogElement>('#mobile-menu');
 document.querySelector<HTMLButtonElement>('[data-menu-open]')?.addEventListener('click', (e) => {
@@ -258,7 +280,7 @@ if (contact) {
     if (open) panel.querySelector('a')?.focus();
     else if (focusButton) btn.focus();
   };
-  btn.addEventListener('click', () => setOpen(panel.hidden));
+  btn.addEventListener('click', () => setOpen(panel.hidden === true));
   contact.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !panel.hidden) setOpen(false, true);
   });

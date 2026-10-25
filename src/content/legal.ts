@@ -98,7 +98,9 @@ export function privacy(): LegalDoc {
       },
       {
         h: 'Information kept in your browser',
-        body: ['This site sets no cookies. It keeps a few small settings in your browser, listed in the Cookie Policy.'],
+        body: [
+          'This site sets no cookies. It keeps a few small settings in your browser, listed in the Cookie Policy.',
+        ],
       },
       {
         h: 'Your rights',

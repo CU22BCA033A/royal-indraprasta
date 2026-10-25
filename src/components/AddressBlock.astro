@@ -28,7 +28,7 @@ const addr = addressText();
           <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
         </p>
         <CopyButton
-          value={site.phoneDisplay}
+          value={site.phoneDisplay.replace(/\u00a0/g, ' ')}
           label={t.common.copyPhone}
           copied={t.common.copied}
           failed={t.common.copyFailed}

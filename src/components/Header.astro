@@ -52,7 +52,7 @@ const other = lang === 'en' ? 'kn' : 'en';
   </div>
 </header>
 
-<dialog class="mobile-menu" id="mobile-menu" aria-label={t.common.navLabel}>
+<dialog class="mobile-menu" id="mobile-menu" aria-label={t.common.navLabelMobile}>
   <div class="dialog-head">
     <Wordmark lang={lang} homeLabel={t.common.home} />
     <button type="button" class="tool" data-dialog-close>
@@ -60,7 +60,7 @@ const other = lang === 'en' ? 'kn' : 'en';
     </button>
   </div>
   <div class="dialog-body">
-    <nav aria-label={t.common.navLabel}>
+    <nav aria-label={t.common.navLabelMobile}>
       <ul>
         <li>
           <a href={localPath('/', lang)} aria-current={path === '/' ? 'page' : undefined}>{t.common.home}</a>

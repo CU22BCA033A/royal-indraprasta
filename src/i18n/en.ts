@@ -18,10 +18,10 @@ export const en = {
       'Address, closing time, phone and directions for Royal Indraprastha on Field Marshal Cariappa Road, 4th Stage, Rajarajeshwari Nagar, Bengaluru 560098.',
     contactTitle: 'Contact | Royal Indraprastha, RR Nagar',
     contactDesc:
-      'Call or write to Royal Indraprastha, the pure vegetarian restaurant on Field Marshal Cariappa Road in Rajarajeshwari Nagar, Bengaluru. We reply to every message.',
+      'Call or write to Royal Indraprastha, the pure veg restaurant on Field Marshal Cariappa Road in Rajarajeshwari Nagar, Bengaluru. We reply to all messages.',
     faqTitle: 'Questions | Royal Indraprastha, RR Nagar',
     faqDesc:
-      'Answers about food, location, closing time, events and contact details for Royal Indraprastha, a pure vegetarian restaurant in Rajarajeshwari Nagar, Bengaluru.',
+      'Answers about food, location, closing time, events and contact details for Royal Indraprastha, a pure veg restaurant in Rajarajeshwari Nagar, Bengaluru.',
     privacyTitle: 'Privacy Policy | Royal Indraprastha',
     privacyDesc:
       'What Royal Indraprastha collects through this website, why, how long it is kept, and how to see, correct or delete your information under Indian law.',
@@ -50,6 +50,7 @@ export const en = {
   common: {
     skip: 'Skip to content',
     navLabel: 'Main',
+    navLabelMobile: 'Main menu',
     nav: {
       menu: 'Menu',
       banquet: 'Banquet',
@@ -278,8 +279,7 @@ export const en = {
       deletion: 'Delete my information',
     },
     purpose: {
-      enquiry:
-        'We use these details only to reply about your event. Nothing is sold or shared for marketing.',
+      enquiry: 'We use these details only to reply about your event. Nothing is sold or shared for marketing.',
       contact: 'We use these details only to reply to your message.',
       data: 'We use these details to find your information and act on your request.',
     },

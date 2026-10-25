@@ -1,0 +1,11 @@
+name = "royal-indraprastha"
+pages_build_output_dir = "dist"
+compatibility_date = "2026-10-01"
+
+# Optional per-IP rate limiting for the form API. Create a namespace with
+#   npx wrangler kv namespace create RATE_LIMIT
+# then uncomment and paste its id. Without it, the honeypot, timing and
+# origin checks still apply.
+# [[kv_namespaces]]
+# binding = "RATE_LIMIT"
+# id = ""

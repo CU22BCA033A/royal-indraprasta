@@ -24,7 +24,7 @@ export const kn: Dict = {
       'ಫೀಲ್ಡ್ ಮಾರ್ಷಲ್ ಕಾರ್ಯಪ್ಪ ರಸ್ತೆ, 4ನೇ ಹಂತ, ರಾಜರಾಜೇಶ್ವರಿ ನಗರ, ಬೆಂಗಳೂರು 560098 ರಲ್ಲಿರುವ ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥದ ವಿಳಾಸ, ಮುಚ್ಚುವ ಸಮಯ, ದೂರವಾಣಿ ಮತ್ತು ದಾರಿ.', // NEEDS-NATIVE-REVIEW
     contactTitle: 'ಸಂಪರ್ಕ | ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥ, ಆರ್.ಆರ್. ನಗರ', // NEEDS-NATIVE-REVIEW
     contactDesc:
-      'ಬೆಂಗಳೂರಿನ ರಾಜರಾಜೇಶ್ವರಿ ನಗರದ ಫೀಲ್ಡ್ ಮಾರ್ಷಲ್ ಕಾರ್ಯಪ್ಪ ರಸ್ತೆಯಲ್ಲಿರುವ ಶುದ್ಧ ಸಸ್ಯಾಹಾರಿ ಹೋಟೆಲ್ ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥಕ್ಕೆ ಕರೆ ಮಾಡಿ ಅಥವಾ ಸಂದೇಶ ಕಳುಹಿಸಿ. ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ಉತ್ತರಿಸುತ್ತೇವೆ.', // NEEDS-NATIVE-REVIEW
+      'ಬೆಂಗಳೂರಿನ ರಾಜರಾಜೇಶ್ವರಿ ನಗರದ ಕಾರ್ಯಪ್ಪ ರಸ್ತೆಯ ಶುದ್ಧ ಸಸ್ಯಾಹಾರಿ ಹೋಟೆಲ್ ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥಕ್ಕೆ ಕರೆ ಮಾಡಿ ಅಥವಾ ಸಂದೇಶ ಕಳುಹಿಸಿ. ಪ್ರತಿ ಸಂದೇಶಕ್ಕೂ ಉತ್ತರಿಸುತ್ತೇವೆ.', // NEEDS-NATIVE-REVIEW
     faqTitle: 'ಪ್ರಶ್ನೆಗಳು | ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥ, ಆರ್.ಆರ್. ನಗರ', // NEEDS-NATIVE-REVIEW
     faqDesc:
       'ರಾಜರಾಜೇಶ್ವರಿ ನಗರದ ಶುದ್ಧ ಸಸ್ಯಾಹಾರಿ ಹೋಟೆಲ್ ರಾಯಲ್ ಇಂದ್ರಪ್ರಸ್ಥದ ಊಟ, ವಿಳಾಸ, ಮುಚ್ಚುವ ಸಮಯ, ಸಮಾರಂಭಗಳು ಮತ್ತು ಸಂಪರ್ಕದ ಬಗ್ಗೆ ಸಾಮಾನ್ಯ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಗಳು.', // NEEDS-NATIVE-REVIEW
@@ -56,6 +56,7 @@ export const kn: Dict = {
   common: {
     skip: 'ಮುಖ್ಯ ವಿಷಯಕ್ಕೆ ಹೋಗಿ', // NEEDS-NATIVE-REVIEW
     navLabel: 'ಮುಖ್ಯ', // NEEDS-NATIVE-REVIEW
+    navLabelMobile: 'ಮುಖ್ಯ ಮೆನು', // NEEDS-NATIVE-REVIEW
     nav: {
       menu: 'ಮೆನು', // NEEDS-NATIVE-REVIEW
       banquet: 'ಸಭಾಂಗಣ', // NEEDS-NATIVE-REVIEW
@@ -100,8 +101,7 @@ export const kn: Dict = {
   notice: {
     text: 'ಈ ತಾಣ ನಿಮ್ಮ ಬಣ್ಣ ಮತ್ತು ಭಾಷೆಯ ಆಯ್ಕೆಯನ್ನು ನಿಮ್ಮ ಬ್ರೌಸರ್‌ನಲ್ಲೇ ಇಡುತ್ತದೆ. ಕುಕೀ ಇಲ್ಲ, ಹಿಂಬಾಲಿಸುವಿಕೆ ಇಲ್ಲ.', // NEEDS-NATIVE-REVIEW
     ok: 'ಸರಿ', // NEEDS-NATIVE-REVIEW
-    textConsent:
-      'ಕುಕೀ ಇಡದ, ಗೌಪ್ಯತೆ ಕಾಪಾಡುವ ವಿಶ್ಲೇಷಣೆಯಿಂದ ಭೇಟಿಗಳನ್ನು ಎಣಿಸಲು ಬಯಸುತ್ತೇವೆ. ಅಗತ್ಯ ಸಂಗ್ರಹ ಯಾವಾಗಲೂ ಇರುತ್ತದೆ.', // NEEDS-NATIVE-REVIEW
+    textConsent: 'ಕುಕೀ ಇಡದ, ಗೌಪ್ಯತೆ ಕಾಪಾಡುವ ವಿಶ್ಲೇಷಣೆಯಿಂದ ಭೇಟಿಗಳನ್ನು ಎಣಿಸಲು ಬಯಸುತ್ತೇವೆ. ಅಗತ್ಯ ಸಂಗ್ರಹ ಯಾವಾಗಲೂ ಇರುತ್ತದೆ.', // NEEDS-NATIVE-REVIEW
     accept: 'ಐಚ್ಛಿಕವನ್ನೂ ಒಪ್ಪುತ್ತೇನೆ', // NEEDS-NATIVE-REVIEW
     essential: 'ಅಗತ್ಯವಿರುವುದು ಮಾತ್ರ', // NEEDS-NATIVE-REVIEW
     policy: 'ಕುಕೀ ನೀತಿ', // NEEDS-NATIVE-REVIEW
@@ -153,8 +153,7 @@ export const kn: Dict = {
     menuLead: 'ಇದು ಭಾಗಶಃ ಪಟ್ಟಿ. ಪೂರ್ಣ ಮೆನು ಮತ್ತು ಇಂದಿನ ದರಗಳನ್ನು ಕೌಂಟರ್‌ನಲ್ಲಿ ಕೇಳಿ.', // NEEDS-NATIVE-REVIEW
     menuLink: 'ಮೆನು ನೋಡಿ', // NEEDS-NATIVE-REVIEW
     banquetTitle: 'ನಮ್ಮ ಸಭಾಂಗಣದಲ್ಲಿ ಸಮಾರಂಭಗಳು', // NEEDS-NATIVE-REVIEW
-    banquetLead:
-      'ದಿನಾಂಕ, ಸಂದರ್ಭ ಮತ್ತು ಎಷ್ಟು ಅತಿಥಿಗಳು ಬರಬಹುದು ಎಂದು ತಿಳಿಸಿ. ಲಭ್ಯತೆ ಮತ್ತು ದರದೊಂದಿಗೆ ನಾವೇ ಕರೆ ಮಾಡುತ್ತೇವೆ.', // NEEDS-NATIVE-REVIEW
+    banquetLead: 'ದಿನಾಂಕ, ಸಂದರ್ಭ ಮತ್ತು ಎಷ್ಟು ಅತಿಥಿಗಳು ಬರಬಹುದು ಎಂದು ತಿಳಿಸಿ. ಲಭ್ಯತೆ ಮತ್ತು ದರದೊಂದಿಗೆ ನಾವೇ ಕರೆ ಮಾಡುತ್ತೇವೆ.', // NEEDS-NATIVE-REVIEW
     banquetLink: 'ಸಮಾರಂಭದ ವಿಚಾರಣೆ ಕಳುಹಿಸಿ', // NEEDS-NATIVE-REVIEW
     banquetCapacity: '{seated} ಜನ ಕುಳಿತು, {floating} ಜನ ನಿಂತು', // NEEDS-NATIVE-REVIEW
     visitTitle: 'ಭೇಟಿ', // NEEDS-NATIVE-REVIEW
@@ -242,10 +241,8 @@ export const kn: Dict = {
     successTitle: 'ಧನ್ಯವಾದ. ನಿಮ್ಮ ಸಂದೇಶ ತಲುಪಿದೆ.', // NEEDS-NATIVE-REVIEW
     successEnquiry:
       'ನಿಮ್ಮ ಸಮಾರಂಭದ ಬಗ್ಗೆ ಮಾತನಾಡಲು ನೀವು ಕೊಟ್ಟ ಸಂಖ್ಯೆಗೆ ಕರೆ ಮಾಡುತ್ತೇವೆ. ಎರಡು ಕೆಲಸದ ದಿನಗಳಲ್ಲಿ ಕರೆ ಬರದಿದ್ದರೆ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW
-    successContact:
-      'ದೂರವಾಣಿ ಅಥವಾ ಇಮೇಲ್ ಮೂಲಕ ಉತ್ತರಿಸುತ್ತೇವೆ. ಎರಡು ಕೆಲಸದ ದಿನಗಳಲ್ಲಿ ಉತ್ತರ ಬರದಿದ್ದರೆ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW
-    successData:
-      'ಗೌಪ್ಯತಾ ನೀತಿಯಲ್ಲಿ ತಿಳಿಸಿದ ಅವಧಿಯೊಳಗೆ ಉತ್ತರಿಸುತ್ತೇವೆ. ಉತ್ತರ ಬರದಿದ್ದರೆ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW
+    successContact: 'ದೂರವಾಣಿ ಅಥವಾ ಇಮೇಲ್ ಮೂಲಕ ಉತ್ತರಿಸುತ್ತೇವೆ. ಎರಡು ಕೆಲಸದ ದಿನಗಳಲ್ಲಿ ಉತ್ತರ ಬರದಿದ್ದರೆ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW
+    successData: 'ಗೌಪ್ಯತಾ ನೀತಿಯಲ್ಲಿ ತಿಳಿಸಿದ ಅವಧಿಯೊಳಗೆ ಉತ್ತರಿಸುತ್ತೇವೆ. ಉತ್ತರ ಬರದಿದ್ದರೆ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW
     another: 'ಇನ್ನೊಂದು ಸಂದೇಶ ಕಳುಹಿಸಿ', // NEEDS-NATIVE-REVIEW
     errorTitle: 'ನಿಮ್ಮ ಸಂದೇಶ ಕಳುಹಿಸಲು ಆಗಲಿಲ್ಲ.', // NEEDS-NATIVE-REVIEW
     errorGeneral: 'ನಮ್ಮ ಕಡೆ ಏನೋ ತೊಂದರೆಯಾಗಿದೆ. ಕೆಲವು ನಿಮಿಷಗಳ ನಂತರ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ, ಅಥವಾ {phone} ಗೆ ಕರೆ ಮಾಡಿ.', // NEEDS-NATIVE-REVIEW

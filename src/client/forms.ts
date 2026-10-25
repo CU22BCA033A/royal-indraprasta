@@ -37,6 +37,7 @@ function setup(form: HTMLFormElement): void {
   const started = Date.now();
   let attempted = false;
   let sending = false;
+  let closingAfterSend = false;
 
   const dateInput = form.querySelector<HTMLInputElement>('input[type="date"]');
   if (dateInput) dateInput.min = todayIST();
@@ -49,10 +50,6 @@ function setup(form: HTMLFormElement): void {
     });
     out.consent = (form.elements.namedItem('consent') as HTMLInputElement | null)?.checked === true;
     return out;
-  }
-
-  function fieldEl(name: string): HTMLElement | null {
-    return form.querySelector<HTMLElement>(`[data-field="${name}"]`);
   }
 
   function showErrors(errs: Record<string, string>, onlyField?: string): void {
@@ -84,12 +81,11 @@ function setup(form: HTMLFormElement): void {
     return errs;
   }
 
-  function focusFirstError(errs: Record<string, string>): void {
+  function focusFirstError(): void {
     summary.textContent = '';
     window.setTimeout(() => (summary.textContent = msg.fixErrors), 50);
     const first = form.querySelector<HTMLElement>('[aria-invalid="true"]');
     first?.focus();
-    void errs;
   }
 
   // Re-check a field when the visitor leaves it, once they have tried to send.
@@ -113,7 +109,7 @@ function setup(form: HTMLFormElement): void {
       attempted = true;
       general.hidden = true;
       const errs = validate();
-      if (errs) return focusFirstError(errs);
+      if (errs) return focusFirstError();
       list.replaceChildren();
       form.querySelectorAll<HTMLElement>('[data-field]').forEach((f) => {
         const name = f.dataset.field!;
@@ -136,7 +132,8 @@ function setup(form: HTMLFormElement): void {
     });
     dialog.querySelector('[data-confirm-edit]')?.addEventListener('click', () => dialog.close());
     dialog.addEventListener('close', () => {
-      if (!sending) reviewBtn.focus();
+      if (!sending && !closingAfterSend) reviewBtn.focus();
+      closingAfterSend = false;
     });
   }
 
@@ -147,8 +144,11 @@ function setup(form: HTMLFormElement): void {
     general.hidden = true;
     const errs = validate();
     if (errs) {
-      dialog?.open && dialog.close();
-      return focusFirstError(errs);
+      if (dialog?.open) {
+        closingAfterSend = true;
+        dialog.close();
+      }
+      return focusFirstError();
     }
     sending = true;
     const buttons = [
@@ -169,7 +169,11 @@ function setup(form: HTMLFormElement): void {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(body),
       });
-      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; errors?: Record<string, string>; code?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        errors?: Record<string, string>;
+        code?: string;
+      };
       if (res.ok && data.ok) outcome = 'ok';
       else if (res.status === 422 && data.errors) {
         outcome = 'fields';
@@ -184,7 +188,10 @@ function setup(form: HTMLFormElement): void {
       b.disabled = false;
       b.textContent = labels[i] ?? '';
     });
-    if (dialog?.open) dialog.close();
+    if (dialog?.open) {
+      closingAfterSend = true;
+      dialog.close();
+    }
 
     if (outcome === 'ok') {
       form.hidden = true;
@@ -194,7 +201,7 @@ function setup(form: HTMLFormElement): void {
     }
     if (outcome === 'fields') {
       showErrors(serverErrors);
-      return focusFirstError(serverErrors);
+      return focusFirstError();
     }
     showGeneral(
       outcome === 'rate'

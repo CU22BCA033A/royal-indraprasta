@@ -32,7 +32,7 @@ const origin = (Astro.site?.href ?? 'https://royal-indraprastha.pages.dev/').rep
 const canonical = `${origin}${localPath(path, lang)}`;
 const enUrl = `${origin}${localPath(path, 'en')}`;
 const knUrl = `${origin}${localPath(path, 'kn')}`;
-const otherHref = localPath(path, lang === 'en' ? 'kn' : 'en');
+const otherHref = localPath(single ? '/' : path, lang === 'en' ? 'kn' : 'en');
 const ld = [restaurantJsonLd(origin), ...jsonld];
 const preloads =
   lang === 'kn'

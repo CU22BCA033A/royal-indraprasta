@@ -98,11 +98,9 @@ export const enquirySchema = z.object({
     z.union([z.string(), z.number()], 'guests_invalid'),
     z.pipe(
       z.transform((v: string | number) => Number(v)),
-      z.number('guests_invalid').check(
-        z.int('guests_invalid'),
-        z.gte(1, 'guests_invalid'),
-        z.lte(LIMITS.guestsMax, 'guests_invalid'),
-      ),
+      z
+        .number('guests_invalid')
+        .check(z.int('guests_invalid'), z.gte(1, 'guests_invalid'), z.lte(LIMITS.guestsMax, 'guests_invalid')),
     ),
   ),
   date: z.pipe(
@@ -161,7 +159,9 @@ export const schemas = {
 } as const;
 
 /** Maps a failed parse to `{ field: code }`, first error per field. */
-export function fieldErrors(issues: readonly { path: readonly PropertyKey[]; message: string }[]): Record<string, string> {
+export function fieldErrors(
+  issues: readonly { path: readonly PropertyKey[]; message: string }[],
+): Record<string, string> {
   const out: Record<string, string> = {};
   for (const i of issues) {
     const key = String(i.path[0] ?? '_');

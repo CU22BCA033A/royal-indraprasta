@@ -5,6 +5,7 @@
 Each item below is `null` or hidden on the site until the owner confirms it. Update `src/config/site.ts`, `menu.ts` or `faq.ts`, then run `npm run audit:placeholders`.
 
 ## Identity and legal
+
 1. Legal entity name (proprietorship, partnership or company) for the footer and policies.
 2. FSSAI licence number (must be displayed).
 3. GSTIN, if registered.
@@ -16,6 +17,7 @@ Each item below is `null` or hidden on the site until the owner confirms it. Upd
 9. Domain name to register.
 
 ## Restaurant
+
 10. Opening time. Listings say 6:00 AM, 6:30 AM and 8:00 AM. Closing time 10:30 PM appears on three listings: confirm.
 11. Open every day? Any weekly holiday or festival closures?
 12. Door number and landmark. One listing says "202, BEML Layout, 4th Stage, Opposite Cariappa Park".
@@ -30,6 +32,7 @@ Each item below is `null` or hidden on the site until the owner confirms it. Upd
 21. How long has the restaurant been open, and the story you would like told (for the About page, which is hidden until then).
 
 ## Banquet hall
+
 22. Hall name (one listing says "Anugraha Banquet Hall").
 23. Capacity, seated and standing (one listing says 150 and 250).
 24. What is included: catering, decor, stage, sound, AC, dressing rooms, parking.
@@ -38,15 +41,18 @@ Each item below is `null` or hidden on the site until the owner confirms it. Upd
 27. Event types you accept.
 
 ## Hotel
+
 28. Is "Royal Indraprastha The Hotel" (SN Plaza, Channasandra) part of the same business? It has a bar and listings mention seafood. The stay page stays off until you confirm.
 
 ## Content
+
 29. Native Kannada review of every string marked `NEEDS-NATIVE-REVIEW`.
 30. Photographs per `docs/SHOT-LIST.md`.
 
 ## Decisions taken where research could not settle a question
+
 - Hours: only the closing time is shown, with "call to confirm today's opening time". No open or closed badge until the opening time is confirmed.
-- Menu: categories and items seen on two or more listings; no prices.
+- Menu: items seen on public listings or in the research brief, marked as a partial list, no prices. Items seen on only one listing (rice bath, butter masala dosa, onion dosa, butter kulcha, paneer butter masala, soup, ice cream) are flagged by `audit:placeholders` for confirmation.
 - Banquet: no capacity, inclusions or prices.
 - Stay: disabled.
 - About page: not built into the site.

@@ -79,7 +79,7 @@ export const site: Site = {
   },
   geo: null,
   phone: '+919743932821',
-  phoneDisplay: '+91 97439 32821',
+  phoneDisplay: '+91\u00a097439\u00a032821',
   whatsapp: null,
   email: null,
   googleMapsUrl: null,

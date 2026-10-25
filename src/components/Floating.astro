@@ -13,11 +13,11 @@ const wa = whatsappUrl();
 const consent = site.modules.analytics;
 ---
 
-<div class="float float--contact" data-contact>
+<aside class="float float--contact" aria-label={t.common.contactPanel} data-contact>
   <div class="contact-panel" id="contact-panel" hidden>
     <ul>
       <li>
-        <a href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call} {site.phoneDisplay}</a>
+        <a class="tel-label" href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call} {site.phoneDisplay}</a>
       </li>
       {
         wa && (
@@ -40,13 +40,13 @@ const consent = site.modules.analytics;
   <button type="button" class="btn" aria-expanded="false" aria-controls="contact-panel">
     <Icon name="phone" />{t.common.contactOpen}
   </button>
-</div>
+</aside>
 
-<div class="float float--top" data-back-to-top hidden>
+<nav class="float float--top" aria-label={t.common.backToTop} data-back-to-top hidden>
   <a class="btn" href="#top"><Icon name="up" />{t.common.backToTop}</a>
-</div>
+</nav>
 
-<div class="notice" data-notice data-consent={consent ? 'true' : 'false'} hidden>
+<aside class="notice" aria-label={t.notice.policy} data-notice data-consent={consent ? 'true' : 'false'} hidden>
   <div class="wrap">
     <p>
       {consent ? t.notice.textConsent : t.notice.text}{' '}
@@ -69,4 +69,4 @@ const consent = site.modules.analytics;
       )
     }
   </div>
-</div>
+</aside>

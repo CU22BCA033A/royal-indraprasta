@@ -1,0 +1,15 @@
+dist/
+node_modules/
+.astro/
+public/
+package-lock.json
+src/config/photos.generated.json
+test-results/
+playwright-report/
+.lighthouseci/
+# Astro components are formatted by hand; prettier-plugin-astro is not installed to keep dependencies minimal.
+*.astro
+# Generated reports
+docs/EXTERNAL-LINKS.md
+docs/CONTRAST.md
+docs/QA-REPORT.md
