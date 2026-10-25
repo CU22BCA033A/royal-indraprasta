@@ -1,0 +1,42 @@
+---
+/**
+ * Renders a processed photo, or nothing at all when the photo or its alt text
+ * is missing. Never renders an empty box.
+ */
+import manifest from '../config/photos.generated.json';
+import { photoAlt, type PhotoSlug } from '../config/photos.ts';
+import type { Lang } from '../i18n/index.ts';
+
+interface Props {
+  slug: PhotoSlug;
+  lang: Lang;
+  sizes: string;
+  eager?: boolean;
+  class?: string;
+}
+const { slug, lang, sizes, eager = false, class: cls } = Astro.props;
+const entry = (manifest as Record<string, { width: number; height: number; widths: number[] }>)[slug];
+const alt = photoAlt[slug];
+const largest = entry?.widths.at(-1);
+const set = (ext: string) => entry?.widths.map((w) => `/photos/${slug}-${w}.${ext} ${w}w`).join(', ');
+---
+
+{
+  entry && alt && largest && (
+    <figure class:list={['photo', cls]}>
+      <picture>
+        <source type="image/avif" srcset={set('avif')} sizes={sizes} />
+        <source type="image/webp" srcset={set('webp')} sizes={sizes} />
+        <img
+          src={`/photos/${slug}-${largest}.jpg`}
+          width={entry.width}
+          height={entry.height}
+          alt={alt[lang]}
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : 'auto'}
+          decoding="async"
+        />
+      </picture>
+    </figure>
+  )
+}

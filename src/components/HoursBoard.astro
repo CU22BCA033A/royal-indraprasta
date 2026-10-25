@@ -1,0 +1,62 @@
+---
+/**
+ * Hours as a printed board. With complete hours it shows a day table and a
+ * live open or closed line (filled in by the browser in Asia/Kolkata time).
+ * With incomplete hours it shows only what is confirmed.
+ */
+import { DAYS, hours, hoursComplete, commonClose, formatTime } from '../config/hours.ts';
+import { dict, fmt, type Lang } from '../i18n/index.ts';
+import { site } from '../config/site.ts';
+
+interface Props {
+  lang: Lang;
+  headingLevel?: 'h2' | 'h3';
+}
+const { lang, headingLevel = 'h2' } = Astro.props;
+const t = dict(lang);
+const complete = hoursComplete();
+const close = commonClose();
+const H = headingLevel;
+const statusText = {
+  open: t.hours.openNow,
+  closed: t.hours.closedNow,
+  closedToday: t.hours.closedToday,
+};
+---
+
+<div class="board">
+  <H class="board__label">{t.hours.title}</H>
+  {
+    complete ? (
+      <>
+        <p
+          class="status"
+          data-hours={JSON.stringify(hours)}
+          data-text={JSON.stringify(statusText)}
+        />
+        <dl class="ruled">
+          {DAYS.map((d) => (
+            <div>
+              <dt>{t.hours.day[d]}</dt>
+              <dd>
+                {hours[d].closed
+                  ? t.hours.closed
+                  : fmt(t.hours.range, { open: formatTime(hours[d].open as string), close: formatTime(hours[d].close as string) })}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </>
+    ) : (
+      close && (
+        <>
+          <p class="board__time">{fmt(t.hours.closesAt, { time: formatTime(close) })}</p>
+          <p>
+            {t.hours.confirmOpening} <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+          </p>
+        </>
+      )
+    )
+  }
+  <slot />
+</div>

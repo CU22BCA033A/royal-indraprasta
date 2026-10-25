@@ -1,0 +1,54 @@
+---
+import { site, addressText, mapsUrl, directionsUrl } from '../config/site.ts';
+import { dict, type Lang } from '../i18n/index.ts';
+import CopyButton from './CopyButton.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  showPhone?: boolean;
+  buttons?: boolean;
+}
+const { lang, showPhone = false, buttons = true } = Astro.props;
+const t = dict(lang);
+const addr = addressText();
+---
+
+<div class="stack">
+  <address class="address">
+    <a href={mapsUrl()} rel="noopener" target="_blank" lang="en"
+      >{site.tradingName}<br />{addr}<span class="visually-hidden"> ({t.common.newTab})</span></a
+    >
+  </address>
+  <CopyButton value={`${site.tradingName}, ${addr}`} label={t.common.copyAddress} copied={t.common.copied} failed={t.common.copyFailed} />
+  {
+    showPhone && (
+      <>
+        <p>
+          <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+        </p>
+        <CopyButton
+          value={site.phoneDisplay}
+          label={t.common.copyPhone}
+          copied={t.common.copied}
+          failed={t.common.copyFailed}
+        />
+      </>
+    )
+  }
+  {
+    buttons && (
+      <div class="btn-row">
+        <a class="btn" href={`tel:${site.phone}`}>
+          <Icon name="phone" />
+          {t.common.call}
+        </a>
+        <a class="btn btn--ghost" href={directionsUrl()} rel="noopener" target="_blank">
+          <Icon name="pin" />
+          {t.common.directions}
+          <span class="visually-hidden"> ({t.common.newTab})</span>
+        </a>
+      </div>
+    )
+  }
+</div>

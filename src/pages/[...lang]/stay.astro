@@ -1,0 +1,64 @@
+---
+/**
+ * Hotel stay page. Built only when site.modules.stay is true and the owner has
+ * confirmed the hotel is part of the same business (see docs/RESEARCH.md).
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { site } from '../../config/site.ts';
+
+export function getStaticPaths() {
+  return site.modules.stay && site.stayDetails ? langPaths() : [];
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const s = site.stayDetails;
+const hotelLd = s
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'Hotel',
+      name: 'Royal Indraprastha The Hotel',
+      address: s.address,
+      ...(s.phone ? { telephone: s.phone } : {}),
+    }
+  : null;
+---
+
+<BaseLayout
+  lang={lang}
+  path="/stay/"
+  title={t.meta.stayTitle}
+  description={t.meta.stayDesc}
+  jsonld={hotelLd ? [hotelLd] : []}
+>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{t.stay.title}</h1>
+      <p>{t.stay.lead}</p>
+    </div>
+  </div>
+  {
+    s && (
+      <section class="section">
+        <div class="wrap split">
+          <div />
+          <div class="stack">
+            <address class="address" lang="en">
+              {s.address}
+            </address>
+            {s.phone && s.phoneDisplay && (
+              <p>
+                <a class="btn" href={`tel:${s.phone}`}>
+                  {s.phoneDisplay}
+                </a>
+              </p>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>

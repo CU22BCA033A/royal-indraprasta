@@ -1,0 +1,26 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { cookies } from '../../content/legal.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+// Kannada heading: NEEDS-NATIVE-REVIEW
+const heading = lang === 'kn' ? 'ಕುಕೀ ನೀತಿ' : 'Cookie Policy';
+---
+
+<LegalPage
+  lang={lang}
+  path="/cookies/"
+  title={t.meta.cookiesTitle}
+  description={t.meta.cookiesDesc}
+  heading={heading}
+  dateKey="cookies"
+  doc={cookies()}
+/>

@@ -1,0 +1,15 @@
+---
+/** Copies `value` to the clipboard; the status is announced politely. */
+interface Props {
+  value: string;
+  label: string;
+  copied: string;
+  failed: string;
+}
+const { value, label, copied, failed } = Astro.props;
+---
+
+<span class="copy-row">
+  <button type="button" class="copy-btn" data-copy={value} data-copied={copied} data-failed={failed}>{label}</button>
+  <span class="copy-status" role="status" aria-live="polite"></span>
+</span>

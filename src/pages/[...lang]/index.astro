@@ -1,0 +1,175 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HoursBoard from '../../components/HoursBoard.astro';
+import AddressBlock from '../../components/AddressBlock.astro';
+import FaqList from '../../components/FaqList.astro';
+import Photo from '../../components/Photo.astro';
+import VegMark from '../../components/VegMark.astro';
+import LatticeRule from '../../components/LatticeRule.astro';
+import { dict, fmt, langPaths, localPath, type Lang } from '../../i18n/index.ts';
+import { menu } from '../../config/menu.ts';
+import { faqsFor } from '../../config/faq.ts';
+import { site, mapsUrl, directionsUrl, addressText } from '../../config/site.ts';
+import { commonClose, formatTime } from '../../config/hours.ts';
+import { hasPhoto } from '../../lib/photos.ts';
+import Icon from '../../components/Icon.astro';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const b = site.banquet;
+const heroPhoto = hasPhoto('exterior');
+const close = commonClose();
+---
+
+<BaseLayout lang={lang} path="/" title={t.meta.homeTitle} description={t.meta.homeDesc}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">{t.home.eyebrow}</p>
+        <h1 id="hero-title">{t.home.title}</h1>
+        <VegMark label={t.common.pureVeg} />
+        <p class="lead">{t.home.lead}</p>
+        {
+          heroPhoto && (
+            <p class="today">
+              {close && <span>{fmt(t.hours.closesAt, { time: formatTime(close) })}. </span>}
+              <span lang="en">{addressText()}</span>
+            </p>
+          )
+        }
+        <div class="btn-row">
+          <a class="btn" href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call}</a>
+          <a class="btn btn--ghost" href={directionsUrl()} rel="noopener" target="_blank"
+            ><Icon name="pin" />{t.common.directions}<span class="visually-hidden"> ({t.common.newTab})</span></a
+          >
+        </div>
+      </div>
+      <div class="hero-media">
+        {
+          heroPhoto ? (
+            <Photo slug="exterior" lang={lang} sizes="(min-width: 60rem) 40vw, 100vw" eager />
+          ) : (
+            <HoursBoard lang={lang}>
+              <hr />
+              <AddressBlock lang={lang} buttons={false} />
+            </HoursBoard>
+          )
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="menu-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="menu-title">{t.home.menuTitle}</h2>
+        <p>{t.home.menuLead}</p>
+        <p><a class="text-link" href={localPath('/menu/', lang)}>{t.home.menuLink}</a></p>
+      </div>
+      <ul class="ruled ruled--two">
+        {
+          menu.map((c) => (
+            <li>
+              <span class="cat-name">{c[lang]}</span>
+              <span class="cat-items">{c.items.map((i) => i[lang]).join(', ')}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="banquet-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="banquet-title">{t.home.banquetTitle}</h2>
+        {
+          b.capacitySeated !== null && b.capacityFloating !== null && (
+            <p class="today">{fmt(t.home.banquetCapacity, { seated: b.capacitySeated, floating: b.capacityFloating })}</p>
+          )
+        }
+      </div>
+      <div class="stack">
+        <Photo slug="banquet-wide" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <p>{t.home.banquetLead}</p>
+        {
+          b.inclusions && (
+            <ul>
+              {b.inclusions[lang].map((i) => (
+                <li>{i}</li>
+              ))}
+            </ul>
+          )
+        }
+        <p><a class="btn" href={localPath('/banquet/', lang)}>{t.home.banquetLink}</a></p>
+      </div>
+    </div>
+  </section>
+
+  <LatticeRule />
+
+  <section class="section" aria-labelledby="visit-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="visit-title">{t.home.visitTitle}</h2>
+        <p>{t.visit.lead}</p>
+        <p><a class="text-link" href={localPath('/visit/', lang)}>{t.home.visitLink}</a></p>
+      </div>
+      <div class="stack-lg">
+        <Photo slug="dining-hall" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        {
+          heroPhoto && (
+            <HoursBoard lang={lang} headingLevel="h3">
+              <hr />
+              <AddressBlock lang={lang} buttons={false} />
+            </HoursBoard>
+          )
+        }
+        {
+          site.access && (
+            <div class="stack">
+              <h3>{t.visit.accessTitle}</h3>
+              {site.access[lang].map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          )
+        }
+        {
+          site.parking && (
+            <div class="stack">
+              <h3>{t.visit.parkingTitle}</h3>
+              {site.parking[lang].map((p) => (
+                <p>{p}</p>
+              ))}
+            </div>
+          )
+        }
+        <div class="stack">
+          <h3>{t.home.reviewsTitle}</h3>
+          <p>
+            <a href={mapsUrl()} rel="noopener" target="_blank"
+              >{t.home.reviewsLine}<span class="visually-hidden"> ({t.common.newTab})</span></a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="faq-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="faq-title">{t.home.faqTitle}</h2>
+        <p><a class="text-link" href={localPath('/faq/', lang)}>{t.home.faqLink}</a></p>
+      </div>
+      <FaqList items={faqsFor('home')} lang={lang} />
+    </div>
+  </section>
+</BaseLayout>

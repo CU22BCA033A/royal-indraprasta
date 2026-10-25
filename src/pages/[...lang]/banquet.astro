@@ -1,0 +1,106 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Photo from '../../components/Photo.astro';
+import FaqList from '../../components/FaqList.astro';
+import VegMark from '../../components/VegMark.astro';
+import EnquiryForm from '../../components/forms/EnquiryForm.astro';
+import { dict, fmt, langPaths, type Lang } from '../../i18n/index.ts';
+import { site } from '../../config/site.ts';
+import { faqsFor } from '../../config/faq.ts';
+import { venueJsonLd } from '../../lib/seo.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const b = site.banquet;
+const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
+const venue = venueJsonLd(origin);
+const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !== null || b.inclusions;
+---
+
+<BaseLayout
+  lang={lang}
+  path="/banquet/"
+  title={t.meta.banquetTitle}
+  description={t.meta.banquetDesc}
+  jsonld={venue ? [venue] : []}
+>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{t.banquet.title}</h1>
+      <p>{t.banquet.lead}</p>
+      <p><VegMark label={t.common.pureVeg} /></p>
+    </div>
+  </div>
+
+  <section class="section" aria-labelledby="what-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="what-title">{t.banquet.whatTitle}</h2>
+      </div>
+      <div class="stack-lg">
+        <ol class="ruled what-list">
+          {t.banquet.what.map((w) => <li>{w}</li>)}
+        </ol>
+        {
+          hasFacts && (
+            <dl class="ruled">
+              {b.hallName && (
+                <div>
+                  <dt>{t.banquet.hall}</dt>
+                  <dd>{b.hallName}</dd>
+                </div>
+              )}
+              {(b.capacitySeated !== null || b.capacityFloating !== null) && (
+                <div>
+                  <dt>{t.banquet.capacity}</dt>
+                  <dd>
+                    {[
+                      b.capacitySeated !== null ? fmt(t.banquet.seated, { n: b.capacitySeated }) : null,
+                      b.capacityFloating !== null ? fmt(t.banquet.floating, { n: b.capacityFloating }) : null,
+                    ]
+                      .filter(Boolean)
+                      .join(', ')}
+                  </dd>
+                </div>
+              )}
+              {b.inclusions && (
+                <div>
+                  <dt>{t.banquet.included}</dt>
+                  <dd>{b.inclusions[lang].join(', ')}</dd>
+                </div>
+              )}
+            </dl>
+          )
+        }
+        <Photo slug="banquet-wide" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+        <Photo slug="banquet-stage" lang={lang} sizes="(min-width: 52rem) 60vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-label={t.banquet.formTitle} id="enquiry">
+    <div class="wrap split">
+      <div>
+        <p>
+          <a href={`tel:${site.phone}`}>{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
+        </p>
+      </div>
+      <EnquiryForm lang={lang} title={t.banquet.formTitle} />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bfaq-title">
+    <div class="wrap split">
+      <div>
+        <h2 id="bfaq-title">{t.banquet.faqTitle}</h2>
+      </div>
+      <FaqList items={faqsFor('banquet')} lang={lang} />
+    </div>
+  </section>
+</BaseLayout>

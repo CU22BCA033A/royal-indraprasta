@@ -1,0 +1,124 @@
+---
+/**
+ * Shared wrapper for the three forms: purpose line, adults note, honeypot,
+ * consent, submit, and the status panels (success and general error).
+ * Behaviour is in src/client/forms.ts.
+ */
+import '../../styles/forms.css';
+import { dict, fmt, localPath, type Lang } from '../../i18n/index.ts';
+import { site } from '../../config/site.ts';
+import type { FormKind } from '../../lib/schemas.ts';
+
+interface Props {
+  kind: FormKind;
+  lang: Lang;
+  title: string;
+  /** Show a confirmation dialog before sending. */
+  confirm?: boolean;
+}
+const { kind, lang, title, confirm = false } = Astro.props;
+const t = dict(lang);
+const f = t.form;
+const id = `form-${kind}`;
+const purpose = kind === 'enquiry' ? f.purpose.enquiry : kind === 'contact' ? f.purpose.contact : f.purpose.data;
+const success = kind === 'enquiry' ? f.successEnquiry : kind === 'contact' ? f.successContact : f.successData;
+const messages = {
+  errors: f.errors,
+  fixErrors: f.fixErrors,
+  sending: f.sending,
+  errorGeneral: fmt(f.errorGeneral, { phone: site.phoneDisplay }),
+  errorOffline: fmt(f.errorOffline, { phone: site.phoneDisplay }),
+  errorRate: fmt(f.errorRate, { phone: site.phoneDisplay }),
+  errorConfig: fmt(f.errorConfig, { phone: site.phoneDisplay }),
+};
+---
+
+<div class="form-wrap" data-form-wrap>
+  <h2 id={`${id}-title`}>{title}</h2>
+  <form
+    id={id}
+    class="form"
+    novalidate
+    aria-labelledby={`${id}-title`}
+    data-form={kind}
+    data-lang={lang}
+    data-confirm={confirm ? 'true' : undefined}
+    data-messages={JSON.stringify(messages)}
+  >
+    <p class="form-purpose">{purpose}</p>
+    <div class="form-status" data-kind="error" data-general-error tabindex="-1" hidden>
+      <h3>{f.errorTitle}</h3>
+      <p data-general-error-text></p>
+      <div class="btn-row">
+        <a class="btn btn--ghost" href={`tel:${site.phone}`}>{f.callInstead}</a>
+      </div>
+    </div>
+    <p class="visually-hidden" role="alert" aria-live="assertive" data-error-summary></p>
+
+    <slot />
+
+    <div class="hp" aria-hidden="true">
+      <label for={`${id}-company`}>Company</label>
+      <input id={`${id}-company`} name="company" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <div class="field" data-field="consent">
+      <div class="choice">
+        <input id={`${id}-consent`} name="consent" type="checkbox" required aria-describedby={`${id}-consent-error`} />
+        <label for={`${id}-consent`}>
+          {f.consent}{' '}
+          <a href={localPath('/privacy/', lang)}>{f.consentLink}</a>.
+        </label>
+      </div>
+      <p class="error" id={`${id}-consent-error`} hidden></p>
+    </div>
+    <p class="adults">{f.adultsOnly}</p>
+    <div class="btn-row">
+      {
+        confirm ? (
+          <button type="button" class="btn" data-review>
+            {f.review}
+          </button>
+        ) : (
+          <button type="submit" class="btn">
+            {f.send}
+          </button>
+        )
+      }
+    </div>
+  </form>
+
+  <div class="form-status" data-success tabindex="-1" role="status" hidden>
+    <h3>{f.successTitle}</h3>
+    <p>{fmt(success, { phone: site.phoneDisplay })}</p>
+    <div class="btn-row">
+      <button type="button" class="btn btn--ghost" data-another>{f.another}</button>
+    </div>
+  </div>
+
+  {
+    confirm && (
+      <dialog class="confirm-dialog" aria-labelledby={`${id}-confirm-title`}>
+        <div class="dialog-head">
+          <h2 id={`${id}-confirm-title`}>{f.confirmTitle}</h2>
+        </div>
+        <div class="dialog-body">
+          <p>{f.confirmLead}</p>
+          <dl class="confirm-list" data-confirm-list />
+          <div class="btn-row">
+            <button type="button" class="btn btn--ghost" data-confirm-edit>
+              {f.edit}
+            </button>
+            <button type="submit" class="btn" form={id} data-confirm-send>
+              {f.send}
+            </button>
+          </div>
+        </div>
+      </dialog>
+    )
+  }
+</div>
+
+<script>
+  import '../../client/forms.ts';
+</script>

@@ -1,0 +1,119 @@
+---
+import { dict, fmt, localPath, type Lang } from '../i18n/index.ts';
+import { navItems } from '../lib/nav.ts';
+import { site } from '../config/site.ts';
+import Wordmark from './Wordmark.astro';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  path: string;
+  otherHref: string;
+}
+const { lang, path, otherHref } = Astro.props;
+const t = dict(lang);
+const items = navItems();
+const other = lang === 'en' ? 'kn' : 'en';
+---
+
+<header class="site-header">
+  <div class="wrap">
+    <Wordmark lang={lang} homeLabel={t.common.home} />
+    <nav class="primary-nav" aria-label={t.common.navLabel}>
+      <ul>
+        {
+          items.map((i) => (
+            <li>
+              <a href={localPath(i.path, lang)} aria-current={path === i.path ? 'page' : undefined}>
+                {t.common.nav[i.key]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <button type="button" class="tool" data-search-open aria-haspopup="dialog">
+        <Icon name="search" /><span class="visually-hidden">{t.common.search}</span>
+      </button>
+      <button type="button" class="tool" data-theme-toggle aria-pressed="false">
+        <Icon name="moon" class="icon-moon" /><Icon name="sun" class="icon-sun" /><span class="visually-hidden"
+          >{t.common.theme}</span
+        >
+      </button>
+      <a class="tool" href={otherHref} hreflang={other} lang={other} data-lang-switch={other}>
+        {t.common.langOther}<span class="visually-hidden"> ({t.common.langOtherName})</span>
+      </a>
+      <a class="btn" href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call}</a>
+    </div>
+    <button type="button" class="btn btn--ghost menu-toggle" data-menu-open aria-haspopup="dialog">
+      <Icon name="menu" />{t.common.menuButton}
+    </button>
+  </div>
+</header>
+
+<dialog class="mobile-menu" id="mobile-menu" aria-label={t.common.navLabel}>
+  <div class="dialog-head">
+    <Wordmark lang={lang} homeLabel={t.common.home} />
+    <button type="button" class="tool" data-dialog-close>
+      <Icon name="close" /><span class="visually-hidden">{t.common.closeMenu}</span>
+    </button>
+  </div>
+  <div class="dialog-body">
+    <nav aria-label={t.common.navLabel}>
+      <ul>
+        <li>
+          <a href={localPath('/', lang)} aria-current={path === '/' ? 'page' : undefined}>{t.common.home}</a>
+        </li>
+        {
+          items.map((i) => (
+            <li>
+              <a href={localPath(i.path, lang)} aria-current={path === i.path ? 'page' : undefined}>
+                {t.common.nav[i.key]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="tools">
+      <a class="btn" href={`tel:${site.phone}`}><Icon name="phone" />{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
+    </div>
+    <div class="tools">
+      <button type="button" class="tool" data-search-open aria-haspopup="dialog">
+        <Icon name="search" />{t.common.search}
+      </button>
+      <button type="button" class="tool" data-theme-toggle aria-pressed="false">
+        <Icon name="moon" class="icon-moon" /><Icon name="sun" class="icon-sun" />{t.common.theme}
+      </button>
+      <a class="tool" href={otherHref} hreflang={other} lang={other} data-lang-switch={other}>
+        {t.common.langOther}<span class="visually-hidden"> ({t.common.langOtherName})</span>
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+  <div class="dialog-head">
+    <h2 id="search-title">{t.common.searchLabel}</h2>
+    <button type="button" class="tool" data-dialog-close>
+      <Icon name="close" /><span class="visually-hidden">{t.common.close}</span>
+    </button>
+  </div>
+  <div
+    class="dialog-body"
+    data-search
+    data-lang={lang}
+    data-text={JSON.stringify({
+      none: t.common.searchNone,
+      count: t.common.searchCount,
+      unavailable: t.common.searchUnavailable,
+      hint: t.common.searchHint,
+    })}
+  >
+    <label class="visually-hidden" for="search-input">{t.common.searchLabel}</label>
+    <input id="search-input" type="search" autocomplete="off" spellcheck="false" aria-describedby="search-status" />
+    <p id="search-status" class="meta-line" role="status" aria-live="polite">{t.common.searchHint}</p>
+    <ul class="search-results"></ul>
+  </div>
+</dialog>

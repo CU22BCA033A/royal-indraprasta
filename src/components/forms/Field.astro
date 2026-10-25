@@ -1,0 +1,82 @@
+---
+/** One labelled form control with a hint and an inline error slot. */
+interface Option {
+  value: string;
+  label: string;
+}
+interface Props {
+  form: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'tel' | 'email' | 'number' | 'date' | 'textarea' | 'select';
+  required?: boolean;
+  requiredText: string;
+  optionalText: string;
+  hint?: string;
+  options?: Option[];
+  placeholderOption?: string;
+  autocomplete?: string;
+  inputmode?: 'text' | 'tel' | 'email' | 'numeric';
+  min?: string | number;
+  max?: string | number;
+  maxlength?: number;
+  lang?: string;
+}
+const {
+  form,
+  name,
+  label,
+  type = 'text',
+  required = false,
+  requiredText,
+  optionalText,
+  hint,
+  options = [],
+  placeholderOption,
+  autocomplete,
+  inputmode,
+  min,
+  max,
+  maxlength,
+} = Astro.props;
+const id = `${form}-${name}`;
+const hintId = hint ? `${id}-hint` : undefined;
+const errId = `${id}-error`;
+const describedby = [hintId, errId].filter(Boolean).join(' ');
+const common = {
+  id,
+  name,
+  'aria-describedby': describedby,
+  required,
+};
+---
+
+<div class="field" data-field={name}>
+  <label for={id}>
+    {label} <span class="tag">({required ? requiredText : optionalText})</span>
+  </label>
+  {hint && <p class="hint" id={hintId}>{hint}</p>}
+  {
+    type === 'textarea' ? (
+      <textarea {...common} maxlength={maxlength} rows="5" />
+    ) : type === 'select' ? (
+      <select {...common}>
+        {placeholderOption && <option value="">{placeholderOption}</option>}
+        {options.map((o) => (
+          <option value={o.value}>{o.label}</option>
+        ))}
+      </select>
+    ) : (
+      <input
+        {...common}
+        type={type}
+        autocomplete={autocomplete}
+        inputmode={inputmode}
+        min={min}
+        max={max}
+        maxlength={maxlength}
+      />
+    )
+  }
+  <p class="error" id={errId} hidden></p>
+</div>

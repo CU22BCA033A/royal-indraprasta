@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { dict, type Lang } from '../i18n/index.ts';
+import { contentDates, formatDate, type ContentDateKey } from '../config/content-dates.ts';
+import type { LegalDoc } from '../content/legal.ts';
+
+interface Props {
+  lang: Lang;
+  path: string;
+  title: string;
+  heading: string;
+  description: string;
+  dateKey: ContentDateKey;
+  doc: LegalDoc;
+}
+const { lang, path, title, heading, description, dateKey, doc } = Astro.props;
+const t = dict(lang);
+const slug = path.replace(/\//g, '');
+---
+
+<BaseLayout lang={lang} path={path} title={title} description={description}>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{heading}</h1>
+      <p class="meta-line">
+        {t.common.lastUpdated}: <time datetime={contentDates[dateKey]}>{formatDate(contentDates[dateKey], lang)}</time>
+      </p>
+    </div>
+  </div>
+  <div class="wrap section">
+    <div class="prose">
+      {
+        lang === 'kn' && (
+          <>
+            <h2 id={`${slug}-summary`}>{t.legal.summary}</h2>
+            {doc.kn.map((p) => (
+              <p>{p}</p>
+            ))}
+            <p class="note">{t.legal.knNote}</p>
+            <h2 id={`${slug}-full`}>{t.legal.fullText}</h2>
+          </>
+        )
+      }
+      <div lang={lang === 'kn' ? 'en' : undefined} class="prose">
+        {
+          doc.sections.map((s, i) => (
+            <>
+              <h2 id={`${slug}-${i + 1}`}>{s.h}</h2>
+              {s.body.map((b) =>
+                typeof b === 'string' ? (
+                  <p>{b}</p>
+                ) : 'list' in b ? (
+                  <ul>
+                    {b.list.map((li) => (
+                      <li>{li}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div class="table-scroll">
+                    <table>
+                      <thead>
+                        <tr>
+                          {b.table.head.map((h) => (
+                            <th scope="col">{h}</th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {b.table.rows.map((r) => (
+                          <tr>
+                            {r.map((c, ci) => (
+                              <td data-label={b.table.head[ci]}>{c}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ),
+              )}
+            </>
+          ))
+        }
+      </div>
+      <slot />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,119 @@
+---
+import { dict, localPath, type Lang } from '../i18n/index.ts';
+import { site, addressText, mapsUrl } from '../config/site.ts';
+import { legalItems } from '../lib/nav.ts';
+import { contentDates, formatDate } from '../config/content-dates.ts';
+import Wordmark from './Wordmark.astro';
+
+interface Props {
+  lang: Lang;
+  otherHref: string;
+}
+const { lang, otherHref } = Astro.props;
+const t = dict(lang);
+const other = lang === 'en' ? 'kn' : 'en';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="stack">
+        <Wordmark lang={lang} homeLabel={t.common.home} />
+        <h2 class="visually-hidden">{t.footer.details}</h2>
+        <dl>
+          {
+            site.legalName && (
+              <div>
+                <dt>{t.footer.legalName}</dt>
+                <dd>{site.legalName}</dd>
+              </div>
+            )
+          }
+          <div>
+            <dt>{t.footer.address}</dt>
+            <dd>
+              <a href={mapsUrl()} rel="noopener" target="_blank" lang="en"
+                >{addressText()}<span class="visually-hidden"> ({t.common.newTab})</span></a
+              >
+            </dd>
+          </div>
+          <div>
+            <dt>{t.footer.phone}</dt>
+            <dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd>
+          </div>
+          {
+            site.email && (
+              <div>
+                <dt>{t.footer.email}</dt>
+                <dd>
+                  <a href={`mailto:${site.email}`}>{site.email}</a>
+                </dd>
+              </div>
+            )
+          }
+          {
+            site.fssaiLicence && (
+              <div>
+                <dt>{t.footer.fssai}</dt>
+                <dd>{site.fssaiLicence}</dd>
+              </div>
+            )
+          }
+          {
+            site.gstin && (
+              <div>
+                <dt>{t.footer.gstin}</dt>
+                <dd>{site.gstin}</dd>
+              </div>
+            )
+          }
+        </dl>
+      </div>
+      <nav aria-labelledby="footer-legal">
+        <h2 id="footer-legal">{t.footer.legal}</h2>
+        <ul>
+          {
+            legalItems.map((i) => (
+              <li>
+                <a href={localPath(i.path, lang)}>{t.footer[i.key]}</a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <div>
+        <h2>{t.common.langLabel}</h2>
+        <ul>
+          <li>
+            <a href={otherHref} hreflang={other} lang={other} data-lang-switch={other}>{t.common.langOther}</a>
+          </li>
+          {
+            site.social.instagram && (
+              <li>
+                <a href={site.social.instagram} rel="noopener" target="_blank">
+                  {t.footer.instagram}
+                  <span class="visually-hidden"> ({t.common.newTab})</span>
+                </a>
+              </li>
+            )
+          }
+          {
+            site.social.facebook && (
+              <li>
+                <a href={site.social.facebook} rel="noopener" target="_blank">
+                  {t.footer.facebook}
+                  <span class="visually-hidden"> ({t.common.newTab})</span>
+                </a>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </div>
+    <div class="footer-base">
+      <p>{t.common.lastUpdated}: <time datetime={contentDates.site}>{formatDate(contentDates.site, lang)}</time></p>
+      <p data-copyright>&copy; {year} {site.legalName ?? site.tradingName}</p>
+    </div>
+  </div>
+</footer>

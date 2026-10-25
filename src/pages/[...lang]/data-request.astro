@@ -1,0 +1,30 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import DataRequestForm from '../../components/forms/DataRequestForm.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { dataRequest } from '../../content/legal.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+// Kannada heading: NEEDS-NATIVE-REVIEW
+const heading = lang === 'kn' ? 'ಮಾಹಿತಿ ವಿನಂತಿ' : 'Data request';
+const formTitle = lang === 'kn' ? 'ವಿನಂತಿ ಕಳುಹಿಸಿ' : 'Send a request';
+---
+
+<LegalPage
+  lang={lang}
+  path="/data-request/"
+  title={t.meta.dataRequestTitle}
+  description={t.meta.dataRequestDesc}
+  heading={heading}
+  dateKey="dataRequest"
+  doc={dataRequest()}
+>
+  <DataRequestForm lang={lang} title={formTitle} />
+</LegalPage>

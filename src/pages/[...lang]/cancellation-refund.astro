@@ -1,0 +1,26 @@
+---
+import LegalPage from '../../components/LegalPage.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { cancellation } from '../../content/legal.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+// Kannada heading: NEEDS-NATIVE-REVIEW
+const heading = lang === 'kn' ? 'ರದ್ದತಿ ಮತ್ತು ಹಣ ಮರುಪಾವತಿ ನೀತಿ' : 'Cancellation and Refund Policy';
+---
+
+<LegalPage
+  lang={lang}
+  path="/cancellation-refund/"
+  title={t.meta.cancellationTitle}
+  description={t.meta.cancellationDesc}
+  heading={heading}
+  dateKey="cancellation"
+  doc={cancellation()}
+/>

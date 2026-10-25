@@ -1,0 +1,14 @@
+---
+interface Props {
+  label: string;
+}
+const { label } = Astro.props;
+---
+
+<span class="veg-mark">
+  <svg viewBox="0 0 18 18" aria-hidden="true" focusable="false">
+    <rect x="1" y="1" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6"></rect>
+    <circle cx="9" cy="9" r="4.2" fill="currentColor"></circle>
+  </svg>
+  {label}
+</span>

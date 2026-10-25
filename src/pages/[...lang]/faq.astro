@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FaqList from '../../components/FaqList.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { faqsFor } from '../../config/faq.ts';
+import { contentDates, formatDate } from '../../config/content-dates.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const items = faqsFor();
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: items.map((f) => ({
+    '@type': 'Question',
+    name: f.q[lang],
+    acceptedAnswer: { '@type': 'Answer', text: f.a[lang] },
+  })),
+};
+---
+
+<BaseLayout lang={lang} path="/faq/" title={t.meta.faqTitle} description={t.meta.faqDesc} jsonld={[faqLd]}>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{t.faq.title}</h1>
+      <p>{t.faq.lead}</p>
+      <p class="meta-line">
+        {t.common.lastUpdated}: <time datetime={contentDates.faq}>{formatDate(contentDates.faq, lang)}</time>
+      </p>
+    </div>
+  </div>
+  <section class="section" aria-label={t.faq.title}>
+    <div class="wrap">
+      <div class="prose">
+        <FaqList items={items} lang={lang} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

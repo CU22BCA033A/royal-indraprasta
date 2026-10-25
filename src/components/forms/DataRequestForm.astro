@@ -1,0 +1,42 @@
+---
+import FormShell from './FormShell.astro';
+import Field from './Field.astro';
+import { dict, type Lang } from '../../i18n/index.ts';
+import { LIMITS, REQUEST_TYPES } from '../../lib/schemas.ts';
+
+interface Props {
+  lang: Lang;
+  title: string;
+}
+const { lang, title } = Astro.props;
+const f = dict(lang).form;
+const k = 'data-request';
+const tags = { requiredText: f.required, optionalText: f.optional };
+---
+
+<FormShell kind={k} lang={lang} title={title}>
+  <Field form={k} name="name" label={f.fields.name} required autocomplete="name" maxlength={LIMITS.name} {...tags} />
+  <Field form={k} name="contact" label={f.fields.contact} required hint={f.fields.contactHint} {...tags} />
+  <fieldset class="field" data-field="requestType" aria-describedby={`${k}-requestType-error`}>
+    <legend>{f.fields.requestType} <span class="tag">({f.required})</span></legend>
+    {
+      REQUEST_TYPES.map((v) => (
+        <div class="choice">
+          <input id={`${k}-requestType-${v}`} type="radio" name="requestType" value={v} required />
+          <label for={`${k}-requestType-${v}`}>{f.requestTypes[v]}</label>
+        </div>
+      ))
+    }
+    <p class="error" id={`${k}-requestType-error`} hidden></p>
+  </fieldset>
+  <Field
+    form={k}
+    name="details"
+    label={f.fields.details}
+    type="textarea"
+    required
+    hint={f.fields.detailsHint}
+    maxlength={LIMITS.message}
+    {...tags}
+  />
+</FormShell>

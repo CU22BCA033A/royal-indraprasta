@@ -1,0 +1,66 @@
+---
+import FormShell from './FormShell.astro';
+import Field from './Field.astro';
+import { dict, type Lang } from '../../i18n/index.ts';
+import { EVENT_TYPES, LIMITS, todayIST } from '../../lib/schemas.ts';
+
+interface Props {
+  lang: Lang;
+  title: string;
+}
+const { lang, title } = Astro.props;
+const f = dict(lang).form;
+const k = 'enquiry';
+const tags = { requiredText: f.required, optionalText: f.optional };
+---
+
+<FormShell kind={k} lang={lang} title={title} confirm>
+  <Field form={k} name="name" label={f.fields.name} required autocomplete="name" maxlength={LIMITS.name} {...tags} />
+  <div class="field-row">
+    <Field
+      form={k}
+      name="phone"
+      label={f.fields.phone}
+      type="tel"
+      required
+      hint={f.fields.phoneHint}
+      autocomplete="tel"
+      inputmode="tel"
+      {...tags}
+    />
+    <Field form={k} name="email" label={f.fields.email} type="email" autocomplete="email" inputmode="email" {...tags} />
+  </div>
+  <Field
+    form={k}
+    name="eventType"
+    label={f.fields.eventType}
+    type="select"
+    required
+    placeholderOption={f.fields.eventTypeChoose}
+    options={EVENT_TYPES.map((v) => ({ value: v, label: f.eventTypes[v] }))}
+    {...tags}
+  />
+  <div class="field-row">
+    <Field
+      form={k}
+      name="guests"
+      label={f.fields.guests}
+      type="number"
+      required
+      inputmode="numeric"
+      min={1}
+      max={LIMITS.guestsMax}
+      {...tags}
+    />
+    <Field form={k} name="date" label={f.fields.date} type="date" required min={todayIST()} {...tags} />
+  </div>
+  <Field
+    form={k}
+    name="message"
+    label={f.fields.message}
+    type="textarea"
+    hint={f.fields.messageEnquiryHint}
+    maxlength={LIMITS.message}
+    {...tags}
+  />
+</FormShell>

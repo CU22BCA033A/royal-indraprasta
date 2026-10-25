@@ -1,0 +1,22 @@
+---
+import type { Faq } from '../config/faq.ts';
+import type { Lang } from '../i18n/index.ts';
+interface Props {
+  items: Faq[];
+  lang: Lang;
+}
+const { items, lang } = Astro.props;
+---
+
+<div class="faq">
+  {
+    items.map((f) => (
+      <details id={`q-${f.id}`}>
+        <summary>{f.q[lang]}</summary>
+        <div class="answer">
+          <p>{f.a[lang]}</p>
+        </div>
+      </details>
+    ))
+  }
+</div>

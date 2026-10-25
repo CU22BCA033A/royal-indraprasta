@@ -1,0 +1,72 @@
+---
+/** Mobile contact button, back-to-top button and the storage notice. */
+import { dict, localPath, type Lang } from '../i18n/index.ts';
+import { site, directionsUrl, whatsappUrl } from '../config/site.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const wa = whatsappUrl();
+const consent = site.modules.analytics;
+---
+
+<div class="float float--contact" data-contact>
+  <div class="contact-panel" id="contact-panel" hidden>
+    <ul>
+      <li>
+        <a href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call} {site.phoneDisplay}</a>
+      </li>
+      {
+        wa && (
+          <li>
+            <a href={wa} rel="noopener" target="_blank">
+              <Icon name="chat" />
+              {t.common.whatsapp}
+              <span class="visually-hidden"> ({t.common.newTab})</span>
+            </a>
+          </li>
+        )
+      }
+      <li>
+        <a href={directionsUrl()} rel="noopener" target="_blank"
+          ><Icon name="pin" />{t.common.directions}<span class="visually-hidden"> ({t.common.newTab})</span></a
+        >
+      </li>
+    </ul>
+  </div>
+  <button type="button" class="btn" aria-expanded="false" aria-controls="contact-panel">
+    <Icon name="phone" />{t.common.contactOpen}
+  </button>
+</div>
+
+<div class="float float--top" data-back-to-top hidden>
+  <a class="btn" href="#top"><Icon name="up" />{t.common.backToTop}</a>
+</div>
+
+<div class="notice" data-notice data-consent={consent ? 'true' : 'false'} hidden>
+  <div class="wrap">
+    <p>
+      {consent ? t.notice.textConsent : t.notice.text}{' '}
+      <a href={localPath('/cookies/', lang)}>{t.notice.policy}</a>
+    </p>
+    {
+      consent ? (
+        <div class="btn-row">
+          <button type="button" class="btn btn--ghost" data-notice-choice="essential">
+            {t.notice.essential}
+          </button>
+          <button type="button" class="btn btn--ghost" data-notice-choice="all">
+            {t.notice.accept}
+          </button>
+        </div>
+      ) : (
+        <button type="button" class="btn btn--ghost" data-notice-choice="ok">
+          {t.notice.ok}
+        </button>
+      )
+    }
+  </div>
+</div>

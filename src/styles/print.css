@@ -1,0 +1,46 @@
+@layer utilities {
+  @media print {
+    :root {
+      --bg: #fdfbf7;
+      --surface: #fdfbf7;
+      --text: #1a120e;
+      --muted: #3d3029;
+      --rule: #8a6a3a;
+    }
+    .site-header,
+    .site-footer nav,
+    .float,
+    .notice,
+    .progress,
+    .skip,
+    .jump,
+    .no-print,
+    dialog {
+      display: none !important;
+    }
+    body {
+      font-size: 11pt;
+    }
+    main {
+      animation: none;
+    }
+    .section,
+    .page-head {
+      padding-block: 1rem;
+    }
+    .menu-cat {
+      break-inside: avoid;
+      padding-block: 0.75rem;
+    }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+    .print-only {
+      display: block !important;
+    }
+  }
+  .print-only {
+    display: none;
+  }
+}

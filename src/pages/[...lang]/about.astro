@@ -1,0 +1,28 @@
+---
+/** About page. Built only when the owner has supplied the story in site.story. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { site } from '../../config/site.ts';
+
+export function getStaticPaths() {
+  return site.story ? langPaths() : [];
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+---
+
+<BaseLayout lang={lang} path="/about/" title={t.meta.aboutTitle} description={t.meta.aboutDesc}>
+  <div class="page-head">
+    <div class="wrap">
+      <h1>{t.about.title}</h1>
+    </div>
+  </div>
+  <section class="section">
+    <div class="wrap prose">
+      {site.story?.[lang].map((p) => <p>{p}</p>)}
+    </div>
+  </section>
+</BaseLayout>

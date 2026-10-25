@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import VegMark from '../../components/VegMark.astro';
+import Photo from '../../components/Photo.astro';
+import Icon from '../../components/Icon.astro';
+import { dict, langPaths, type Lang } from '../../i18n/index.ts';
+import { menu, formatPrice } from '../../config/menu.ts';
+import { contentDates, formatDate } from '../../config/content-dates.ts';
+import { site, addressText } from '../../config/site.ts';
+import type { PhotoSlug } from '../../config/photos.ts';
+
+export function getStaticPaths() {
+  return langPaths();
+}
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = dict(lang);
+const anyPrice = menu.some((c) => c.items.some((i) => i.price !== null));
+const catPhoto: Record<string, PhotoSlug> = {
+  tiffin: 'idli-vada',
+  dosa: 'dosa-plate',
+  'north-indian': 'north-indian',
+  chaat: 'chaat-counter',
+  'beverages-desserts': 'coffee',
+};
+---
+
+<BaseLayout lang={lang} path="/menu/" title={t.meta.menuTitle} description={t.meta.menuDesc}>
+  <div class="page-head">
+    <div class="wrap">
+      <p class="print-only" lang="en">{site.tradingName}, {addressText()}. {site.phoneDisplay}</p>
+      <h1>{t.menu.title}</h1>
+      <p>{t.menu.lead}</p>
+      <p><VegMark label={t.common.pureVeg} /></p>
+      <p class="meta-line">
+        {t.common.lastUpdated}: <time datetime={contentDates.menu}>{formatDate(contentDates.menu, lang)}</time>
+      </p>
+    </div>
+  </div>
+  <div class="wrap">
+    <nav class="section no-print" aria-labelledby="jump-title">
+      <h2 id="jump-title" class="visually-hidden">{t.menu.jump}</h2>
+      <ul class="jump">
+        {
+          menu.map((c) => (
+            <li>
+              <a href={`#${c.id}`}>{c[lang]}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    {
+      menu.map((c) => (
+        <section class="menu-cat split" id={c.id} aria-labelledby={`${c.id}-title`}>
+          <div>
+            <h2 id={`${c.id}-title`}>{c[lang]}</h2>
+          </div>
+          <div class="stack">
+            <ul class="ruled">
+              {c.items.map((i) => (
+                <li>
+                  <span class="name">{i[lang]}</span>
+                  {i.price !== null && <span class="price">{formatPrice(i.price)}</span>}
+                </li>
+              ))}
+            </ul>
+            {catPhoto[c.id] && (
+              <Photo slug={catPhoto[c.id] as PhotoSlug} lang={lang} sizes="(min-width: 52rem) 50vw, 100vw" />
+            )}
+          </div>
+        </section>
+      ))
+    }
+    <div class="section stack">
+      {anyPrice && <p class="meta-line">{t.menu.priceNote}</p>}
+      <p class="no-print">
+        <button type="button" class="btn btn--ghost" data-print><Icon name="print" />{t.menu.print}</button>
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  document.querySelector('[data-print]')?.addEventListener('click', () => window.print());
+</script>
