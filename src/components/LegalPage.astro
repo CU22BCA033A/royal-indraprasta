@@ -17,15 +17,20 @@ const slug = path.replace(/\//g, '');
 ---
 
 <BaseLayout path={path} title={title} description={description}>
-  <div class="page-head">
-    <div class="wrap">
-      <h1>{heading}</h1>
-      <p class="meta-line">
-        {t.common.lastUpdated}: <time datetime={contentDates[dateKey]}>{formatDate(contentDates[dateKey])}</time>
-      </p>
+  <header class="page-quiet">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">{t.footer.legal}</p>
+        <h1>{heading}</h1>
+      </div>
+      <div class="lead-col">
+        <p class="meta-line">
+          {t.common.lastUpdated}: <time datetime={contentDates[dateKey]}>{formatDate(contentDates[dateKey])}</time>
+        </p>
+      </div>
     </div>
-  </div>
-  <div class="wrap section">
+  </header>
+  <div class="wrap band legal-body">
     <div class="prose">
         {
           doc.sections.map((s, i) => (

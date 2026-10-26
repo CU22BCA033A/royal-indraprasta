@@ -37,8 +37,8 @@ const PAIRS = [
   ['primary', 'bg', 4.5, 'Links and buttons'],
   ['primary', 'surface', 4.5, 'Links on panels'],
   ['on-primary', 'primary', 4.5, 'Button label'],
-  ['brass-text', 'bg', 4.5, 'Small labels'],
-  ['brass-text', 'surface', 4.5, 'Small labels on panels'],
+  ['brass-ink', 'bg', 4.5, 'Small labels'],
+  ['brass-ink', 'surface', 4.5, 'Small labels on panels'],
   ['veg', 'bg', 4.5, 'Veg mark and label'],
   ['veg', 'surface', 4.5, 'Veg mark on panels'],
   ['error', 'bg', 4.5, 'Error text'],
@@ -46,8 +46,15 @@ const PAIRS = [
   ['line', 'bg', 3, 'Form field borders (non-text, 1.4.11)'],
   ['primary', 'bg', 3, 'Focus ring (non-text, 2.4.13)'],
   ['bg', 'text', 4.5, 'Hover state: page colour on text colour'],
+  ['on-sign', 'sign', 7, 'Signboard text (AAA)'],
+  ['on-sign-muted', 'sign', 4.5, 'Secondary text on the signboard'],
+  ['brass', 'sign', 4.5, 'Brass labels and buttons on the signboard'],
+  ['sign', 'brass', 4.5, 'Button label on brass'],
 ];
-const DECORATIVE = [['accent', 'bg', 'Rules and lattice only, carries no information']];
+const DECORATIVE = [
+  ['rule', 'bg', 'Hairline rules only, carries no information'],
+  ['sign-rule', 'sign', 'Hairline rules on the signboard'],
+];
 
 let failed = 0;
 const lines = [

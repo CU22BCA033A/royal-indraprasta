@@ -2,96 +2,121 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Photo from '../components/Photo.astro';
 import FaqList from '../components/FaqList.astro';
-import VegMark from '../components/VegMark.astro';
 import EnquiryForm from '../components/forms/EnquiryForm.astro';
-import { t, fmt } from '../content/copy.ts';
-import { site } from '../config/site.ts';
+import Icon from '../components/Icon.astro';
+import { t } from '../content/copy.ts';
 import { faqsFor } from '../config/faq.ts';
+import { liveBranches, branchAddress } from '../data/branches.ts';
 import { venueJsonLd } from '../lib/seo.ts';
 
-const b = site.banquet;
 const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
-const venue = venueJsonLd(origin);
-const hasFacts = b.hallName || b.capacitySeated !== null || b.capacityFloating !== null || b.inclusions;
+const hallBranch = liveBranches.find((b) => b.services.banquet);
+const h = hallBranch?.hall ?? null;
+const venue = hallBranch ? venueJsonLd(origin, hallBranch) : null;
+const hasFacts = h && (h.name || h.seated !== null || h.standing !== null || h.inclusions);
 ---
 
-<BaseLayout
-  path="/banquet/"
-  title={t.meta.banquetTitle}
-  description={t.meta.banquetDesc}
-  jsonld={venue ? [venue] : []}
->
-  <div class="page-head">
-    <div class="wrap">
-      <h1>{t.banquet.title}</h1>
-      <p>{t.banquet.lead}</p>
-      <p><VegMark label={t.common.pureVeg} /></p>
-    </div>
-  </div>
-
-  <section class="section" aria-labelledby="what-title">
-    <div class="wrap split">
-      <div>
-        <h2 id="what-title">{t.banquet.whatTitle}</h2>
+<BaseLayout path="/banquet/" title={t.meta.banquetTitle} description={t.meta.banquetDesc} jsonld={venue ? [venue] : []}>
+  <header class="band--sign page-sign">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">{t.banquet.kicker}</p>
+        <h1>{t.banquet.title}</h1>
       </div>
-      <div class="stack-lg">
-        <ol class="ruled what-list">
-          {t.banquet.what.map((w) => <li>{w}</li>)}
-        </ol>
+      <div class="lead-col">
+        <p class="lead">{t.banquet.lead}</p>
+        {hallBranch && <p class="meta-line">{branchAddress(hallBranch)}</p>}
+      </div>
+    </div>
+  </header>
+
+  <section class="band hall" aria-labelledby="steps-title">
+    <div class="wrap grid">
+      <div class="statement">
+        <h2 id="steps-title">{t.banquet.stepsTitle}</h2>
         {
-          hasFacts && (
-            <dl class="ruled">
-              {b.hallName && (
+          hasFacts && h && (
+            <dl class="facts">
+              {h.name && (
                 <div>
                   <dt>{t.banquet.hall}</dt>
-                  <dd>{b.hallName}</dd>
+                  <dd>{h.name}</dd>
                 </div>
               )}
-              {(b.capacitySeated !== null || b.capacityFloating !== null) && (
+              {h.seated !== null && (
                 <div>
-                  <dt>{t.banquet.capacity}</dt>
-                  <dd>
-                    {[
-                      b.capacitySeated !== null ? fmt(t.banquet.seated, { n: b.capacitySeated }) : null,
-                      b.capacityFloating !== null ? fmt(t.banquet.floating, { n: b.capacityFloating }) : null,
-                    ]
-                      .filter(Boolean)
-                      .join(', ')}
-                  </dd>
+                  <dt>Seated</dt>
+                  <dd class="num">{h.seated}</dd>
                 </div>
               )}
-              {b.inclusions && (
+              {h.standing !== null && (
                 <div>
-                  <dt>{t.banquet.included}</dt>
-                  <dd>{b.inclusions.join(', ')}</dd>
+                  <dt>Standing</dt>
+                  <dd class="num">{h.standing}</dd>
                 </div>
               )}
             </dl>
           )
         }
-        <Photo slug="banquet-wide" sizes="(min-width: 52rem) 60vw, 100vw" />
-        <Photo slug="banquet-stage" sizes="(min-width: 52rem) 60vw, 100vw" />
+        {
+          h?.inclusions && (
+            <p>
+              {t.banquet.included}: {h.inclusions.join(', ')}
+            </p>
+          )
+        }
+        <Photo slug="banquet-wide" sizes="(min-width: 60rem) 45vw, 100vw" />
+      </div>
+      <div class="steps-col">
+        <ol class="steps" role="list">
+          {
+            t.banquet.steps.map(([title, body], i) => (
+              <li>
+                <span class="numeral" aria-hidden="true">
+                  {i + 1}
+                </span>
+                <div>
+                  <strong>{title}</strong>
+                  <p>{body}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
       </div>
     </div>
   </section>
 
-  <section class="section section--surface" aria-label={t.banquet.formTitle} id="enquiry">
-    <div class="wrap split">
-      <div>
-        <p>
-          <a class="tel-label" href={`tel:${site.phone}`}>{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
-        </p>
+  <section class="band band--paper enquiry" id="enquiry" aria-label={t.banquet.formTitle}>
+    <div class="wrap grid">
+      <div class="enquiry-side">
+        <p class="kicker">{t.banquet.formSide}</p>
+        {
+          hallBranch?.phone && (
+            <p class="enquiry-phone">
+              <a href={`tel:${hallBranch.phone.e164}`} class="tel-label">
+                <Icon name="phone" />
+                {hallBranch.phone.display}
+              </a>
+            </p>
+          )
+        }
+        <Photo slug="banquet-stage" sizes="(min-width: 60rem) 30vw, 100vw" />
       </div>
-      <EnquiryForm title={t.banquet.formTitle} />
+      <div class="enquiry-form">
+        <EnquiryForm title={t.banquet.formTitle} />
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="bfaq-title">
-    <div class="wrap split">
-      <div>
+  <section class="band qa" aria-labelledby="bfaq-title">
+    <div class="wrap grid">
+      <div class="side">
         <h2 id="bfaq-title">{t.banquet.faqTitle}</h2>
       </div>
-      <FaqList items={faqsFor('banquet')} />
+      <div class="list">
+        <FaqList items={faqsFor('banquet')} />
+      </div>
     </div>
   </section>
 </BaseLayout>

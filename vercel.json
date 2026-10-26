@@ -7,6 +7,16 @@
   "cleanUrls": false,
   "redirects": [
     {
+      "source": "/visit/",
+      "destination": "/locations/",
+      "permanent": true
+    },
+    {
+      "source": "/visit",
+      "destination": "/locations/",
+      "permanent": true
+    },
+    {
       "source": "/:path((?!api/)(?:[^/]+/)*[^/.]+)",
       "destination": "/:path/",
       "permanent": true

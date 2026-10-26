@@ -1,60 +1,69 @@
 ---
 /**
- * Hours as a printed board. With complete hours it shows a day table and a
- * live open or closed line (filled in by the browser in Asia/Kolkata time).
- * With incomplete hours it shows only what is confirmed.
+ * A branch's hours, set large. With complete hours: a day table and a live
+ * open or closed line (computed in the browser in Asia/Kolkata time). With
+ * incomplete hours: only what is confirmed, and a call prompt.
  */
-import { DAYS, hours, hoursComplete, commonClose, formatTime } from '../config/hours.ts';
+import { DAYS, hoursComplete, commonClose, formatTime, timeParts } from '../config/hours.ts';
 import { t, fmt } from '../content/copy.ts';
-import { site } from '../config/site.ts';
+import type { Branch } from '../data/branches.ts';
 
 interface Props {
+  branch: Branch;
   headingLevel?: 'h2' | 'h3';
 }
-const { headingLevel = 'h2' } = Astro.props;
-const complete = hoursComplete();
-const close = commonClose();
+const { branch, headingLevel = 'h2' } = Astro.props;
 const H = headingLevel;
-const statusText = {
-  open: t.hours.openNow,
-  closed: t.hours.closedNow,
-  closedToday: t.hours.closedToday,
-};
+const h = branch.hours;
+const complete = hoursComplete(h);
+const close = commonClose(h);
+const phone = branch.phone;
+const statusText = { open: t.hours.openNow, closed: t.hours.closedNow, closedToday: t.hours.closedToday };
 ---
 
-<div class="board">
-  <H class="board__label">{t.hours.title}</H>
+<div class="hours-board">
+  <H class="kicker">{t.hours.title}</H>
   {
     complete ? (
       <>
-        <p
-          class="status"
-          data-hours={JSON.stringify(hours)}
-          data-text={JSON.stringify(statusText)}
-        />
-        <dl class="ruled">
+        <p class="status" data-hours={JSON.stringify(h)} data-text={JSON.stringify(statusText)} />
+        <dl>
           {DAYS.map((d) => (
             <div>
               <dt>{t.hours.day[d]}</dt>
-              <dd>
-                {hours[d].closed
+              <dd class="num">
+                {h[d].closed
                   ? t.hours.closed
-                  : fmt(t.hours.range, { open: formatTime(hours[d].open as string), close: formatTime(hours[d].close as string) })}
+                  : fmt(t.hours.range, {
+                      open: formatTime(h[d].open as string),
+                      close: formatTime(h[d].close as string),
+                    })}
               </dd>
             </div>
           ))}
         </dl>
       </>
+    ) : close ? (
+      <>
+        <p class="meta-line">{t.hours.closing}, every day</p>
+        <p class="big num">
+          {timeParts(close).time}
+          <small>{timeParts(close).suffix}</small>
+        </p>
+        <p class="meta-line">
+          {t.hours.confirmOpening}{' '}
+          {phone && <a class="tel-label" href={`tel:${phone.e164}`}>{phone.display}</a>}
+        </p>
+      </>
     ) : (
-      close && (
-        <>
-          <p class="board__time">{fmt(t.hours.closesAt, { time: formatTime(close) })}</p>
-          <p>
-            {t.hours.confirmOpening} <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
-          </p>
-        </>
-      )
+      <p class="meta-line">
+        {t.home.noPhoneHours}.{' '}
+        {phone && (
+          <>
+            Call <a class="tel-label" href={`tel:${phone.e164}`}>{phone.display}</a> for today’s hours.
+          </>
+        )}
+      </p>
     )
   }
-  <slot />
 </div>

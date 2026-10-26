@@ -1,14 +1,14 @@
 # QA report
 
-Run on 2026-10-26 06:34 UTC, mode: pitch demo (DEMO=1).
+Run on 2026-10-26 07:54 UTC, mode: pitch demo (DEMO=1).
 
 | Gate | Result | Time |
 |---|---|---|
 | build | Pass | 2 s |
-| check | Pass | 10 s |
-| test (unit and Playwright) | Pass | 54 s |
-| links | Pass | 1 s |
-| lighthouse | Pass | 71 s |
+| check | Pass | 12 s |
+| test (unit and Playwright) | Pass | 67 s |
+| links | Pass | 0 s |
+| lighthouse | Pass | 82 s |
 | audit:content | Pass | 0 s |
 | audit:contrast | Pass | 0 s |
 | audit:placeholders | Pass | 0 s |
@@ -20,17 +20,17 @@ Run on 2026-10-26 06:34 UTC, mode: pitch demo (DEMO=1).
 `npm run build`
 
 ```
-12:02:09 ✓ Completed in 141ms.
-12:02:09 [build] ✓ Completed in 634ms.
-12:02:09 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
-12:02:09 [build] 12 page(s) built in 825ms
-12:02:09 [build] Complete!
+13:21:39 ✓ Completed in 174ms.
+13:21:39 [build] ✓ Completed in 637ms.
+13:21:39 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+13:21:39 [build] 14 page(s) built in 801ms
+13:21:39 [build] Complete!
 Running Pagefind v1.5.2 (Extended)
 Running from: "/home/claude/royal-indraprastha"
 Source:       "dist"
 Output:       "dist/pagefind"
 [Walking source directory]
-Found 12 files matching **/*.{html}
+Found 14 files matching **/*.{html}
 [Parsing files]
 Found a data-pagefind-body element on the site.
 ↳ Ignoring pages without this tag.
@@ -39,11 +39,11 @@ Discovered 1 language: en-in
 [Building search indexes]
 Total: 
   Indexed 1 language
-  Indexed 11 pages
-  Indexed 471 words
+  Indexed 13 pages
+  Indexed 540 words
   Indexed 0 filters
   Indexed 0 sorts
-Finished in 0.037 seconds
+Finished in 0.043 seconds
 postbuild: no inline scripts, robots.txt and _headers written
 ```
 
@@ -54,12 +54,12 @@ postbuild: no inline scripts, robots.txt and _headers written
 ```
 > royal-indraprastha-site@1.0.0 check
 > astro check && eslint . && prettier --check . && html-validate "dist/**/*.html" && node scripts/bundle-api.mjs --check
-12:02:11 [types] Generated 62ms
-12:02:11 [check] Getting diagnostics for Astro files in /home/claude/royal-indraprastha...
+13:21:41 [types] Generated 64ms
+13:21:41 [check] Getting diagnostics for Astro files in /home/claude/royal-indraprastha...
 api/_lib/handler.js:309:12 - warning ts(80002): This constructor function may be converted to a class declaration.
 309   function Internals(def) {
                ~~~~~~~~~
-Result (76 files): 
+Result (81 files): 
 - 0 errors
 - 0 warnings
 - 1 hint
@@ -73,31 +73,31 @@ api bundle up to date
 `npm run test`
 
 ```
-  ✓  73 tests/e2e/pages.spec.ts:30:5 › /menu/ at 390px (2.1s)
-  ✓  75 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1024px (2.0s)
-  ✓  74 tests/e2e/pages.spec.ts:30:5 › /menu/ at 768px (2.4s)
-  ✓  76 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1440px (2.2s)
-  ✓  77 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 320px (1.7s)
-  ✓  78 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 360px (2.6s)
-  ✓  79 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 390px (2.4s)
-  ✓  80 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 768px (2.3s)
-  ✓  81 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1024px (2.0s)
-  ✓  84 tests/e2e/pages.spec.ts:30:5 › /terms/ at 360px (1.9s)
-  ✓  83 tests/e2e/pages.spec.ts:30:5 › /terms/ at 320px (2.2s)
-  ✓  82 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1440px (2.6s)
-  ✓  85 tests/e2e/pages.spec.ts:30:5 › /terms/ at 390px (1.9s)
-  ✓  87 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1024px (1.6s)
-  ✓  86 tests/e2e/pages.spec.ts:30:5 › /terms/ at 768px (2.1s)
-  ✓  89 tests/e2e/pages.spec.ts:30:5 › /visit/ at 320px (1.9s)
-  ✓  88 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1440px (2.2s)
-  ✓  90 tests/e2e/pages.spec.ts:30:5 › /visit/ at 360px (1.9s)
-  ✓  92 tests/e2e/pages.spec.ts:30:5 › /visit/ at 768px (1.8s)
-  ✓  91 tests/e2e/pages.spec.ts:30:5 › /visit/ at 390px (2.2s)
-  ✓  93 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1024px (2.2s)
-  ✓  94 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1440px (2.1s)
-  ✓  96 tests/e2e/pages.spec.ts:64:1 › titles and descriptions are unique and within limits (1.6s)
-  ✓  95 tests/e2e/pages.spec.ts:54:1 › dark theme passes axe on key pages (4.3s)
-  96 passed (52.9s)
+  ✓   89 tests/e2e/pages.spec.ts:30:5 › /locations/ at 390px (2.1s)
+  ✓   90 tests/e2e/pages.spec.ts:30:5 › /locations/ at 768px (2.2s)
+  ✓   91 tests/e2e/pages.spec.ts:30:5 › /locations/ at 1024px (2.1s)
+  ✓   92 tests/e2e/pages.spec.ts:30:5 › /locations/ at 1440px (2.1s)
+  ✓   93 tests/e2e/pages.spec.ts:30:5 › /menu/ at 320px (2.7s)
+  ✓   94 tests/e2e/pages.spec.ts:30:5 › /menu/ at 360px (2.1s)
+  ✓   95 tests/e2e/pages.spec.ts:30:5 › /menu/ at 390px (3.1s)
+  ✓   96 tests/e2e/pages.spec.ts:30:5 › /menu/ at 768px (2.9s)
+  ✓   97 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1024px (2.4s)
+  ✓   98 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1440px (3.1s)
+  ✓   99 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 320px (2.6s)
+  ✓  100 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 360px (2.4s)
+  ✓  101 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 390px (2.4s)
+  ✓  102 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 768px (1.9s)
+  ✓  105 tests/e2e/pages.spec.ts:30:5 › /terms/ at 320px (1.8s)
+  ✓  103 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1024px (2.3s)
+  ✓  104 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1440px (2.2s)
+  ✓  106 tests/e2e/pages.spec.ts:30:5 › /terms/ at 360px (2.0s)
+  ✓  107 tests/e2e/pages.spec.ts:30:5 › /terms/ at 390px (1.9s)
+  ✓  109 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1024px (2.2s)
+  ✓  108 tests/e2e/pages.spec.ts:30:5 › /terms/ at 768px (2.6s)
+  ✓  110 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1440px (2.0s)
+  ✓  112 tests/e2e/pages.spec.ts:72:1 › titles and descriptions are unique and within limits (1.6s)
+  ✓  111 tests/e2e/pages.spec.ts:54:1 › dark theme passes axe on key pages (6.1s)
+  112 passed (1.1m)
 ```
 
 ### links
@@ -107,7 +107,7 @@ api bundle up to date
 ```
 > royal-indraprastha-site@1.0.0 links
 > node scripts/links.mjs
-links: 36 internal URLs checked, 15 external listed
+links: 40 internal URLs checked, 20 external listed
 links: no broken links
 ```
 
@@ -116,30 +116,30 @@ links: no broken links
 `npm run lighthouse`
 
 ```
-Started a web server on port 45253...
-Running Lighthouse 1 time(s) on http://localhost:45253/
+Running Lighthouse 1 time(s) on http://localhost:33473/menu/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:45253/menu/
+Running Lighthouse 1 time(s) on http://localhost:33473/banquet/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:45253/banquet/
+Running Lighthouse 1 time(s) on http://localhost:33473/locations/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:45253/visit/
+Running Lighthouse 1 time(s) on http://localhost:33473/locations/channasandra/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:45253/contact/
+Running Lighthouse 1 time(s) on http://localhost:33473/contact/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:45253/faq/
+Running Lighthouse 1 time(s) on http://localhost:33473/faq/
 Run #1...done.
 Done running Lighthouse!
-Dumping 6 reports to disk at /home/claude/royal-indraprastha/.lighthouseci/reports...
+Dumping 7 reports to disk at /home/claude/royal-indraprastha/.lighthouseci/reports...
 Done writing reports to disk.
 Done running autorun.
-/            perf 100, a11y 100, best practices 100, SEO 100, LCP 1357 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
-/banquet/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1512 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
-/contact/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1513 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
-/faq/        perf 100, a11y 100, best practices 100, SEO 100, LCP 1366 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
-/menu/       perf 100, a11y 100, best practices 100, SEO 100, LCP 1366 ms, CLS 0.000, TBT 0 ms, JS 4.2 KB
-/visit/      perf 100, a11y 100, best practices 100, SEO 100, LCP 1358 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
-Checking assertions against 6 URL(s), 6 total run(s)
+/            perf 100, a11y 100, best practices 100, SEO 100, LCP 1217 ms, CLS 0.000, TBT 0 ms, JS 4.6 KB
+/banquet/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1372 ms, CLS 0.000, TBT 0 ms, JS 14.3 KB
+/contact/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1375 ms, CLS 0.000, TBT 0 ms, JS 14.3 KB
+/faq/        perf 100, a11y 100, best practices 100, SEO 100, LCP 1222 ms, CLS 0.000, TBT 0 ms, JS 4.6 KB
+/locations/  perf 100, a11y 100, best practices 100, SEO 100, LCP 1203 ms, CLS 0.000, TBT 0 ms, JS 4.6 KB
+/locations/channasandra/ perf 100, a11y 100, best practices 100, SEO 100, LCP 1210 ms, CLS 0.000, TBT 0 ms, JS 4.6 KB
+/menu/       perf 100, a11y 100, best practices 100, SEO 100, LCP 1241 ms, CLS 0.000, TBT 0 ms, JS 5.0 KB
+Checking assertions against 7 URL(s), 7 total run(s)
 All results processed!
 ```
 
@@ -150,7 +150,7 @@ All results processed!
 ```
 > royal-indraprastha-site@1.0.0 audit:content
 > node scripts/audit-content.mjs
-audit:content passed (12 pages, demo mode)
+audit:content passed (14 pages, demo mode)
 ```
 
 ### audit:contrast
@@ -160,7 +160,7 @@ audit:content passed (12 pages, demo mode)
 ```
 > royal-indraprastha-site@1.0.0 audit:contrast
 > node scripts/audit-contrast.mjs
-audit:contrast passed (32 pairs), docs/CONTRAST.md written
+audit:contrast passed (40 pairs), docs/CONTRAST.md written
 ```
 
 ### audit:placeholders
@@ -168,29 +168,29 @@ audit:contrast passed (32 pairs), docs/CONTRAST.md written
 `npm run audit:placeholders`
 
 ```
-  optional       geo
-  optional       whatsapp
-  BLOCKS LAUNCH  email
-  BLOCKS LAUNCH  googleMapsUrl
-  BLOCKS LAUNCH  fssaiLicence
-  optional       gstin
-  BLOCKS LAUNCH  grievanceOfficer
-  optional       social.instagram
-  optional       social.facebook
-  optional       banquet.hallName
-  optional       banquet.capacitySeated
-  optional       banquet.capacityFloating
-  optional       banquet.inclusions
-  optional       cancellationTerms
-  optional       story
+  optional       hall.standing
+  optional       hall.inclusions
+  optional       fssaiLicence
   optional       access
   optional       parking
-  optional       stayDetails
+  optional       hours: opening and/or closing time not confirmed
+Branch "Channasandra" (src/data/branches.ts):
+  optional       landmark
+  optional       geo
+  optional       phone
+  optional       whatsapp
+  optional       googleMapsUrl
+  optional       services.takeaway
+  optional       hall
+  optional       fssaiLicence
+  optional       access
+  optional       parking
+  optional       hours: opening and/or closing time not confirmed
+  NOTE           no phone: Call buttons for this branch are hidden
 Other open items:
-  hours: opening time not confirmed for mon, tue, wed, thu, fri, sat, sun
-  menu: 15 item(s) without a price (only priced items show a price)
-  menu: confirm with owner (one listing only): rice-bath, butter-masala-dosa, onion-dosa, butter-kulcha, paneer-butter-masala, soup, ice-cream
+  menu: 19 item(s) without a price (only priced items show a price)
+  menu: confirm with owner (one listing only): rava-idli, rice-bath, butter-masala-dosa, onion-dosa, paneer-butter-masala, butter-kulcha, soup, mushroom-grill-sandwich, lime-juice, ice-cream
   photos: none supplied yet for 12 of 12 shots
-7 launch-blocking value(s) missing: legalName, domain, address.line1, email, googleMapsUrl, fssaiLicence, grievanceOfficer
+4 launch-blocking value(s) missing: legalName, domain, email, grievanceOfficer
 DEMO mode: not failing.
 ```

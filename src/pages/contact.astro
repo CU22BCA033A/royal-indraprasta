@@ -1,40 +1,76 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import AddressBlock from '../components/AddressBlock.astro';
 import ContactForm from '../components/forms/ContactForm.astro';
 import { t } from '../content/copy.ts';
 import { site } from '../config/site.ts';
-
+import { liveBranches, branchAddress, branchDirectionsUrl } from '../data/branches.ts';
 ---
 
 <BaseLayout path="/contact/" title={t.meta.contactTitle} description={t.meta.contactDesc}>
-  <div class="page-head">
-    <div class="wrap">
-      <h1>{t.contact.title}</h1>
-      <p>{t.contact.lead}</p>
+  <header class="band--sign page-sign">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">{t.contact.kicker}</p>
+        <h1>{t.contact.title}</h1>
+      </div>
+      <div class="lead-col">
+        <p class="lead">{t.contact.lead}</p>
+      </div>
     </div>
-  </div>
-  <section class="section" aria-labelledby="direct-title">
-    <div class="wrap split">
-      <div>
-        <h2 id="direct-title">{t.visit.phoneTitle}</h2>
-      </div>
-      <div class="stack-lg">
-        <AddressBlock showPhone />
+  </header>
+
+  <section class="band band--tight" aria-labelledby="call-title">
+    <div class="wrap">
+      <h2 id="call-title" class="kicker call-title">{t.contact.callTitle}</h2>
+      <ul class="call-list" role="list">
         {
-          site.email && (
-            <p>
-              <a href={`mailto:${site.email}`}>{site.email}</a>
-            </p>
-          )
+          liveBranches.map((b) => (
+            <li>
+              <p class="branch-name">
+                <a href={`/locations/${b.slug}/`}>{b.name}</a>
+              </p>
+              {b.phone ? (
+                <p class="phone-big">
+                  <a href={`tel:${b.phone.e164}`} class="tel-label">
+                    {b.phone.display}
+                  </a>
+                </p>
+              ) : (
+                <p class="meta-line">{t.home.phoneTbc}</p>
+              )}
+              <p class="meta-line">
+                {branchAddress(b)} &middot;{' '}
+                <a href={branchDirectionsUrl(b)} rel="noopener" target="_blank">
+                  {t.common.directions}
+                  <span class="visually-hidden"> ({t.common.newTab})</span>
+                </a>
+              </p>
+            </li>
+          ))
         }
-      </div>
+      </ul>
+      {
+        site.email && (
+          <p class="email-line">
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </p>
+        )
+      }
     </div>
   </section>
-  <section class="section section--surface" aria-label={t.contact.formTitle}>
-    <div class="wrap split">
-      <div></div>
-      <ContactForm title={t.contact.formTitle} />
+
+  <section class="band band--paper enquiry" aria-label={t.contact.formTitle}>
+    <div class="wrap grid">
+      <div class="enquiry-side">
+        <p class="kicker">{t.contact.otherKicker}</p>
+        <ul class="other-ways" role="list">
+          <li><a class="arrow-link" href="/banquet/#enquiry">{t.contact.toBanquet}</a></li>
+          <li><a class="arrow-link" href="/data-request/">{t.contact.toData}</a></li>
+        </ul>
+      </div>
+      <div class="enquiry-form">
+        <ContactForm title={t.contact.formTitle} />
+      </div>
     </div>
   </section>
 </BaseLayout>

@@ -1,26 +1,29 @@
 ---
 import { t, fmt } from '../content/copy.ts';
-import { navItems } from '../lib/nav.ts';
-import { site } from '../config/site.ts';
+import { navItems, isCurrent } from '../lib/nav.ts';
+import { liveBranches, mainBranch, branchDirectionsUrl } from '../data/branches.ts';
 import Wordmark from './Wordmark.astro';
 import Icon from './Icon.astro';
 
 interface Props {
   path: string;
+  /** Draw the header on the signboard colour (home page). */
+  sign?: boolean;
 }
-const { path } = Astro.props;
+const { path, sign = false } = Astro.props;
 const items = navItems();
+const many = liveBranches.length > 1;
 ---
 
-<header class="site-header">
+<header class:list={['site-header', { 'band--sign': sign }]}>
   <div class="wrap">
     <Wordmark homeLabel={t.common.home} />
     <nav class="primary-nav" aria-label={t.common.navLabel}>
-      <ul>
+      <ul role="list">
         {
           items.map((i) => (
             <li>
-              <a href={i.path} aria-current={path === i.path ? 'page' : undefined}>
+              <a href={i.path} aria-current={isCurrent(i.path, path) ? 'page' : undefined}>
                 {t.common.nav[i.key]}
               </a>
             </li>
@@ -29,6 +32,22 @@ const items = navItems();
       </ul>
     </nav>
     <div class="header-tools">
+      {
+        many && (
+          <div class="branch-pick" data-branch-pick hidden>
+            <label for="branch-select-header">{t.common.branch}</label>
+            <span class="select-wrap">
+              <select id="branch-select-header" data-branch-select>
+                {liveBranches.map((b) => (
+                  <option value={b.slug} selected={b.slug === mainBranch.slug}>
+                    {b.name}
+                  </option>
+                ))}
+              </select>
+            </span>
+          </div>
+        )
+      }
       <button type="button" class="tool" data-search-open aria-haspopup="dialog">
         <Icon name="search" /><span class="visually-hidden">{t.common.search}</span>
       </button>
@@ -37,7 +56,38 @@ const items = navItems();
           >{t.common.theme}</span
         >
       </button>
-      <a class="btn" href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call}</a>
+      {
+        liveBranches.map((b) =>
+          b.phone ? (
+            <a
+              class="btn"
+              href={`tel:${b.phone.e164}`}
+              data-branch-only={b.slug}
+              hidden={b.slug !== mainBranch.slug}
+              aria-label={fmt(t.common.callBranch, { name: b.name })}
+            >
+              <Icon name="phone" />
+              {t.common.call}
+            </a>
+          ) : (
+            <a
+              class="btn"
+              href={branchDirectionsUrl(b)}
+              rel="noopener"
+              target="_blank"
+              data-branch-only={b.slug}
+              hidden={b.slug !== mainBranch.slug}
+            >
+              <Icon name="pin" />
+              {t.common.directions}
+              <span class="visually-hidden">
+                {' '}
+                {b.name} ({t.common.newTab})
+              </span>
+            </a>
+          ),
+        )
+      }
     </div>
     <button type="button" class="btn btn--ghost menu-toggle" data-menu-open aria-haspopup="dialog">
       <Icon name="menu" />{t.common.menuButton}
@@ -54,14 +104,14 @@ const items = navItems();
   </div>
   <div class="dialog-body">
     <nav aria-label={t.common.navLabelMobile}>
-      <ul>
+      <ul role="list">
         <li>
           <a href="/" aria-current={path === '/' ? 'page' : undefined}>{t.common.home}</a>
         </li>
         {
           items.map((i) => (
             <li>
-              <a href={i.path} aria-current={path === i.path ? 'page' : undefined}>
+              <a href={i.path} aria-current={isCurrent(i.path, path) ? 'page' : undefined}>
                 {t.common.nav[i.key]}
               </a>
             </li>
@@ -69,8 +119,33 @@ const items = navItems();
         }
       </ul>
     </nav>
+    {
+      many && (
+        <div class="branch-pick" data-branch-pick hidden>
+          <label for="branch-select-menu">{t.common.branch}</label>
+          <span class="select-wrap">
+            <select id="branch-select-menu" data-branch-select>
+              {liveBranches.map((b) => (
+                <option value={b.slug} selected={b.slug === mainBranch.slug}>
+                  {b.name}
+                </option>
+              ))}
+            </select>
+          </span>
+        </div>
+      )
+    }
     <div class="tools">
-      <a class="btn" href={`tel:${site.phone}`}><Icon name="phone" />{fmt(t.common.callNumber, { phone: site.phoneDisplay })}</a>
+      {
+        liveBranches
+          .filter((b) => b.phone)
+          .map((b) => (
+            <a class="btn" href={`tel:${b.phone?.e164}`}>
+              <Icon name="phone" />
+              {fmt(t.common.callBranch, { name: b.name })}
+            </a>
+          ))
+      }
     </div>
     <div class="tools">
       <button type="button" class="tool" data-search-open aria-haspopup="dialog">
@@ -103,6 +178,6 @@ const items = navItems();
     <label class="visually-hidden" for="search-input">{t.common.searchLabel}</label>
     <input id="search-input" type="search" autocomplete="off" spellcheck="false" aria-describedby="search-status" />
     <p id="search-status" class="meta-line" role="status" aria-live="polite">{t.common.searchHint}</p>
-    <ul class="search-results"></ul>
+    <ul class="search-results" role="list"></ul>
   </div>
 </dialog>

@@ -1,7 +1,8 @@
 /**
  * Legal page text. Drafting aid only: have a lawyer review before launch.
  */
-import { site, addressText } from '../config/site.ts';
+import { site } from '../config/site.ts';
+import { liveBranches, mainBranch, branchAddress } from '../data/branches.ts';
 
 export type Block = string | { list: string[] } | { table: { head: string[]; rows: string[][] } };
 export interface Section {
@@ -14,7 +15,7 @@ export interface LegalDoc {
 
 const who = site.legalName ?? 'the business that runs Royal Indraprastha';
 const contactLine = () =>
-  `Phone ${site.phoneDisplay}${site.email ? `, email ${site.email}` : ''}, or in person at ${addressText()}.`;
+  `Phone ${site.phoneDisplay}${site.email ? `, email ${site.email}` : ''}, or in person at ${branchAddress(mainBranch)}.`;
 
 export function privacy(): LegalDoc {
   return {
@@ -22,7 +23,7 @@ export function privacy(): LegalDoc {
       {
         h: 'Who we are',
         body: [
-          `This website is run by ${who} ("we", "us"), which operates the Royal Indraprastha restaurant at ${addressText()}. We decide why and how the personal data described here is used, which makes us the data fiduciary under the Digital Personal Data Protection Act, 2023.`,
+          `This website is run by ${who} ("we", "us"), which operates the Royal Indraprastha restaurants at ${liveBranches.map((b) => branchAddress(b)).join(' and ')}. We decide why and how the personal data described here is used, which makes us the data fiduciary under the Digital Personal Data Protection Act, 2023.`,
           `Contact: ${contactLine()}`,
         ],
       },
@@ -30,6 +31,7 @@ export function privacy(): LegalDoc {
         h: 'What we collect',
         body: [
           'We only collect what you type into a form on this site. Browsing the site does not identify you to us.',
+          'If you press "Find the nearest branch", your browser asks for your location. It is used only inside your browser to sort the branches by distance and is never sent to us or anyone else.',
           {
             table: {
               head: ['Form', 'What you give us', 'Why'],
@@ -207,6 +209,12 @@ export function terms(): LegalDoc {
 export function cookies(): LegalDoc {
   const rows = [
     ['ri-theme', 'Local storage', 'Remembers if you chose the light or dark theme', 'Until you clear it'],
+    [
+      'ri-branch',
+      'Local storage',
+      'Remembers which branch you chose, so the call button and menu follow it',
+      'Until you clear it',
+    ],
     ['ri-notice', 'Local storage', 'Remembers that you closed the notice about storage', 'Until you clear it'],
     [
       'ri-utm',
@@ -254,7 +262,7 @@ export function cancellation(): LegalDoc {
         body: ['This website does not take bookings, orders or payments, so nothing paid through it needs refunding.'],
       },
       {
-        h: site.modules.stay ? 'Banquet and room bookings' : 'Banquet bookings',
+        h: liveBranches.some((b) => b.services.rooms) ? 'Banquet and room bookings' : 'Banquet bookings',
         body: terms
           ? terms
           : [

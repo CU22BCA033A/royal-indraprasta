@@ -18,18 +18,23 @@ const faqLd = {
 ---
 
 <BaseLayout path="/faq/" title={t.meta.faqTitle} description={t.meta.faqDesc} jsonld={[faqLd]}>
-  <div class="page-head">
-    <div class="wrap">
-      <h1>{t.faq.title}</h1>
-      <p>{t.faq.lead}</p>
-      <p class="meta-line">
-        {t.common.lastUpdated}: <time datetime={contentDates.faq}>{formatDate(contentDates.faq)}</time>
-      </p>
+  <header class="page-quiet">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">{t.faq.kicker}</p>
+        <h1>{t.faq.title}</h1>
+      </div>
+      <div class="lead-col">
+        <p class="lead">{t.faq.lead}</p>
+        <p class="meta-line">
+          {t.common.lastUpdated}: <time datetime={contentDates.faq}>{formatDate(contentDates.faq)}</time>
+        </p>
+      </div>
     </div>
-  </div>
-  <section class="section" aria-label={t.faq.title}>
-    <div class="wrap">
-      <div class="prose">
+  </header>
+  <section class="band qa" aria-label={t.faq.title}>
+    <div class="wrap grid">
+      <div class="list list--wide">
         <FaqList items={items} />
       </div>
     </div>

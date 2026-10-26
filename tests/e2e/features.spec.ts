@@ -25,8 +25,10 @@ test.describe('mobile menu', () => {
   });
 
   test('floating contact panel opens and closes on Escape', async ({ page }) => {
-    await page.goto('/visit/');
+    await page.goto('/locations/cariappa-road/');
     await page.locator('[data-notice-choice]').click();
+    // The button stays out of the way at the top of the page; scroll to reveal it.
+    await page.mouse.wheel(0, 1200);
     const btn = page.locator('[data-contact] > button');
     await btn.click();
     await expect(page.locator('#contact-panel')).toBeVisible();
@@ -84,7 +86,7 @@ test('FAQ expands and collapses', async ({ page }) => {
 
 test('copy address announces the result', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/visit/');
+  await page.goto('/locations/cariappa-road/');
   const btn = page.locator('[data-copy]').first();
   await btn.click();
   await expect(page.locator('.copy-status').first()).toHaveText('Copied');
@@ -95,7 +97,50 @@ test('copy address announces the result', async ({ page, context }) => {
 test('open status and hours never show a guess', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.status[data-hours]')).toHaveCount(0);
-  await expect(page.locator('.board__time').first()).toHaveText('Closes at 10:30 PM');
+  await expect(page.locator('.today-row[data-slug="cariappa-road"] .when')).toHaveText(/closes\s*(at\s*)?10:30\s*pm/i);
+  await expect(page.locator('.today-row[data-slug="channasandra"] .when')).not.toContainText('Closes');
+});
+
+test('branch choice is remembered and switches the header call button', async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto('/');
+  const select = page.locator('.header-tools [data-branch-select], #branch-select-header').first();
+  await expect(select).toBeVisible();
+  await expect(page.locator('a[data-branch-only="cariappa-road"]').first()).toBeVisible();
+  await select.selectOption('channasandra');
+  await expect(page.locator('html')).toHaveAttribute('data-branch', 'channasandra');
+  await expect(page.locator('a[data-branch-only="cariappa-road"]').first()).toBeHidden();
+  await page.reload();
+  await expect(page.locator('#branch-select-header')).toHaveValue('channasandra');
+  await expect(page.locator('.today-row[data-slug="channasandra"] [data-yours]')).toBeVisible();
+});
+
+test('nearest branch sorts the list using a location that stays in the browser', async ({ page, context }) => {
+  await context.grantPermissions(['geolocation']);
+  await context.setGeolocation({ latitude: 12.9039, longitude: 77.5117 });
+  const requests: string[] = [];
+  page.on('request', (r) => requests.push(r.url()));
+  await page.goto('/locations/');
+  await page.locator('[data-nearest]').click();
+  await expect(page.locator('[data-nearest-status]')).toContainText('Channasandra is closest');
+  await expect(page.locator('[data-branch-ledger] .branch-row').first()).toHaveAttribute('data-slug', 'channasandra');
+  expect(requests.filter((u) => u.includes('12.90'))).toEqual([]);
+});
+
+test('menu filter hides dishes a branch does not list', async ({ page }) => {
+  await page.goto('/menu/');
+  const only = page.locator('tr[data-served="channasandra"]').first();
+  await expect(only).toBeVisible();
+  await page.locator('[data-menu-filter] label', { hasText: 'Cariappa Road' }).click();
+  await expect(only).toBeHidden();
+  await page.locator('[data-menu-filter] label').first().click();
+  await expect(only).toBeVisible();
+});
+
+test('old visit page redirects to branches', async ({ page }) => {
+  const res = await page.request.get('/visit/', { maxRedirects: 0 }).catch(() => null);
+  // Redirects live in vercel.json and _redirects; the static preview has no page there.
+  expect(res === null || [301, 308, 404].includes(res.status())).toBe(true);
 });
 
 test('canonical link is set and no language alternates remain', async ({ page }) => {

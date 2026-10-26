@@ -3,6 +3,7 @@
   "rules": {
     "no-inline-style": "error",
     "require-sri": "off",
+    "no-redundant-role": "off",
     "no-trailing-whitespace": "off",
     "attribute-boolean-style": "off",
     "void-style": "off",

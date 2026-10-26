@@ -60,3 +60,30 @@ test('home FAQ has five to seven questions', () => {
   const n = faqsFor('home').length;
   assert.ok(n >= 5 && n <= 7, `got ${n}`);
 });
+
+import { liveBranches, branchBySlug, mainBranch } from '../../src/data/branches.ts';
+import { menu, itemsFor } from '../../src/config/menu.ts';
+
+test('branches have unique slugs and the main branch is live', () => {
+  const slugs = liveBranches.map((b) => b.slug);
+  assert.equal(new Set(slugs).size, slugs.length);
+  assert.ok(slugs.includes(mainBranch.slug));
+  assert.equal(branchBySlug('cariappa-road')?.name, 'Cariappa Road');
+  assert.equal(branchBySlug('nowhere'), undefined);
+});
+
+test('only confirmed facts are set on branches', () => {
+  for (const b of liveBranches) {
+    if (b.phone) assert.match(b.phone.e164, /^\+91\d{10}$/);
+    assert.ok(b.sources.length > 0, `${b.slug} has sources`);
+  }
+});
+
+test('branch menu overrides only name live branches', () => {
+  const slugs = new Set(liveBranches.map((b) => b.slug));
+  for (const c of menu)
+    for (const i of c.items) for (const s of i.branches ?? []) assert.ok(slugs.has(s), `${i.id} -> ${s}`);
+  const tiffin = menu.find((c) => c.id === 'tiffin');
+  assert.ok(tiffin);
+  assert.ok(itemsFor(tiffin, 'channasandra').length >= itemsFor(tiffin, 'cariappa-road').length - 5);
+});

@@ -1,52 +1,53 @@
 ---
-import { site, addressText, mapsUrl, directionsUrl } from '../config/site.ts';
-import { t } from '../content/copy.ts';
+/** A branch's address set large, with copy and directions. */
+import { t, fmt } from '../content/copy.ts';
+import { type Branch, branchAddress, branchMapsUrl, branchDirectionsUrl } from '../data/branches.ts';
 import CopyButton from './CopyButton.astro';
 import Icon from './Icon.astro';
 
 interface Props {
-  showPhone?: boolean;
-  buttons?: boolean;
+  branch: Branch;
 }
-const { showPhone = false, buttons = true } = Astro.props;
-const addr = addressText();
+const { branch } = Astro.props;
+const addr = branchAddress(branch);
 ---
 
-<div class="stack">
-  <address class="address">
-    <a href={mapsUrl()} rel="noopener" target="_blank"
-      >{site.tradingName}<br />{addr}<span class="visually-hidden"> ({t.common.newTab})</span></a
+<div class="address-block">
+  <p class="kicker">{t.locations.addressTitle}</p>
+  <address class="address-big">
+    <a href={branchMapsUrl(branch)} rel="noopener" target="_blank"
+      >{addr}<span class="visually-hidden"> ({t.common.newTab})</span></a
     >
   </address>
-  <CopyButton value={`${site.tradingName}, ${addr}`} label={t.common.copyAddress} copied={t.common.copied} failed={t.common.copyFailed} />
   {
-    showPhone && (
-      <>
-        <p>
-          <a href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
-        </p>
-        <CopyButton
-          value={site.phoneDisplay.replace(/\u00a0/g, ' ')}
-          label={t.common.copyPhone}
-          copied={t.common.copied}
-          failed={t.common.copyFailed}
-        />
-      </>
-    )
+    branch.landmark && <p class="meta-line">{branch.landmark}</p>
   }
   {
-    buttons && (
-      <div class="btn-row">
-        <a class="btn" href={`tel:${site.phone}`}>
+    branch.plusCode && (
+      <p class="meta-line">
+        {t.locations.plusCode}: <span class="num">{branch.plusCode}</span>
+      </p>
+    )
+  }
+  <div class="btn-row">
+    {
+      branch.phone && (
+        <a class="btn" href={`tel:${branch.phone.e164}`}>
           <Icon name="phone" />
-          {t.common.call}
+          {fmt(t.common.callNumber, { phone: branch.phone.display })}
         </a>
-        <a class="btn btn--ghost" href={directionsUrl()} rel="noopener" target="_blank">
-          <Icon name="pin" />
-          {t.common.directions}
-          <span class="visually-hidden"> ({t.common.newTab})</span>
-        </a>
-      </div>
-    )
-  }
+      )
+    }
+    <a class:list={['btn', { 'btn--ghost': branch.phone }]} href={branchDirectionsUrl(branch)} rel="noopener" target="_blank">
+      <Icon name="pin" />
+      {t.common.directions}
+      <span class="visually-hidden"> ({t.common.newTab})</span>
+    </a>
+  </div>
+  <CopyButton
+    value={`Royal Indraprastha, ${addr}`}
+    label={t.common.copyAddress}
+    copied={t.common.copied}
+    failed={t.common.copyFailed}
+  />
 </div>

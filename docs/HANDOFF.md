@@ -2,29 +2,43 @@
 
 ## What was built
 
-- An English static website with 11 pages plus a 404: Home, Menu, Banquet and Events, Visit, Contact, Questions, Privacy Policy, Terms and Conditions, Cookie Policy, Cancellation and Refund Policy, Data Request.
-- Stay (`/stay/`) and About (`/about/`) pages exist in code and are built only when their content is confirmed (`site.modules.stay` with `site.stayDetails`, and `site.story`). While off they are absent from navigation, sitemap and search.
-- Three form endpoints (`/api/enquiry`, `/api/contact`, `/api/data-request`) as Cloudflare Pages Functions. They validate with the same zod schemas the browser uses, check origin, content type, size, honeypot and fill time, optionally rate limit with Workers KV, email the owner through Resend and keep nothing.
-- Design system: ivory, maroon and brass tokens with a warm brown dark theme, Young Serif and Figtree, self-hosted. Ruled "printed menu" layouts, one stroke-only lattice ornament, square corners, no cards or gradients.
+- An English static website with 13 pages plus a 404: Home, Menu, Branches (`/locations/`), one page per branch (`/locations/cariappa-road/`, `/locations/channasandra/`), Banquet hall, Contact, Questions, Privacy Policy, Terms and Conditions, Cookie Policy, Cancellation and Refund Policy, Data Request. `/visit/` redirects to `/locations/`.
+- About (`/about/`) exists in code and is built only when `site.story` is supplied. Rooms are shown on the Channasandra branch only.
+- A branch system: every address, phone, hours, service and hall fact lives on a branch in `src/data/branches.ts`. The header has a branch selector remembered in this browser (`ri-branch` in `localStorage`); it switches the header Call button and marks "Your branch". `/locations/` has a "Find the nearest branch" button that reads the location once, in the browser only, and sorts the list by distance. Nothing is sent anywhere.
+- One shared menu with per-branch overrides (an item with `branches: ['channasandra']` shows only there) and a branch filter on the menu page.
+- Three form endpoints (`/api/enquiry`, `/api/contact`, `/api/data-request`) as Vercel Edge Functions (Cloudflare Pages Functions kept as an alternative). They validate with the same zod schemas the browser uses, check origin, content type, size, honeypot and fill time, email the owner through Resend and keep nothing.
+- Design: the signboard. A maroon field (`#4A1219`) with a double brass frame, Rozha One for display and Figtree for text, ivory paper bands, ruled menu tables, a 12-column grid. Warm brown dark theme. Full direction in `DESIGN-DIRECTION.md`; rounds and scores in `DESIGN-LOG.md`.
 - Proposed wordmark, favicon set and Open Graph image, generated with `npm run brand`. Replace if the owner has a logo.
-- Site search (Pagefind, built at deploy, no third party), theme toggle, mobile menu, mobile contact button, copy buttons, back to top, 2 px progress bar, storage notice, UTM capture, print stylesheet for the menu, JSON-LD for the restaurant and FAQ.
+- Site search (Pagefind, no third party), theme toggle, mobile menu, mobile contact button, copy buttons, back to top, progress bar, storage notice, UTM capture, print stylesheet for the menu, JSON-LD for the organisation, each branch, the hall and the FAQ.
+- No bar or alcohol information anywhere, by instruction.
 
 ## How to edit content
 
-Everything a non-developer should change lives in these files. After editing, commit and push; Cloudflare rebuilds.
+Everything a non-developer should change lives in these files. After editing, commit and push to `main`; Vercel rebuilds.
 
-| What                                                                                                               | File                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------- |
-| Name, address, phone, email, FSSAI, GSTIN, social links, banquet facts, access, parking, policies, module switches | `src/config/site.ts`                                                                   |
-| Opening hours                                                                                                      | `src/config/hours.ts` (the open or closed badge appears once every day has both times) |
-| Menu items and prices                                                                                              | `src/config/menu.ts` (a price shows only where it is set)                              |
-| Questions and answers                                                                                              | `src/config/faq.ts`                                                                    |
-| "Last updated" dates                                                                                               | `src/config/content-dates.ts`                                                          |
-| Interface text                                                                                                     | `src/content/copy.ts`                                                                  |
-| Legal text                                                                                                         | `src/content/legal.ts`                                                                 |
-| Photo alt text                                                                                                     | `src/config/photos.ts`, photos go in `public/photos-incoming/`, then `npm run photos`  |
+| What                                                                                           | File                                                                                  |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Branch address, phone, WhatsApp, hours, map link, services, hall facts, FSSAI, access, parking | `src/data/branches.ts`                                                                |
+| Brand-wide facts: legal name, domain, email, grievance officer, GSTIN, social links, story     | `src/config/site.ts`                                                                  |
+| Menu items, prices, which branch serves what                                                   | `src/config/menu.ts` (a price shows only where it is set)                             |
+| Questions and answers                                                                          | `src/config/faq.ts`                                                                   |
+| "Last updated" dates                                                                           | `src/config/content-dates.ts`                                                         |
+| Interface text                                                                                 | `src/content/copy.ts`                                                                 |
+| Legal text                                                                                     | `src/content/legal.ts`                                                                |
+| Photo alt text                                                                                 | `src/config/photos.ts`, photos go in `public/photos-incoming/`, then `npm run photos` |
 
 Rule of the codebase: an unconfirmed fact is `null`, and anything that depends on it is hidden. Nothing on the site is invented.
+
+## How to add a branch in five minutes
+
+1. Open `src/data/branches.ts` and copy one branch object in the `branches` list.
+2. Give it a new `slug` (lowercase, hyphens: `kengeri`), a `name` ("Kengeri") and an `area`.
+3. Fill in what you know; set everything else to `null`. Set `approxGeo` to the rough map position (right-click the place in Google Maps to copy it) so "Find the nearest branch" can sort it.
+4. Set `hours` with `everyDay('07:00', '22:30')`, or `everyDay(null, null)` if not known.
+5. Set `services` (`banquet`, `rooms`, `takeaway`) and `hall` (or `null`).
+6. Keep `confirmed: true` only once the owner has confirmed the branch.
+7. If some dishes are served only there, add the slug to that item's `branches` in `src/config/menu.ts`.
+8. Commit and push. The new branch appears in the header selector, the Today list, the branch ledger, the footer, the menu filter, the sitemap, search and JSON-LD, with its own page at `/locations/<slug>/`. Copy that counts branches updates itself.
 
 ## How to deploy
 
@@ -34,9 +48,13 @@ Vercel: import the GitHub repository, add the email environment variables, deplo
 
 Run `DEMO=1 npm run audit:placeholders` for the live list. At hand-off:
 
-- Launch-blocking: legal entity name, domain, door number, business email, Google Maps listing link, FSSAI licence number, grievance officer.
-- Not shown until confirmed: opening time (listings conflict: 6:00, 6:30 or 8:00 AM), banquet hall name, capacity and inclusions, access and parking details, WhatsApp, social accounts, menu prices, cancellation terms, the About story, and whether the hotel at SN Plaza is the same business.
-- Content work: the 12 photos in `SHOT-LIST.md`, lawyer review of the legal pages.
+- Launch-blocking: legal entity name, domain, business email, grievance officer.
+- Per branch, not shown until confirmed: door number (Cariappa Road), phone (Channasandra), opening times (both), closing time (Channasandra), Google Maps links, FSSAI licence numbers, access, parking, WhatsApp, takeaway.
+- Banquet: hall name, capacity, inclusions, slots and terms.
+- Whether the rooms at SN Plaza are run by the same business, and the third outlet Zomato lists.
+- Content work: the photos in `SHOT-LIST.md`, the menu with prices, the About story, lawyer review of the legal pages.
+
+The single list to send the owner is `ASSET-REQUEST.md`.
 
 Full question list: `VERIFY-WITH-OWNER.md`. Research and sources: `RESEARCH.md`.
 
@@ -55,9 +73,9 @@ Full question list: `VERIFY-WITH-OWNER.md`. Research and sources: `RESEARCH.md`.
 
 - **English only.** The Kannada version was removed at the client's request on 25 October 2026: no `/kn/` pages, no language switch, no Kannada fonts. The brief's Kannada requirements (section 3.3, 3.5, 4.1) no longer apply.
 
-- **Hero without photos:** with no exterior photo, the hours and address board fills the hero's second column; once a photo is added it takes that place and the board moves to the Visit section.
+- **Hero without photos:** the signboard hero is designed to stand without a photo. When the exterior photo is added it appears as a full-width band directly under the hero.
 - **Menu:** items come from public listings and the research brief, presented as a partial list with no prices. Seven items seen on only one listing are flagged for confirmation.
-- **Hours:** only the closing time (10:30 PM, consistent across three listings) is shown, with a prompt to call for the opening time.
+- **Hours:** only Cariappa Road's closing time (10:30 PM, consistent across three listings) is shown, with a prompt to call for the opening time. Channasandra shows "Hours to be confirmed". No open or closed badge until every day has both times.
 - **Ratings and reviews:** none shown. The reviews link opens a Google Maps search until the exact listing link is supplied.
 - **Lint scope:** ESLint covers the JavaScript scripts; TypeScript and Astro files are checked by `astro check`. Prettier formats everything except `.astro` files. This avoids adding packages outside the approved list.
 - **Commit messages** carry no tool or AI attribution, following the brief's rule against such credits anywhere.

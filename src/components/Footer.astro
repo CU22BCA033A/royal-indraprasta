@@ -1,71 +1,56 @@
 ---
 import { t } from '../content/copy.ts';
-import { site, addressText, mapsUrl } from '../config/site.ts';
-import { legalItems } from '../lib/nav.ts';
+import { site } from '../config/site.ts';
+import { liveBranches, branchAddress, branchMapsUrl } from '../data/branches.ts';
+import { legalItems, navItems } from '../lib/nav.ts';
 import { contentDates, formatDate } from '../config/content-dates.ts';
-import Wordmark from './Wordmark.astro';
 
 const year = new Date().getFullYear();
+const items = navItems();
 ---
 
-<footer class="site-footer">
+<footer class="site-footer band--sign">
   <div class="wrap">
-    <div class="footer-grid">
-      <div class="stack">
-        <Wordmark homeLabel={t.common.home} />
-        <h2 class="visually-hidden">{t.footer.details}</h2>
-        <dl>
+    <p class="footer-name" aria-hidden="true"><span>Royal</span>Indraprastha</p>
+    <div class="grid footer-grid">
+      {
+        liveBranches.map((b) => (
+          <section class="footer-branch" aria-labelledby={`footer-${b.slug}`}>
+            <h2 id={`footer-${b.slug}`}>{b.area}</h2>
+            <p class="name">
+              <a href={`/locations/${b.slug}/`} class="footer-branch-link">
+                {b.name}
+              </a>
+            </p>
+            <address>
+              <a href={branchMapsUrl(b)} rel="noopener" target="_blank">
+                {branchAddress(b)}
+                <span class="visually-hidden"> ({t.common.newTab})</span>
+              </a>
+            </address>
+            {b.phone && (
+              <p>
+                <a class="tel-label" href={`tel:${b.phone.e164}`}>{b.phone.display}</a>
+              </p>
+            )}
+          </section>
+        ))
+      }
+      <nav class="footer-col" aria-labelledby="footer-site">
+        <h2 id="footer-site">{t.common.footerNav}</h2>
+        <ul role="list">
           {
-            site.legalName && (
-              <div>
-                <dt>{t.footer.legalName}</dt>
-                <dd>{site.legalName}</dd>
-              </div>
-            )
+            items.map((i) => (
+              <li>
+                <a href={i.path}>{t.common.nav[i.key]}</a>
+              </li>
+            ))
           }
-          <div>
-            <dt>{t.footer.address}</dt>
-            <dd>
-              <a href={mapsUrl()} rel="noopener" target="_blank"
-                >{addressText()}<span class="visually-hidden"> ({t.common.newTab})</span></a
-              >
-            </dd>
-          </div>
-          <div>
-            <dt>{t.footer.phone}</dt>
-            <dd><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></dd>
-          </div>
-          {
-            site.email && (
-              <div>
-                <dt>{t.footer.email}</dt>
-                <dd>
-                  <a href={`mailto:${site.email}`}>{site.email}</a>
-                </dd>
-              </div>
-            )
-          }
-          {
-            site.fssaiLicence && (
-              <div>
-                <dt>{t.footer.fssai}</dt>
-                <dd>{site.fssaiLicence}</dd>
-              </div>
-            )
-          }
-          {
-            site.gstin && (
-              <div>
-                <dt>{t.footer.gstin}</dt>
-                <dd>{site.gstin}</dd>
-              </div>
-            )
-          }
-        </dl>
-      </div>
-      <nav aria-labelledby="footer-legal">
+        </ul>
+      </nav>
+      <nav class="footer-col" aria-labelledby="footer-legal">
         <h2 id="footer-legal">{t.footer.legal}</h2>
-        <ul>
+        <ul role="list">
           {
             legalItems.map((i) => (
               <li>
@@ -74,32 +59,43 @@ const year = new Date().getFullYear();
             ))
           }
         </ul>
-      </nav>
-      {
-        (site.social.instagram || site.social.facebook) && (
-          <div>
-            <h2>{t.footer.follow}</h2>
-            <ul>
+        {
+          (site.legalName || site.email || site.gstin || site.social.instagram || site.social.facebook) && (
+            <dl>
+              {site.legalName && (
+                <div>
+                  <dt>{t.footer.legalName}</dt>
+                  <dd>{site.legalName}</dd>
+                </div>
+              )}
+              {site.email && (
+                <div>
+                  <dt>{t.footer.email}</dt>
+                  <dd>
+                    <a href={`mailto:${site.email}`}>{site.email}</a>
+                  </dd>
+                </div>
+              )}
+              {site.gstin && (
+                <div>
+                  <dt>{t.footer.gstin}</dt>
+                  <dd>{site.gstin}</dd>
+                </div>
+              )}
               {site.social.instagram && (
-                <li>
-                  <a href={site.social.instagram} rel="noopener" target="_blank">
-                    {t.footer.instagram}
-                    <span class="visually-hidden"> ({t.common.newTab})</span>
-                  </a>
-                </li>
+                <div>
+                  <dt>{t.footer.instagram}</dt>
+                  <dd>
+                    <a href={site.social.instagram} rel="noopener" target="_blank">
+                      Instagram<span class="visually-hidden"> ({t.common.newTab})</span>
+                    </a>
+                  </dd>
+                </div>
               )}
-              {site.social.facebook && (
-                <li>
-                  <a href={site.social.facebook} rel="noopener" target="_blank">
-                    {t.footer.facebook}
-                    <span class="visually-hidden"> ({t.common.newTab})</span>
-                  </a>
-                </li>
-              )}
-            </ul>
-          </div>
-        )
-      }
+            </dl>
+          )
+        }
+      </nav>
     </div>
     <div class="footer-base">
       <p>{t.common.lastUpdated}: <time datetime={contentDates.site}>{formatDate(contentDates.site)}</time></p>

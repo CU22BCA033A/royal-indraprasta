@@ -5,16 +5,19 @@ export const t = {
   meta: {
     homeTitle: 'Royal Indraprastha, pure veg restaurant in RR Nagar',
     homeDesc:
-      'Pure vegetarian South and North Indian food on Field Marshal Cariappa Road, Rajarajeshwari Nagar, Bengaluru. Tiffin, chaat, coffee and a hall for events.',
+      'Pure vegetarian tiffin, dosa, North Indian meals and evening chaat at two branches in Rajarajeshwari Nagar, Bengaluru: Cariappa Road and Channasandra.',
     menuTitle: 'Menu | Royal Indraprastha, RR Nagar',
     menuDesc:
       'Idli, vada, dosa, North Indian dishes, masala puri, coffee, badam milk and more at Royal Indraprastha, a pure veg restaurant in Rajarajeshwari Nagar.',
     banquetTitle: 'Banquet hall and events | Royal Indraprastha',
     banquetDesc:
       'Send an event enquiry for the banquet hall at Royal Indraprastha, Rajarajeshwari Nagar. Pure vegetarian food. We call back to confirm dates and details.',
-    visitTitle: 'Visit | Royal Indraprastha, Rajarajeshwari Nagar',
-    visitDesc:
-      'Address, closing time, phone and directions for Royal Indraprastha on Field Marshal Cariappa Road, 4th Stage, Rajarajeshwari Nagar, Bengaluru 560098.',
+    locationsTitle: 'Branches | Royal Indraprastha, RR Nagar',
+    locationsDesc:
+      'Every Royal Indraprastha branch in Rajarajeshwari Nagar, Bengaluru, with addresses, phone, hours, directions and what each branch offers.',
+    branchTitle: '{name} branch | Royal Indraprastha',
+    branchDesc:
+      'Royal Indraprastha, {name} branch, {area}: pure vegetarian South and North Indian food. Address, directions and hours.',
     contactTitle: 'Contact | Royal Indraprastha, RR Nagar',
     contactDesc:
       'Call or write to Royal Indraprastha, the pure veg restaurant on Field Marshal Cariappa Road in Rajarajeshwari Nagar, Bengaluru. We reply to all messages.',
@@ -36,29 +39,32 @@ export const t = {
     dataRequestTitle: 'Data request | Royal Indraprastha',
     dataRequestDesc:
       'Ask Royal Indraprastha to show, correct or delete personal information you sent through this website. Use the form or call the restaurant directly.',
-    stayTitle: 'Stay | Royal Indraprastha',
-    stayDesc:
-      'Rooms at Royal Indraprastha The Hotel in Rajarajeshwari Nagar, Bengaluru. Contact the hotel directly for availability, rates and check-in details.',
     aboutTitle: 'About | Royal Indraprastha, RR Nagar',
     aboutDesc:
       'The story of Royal Indraprastha, the pure vegetarian restaurant on Field Marshal Cariappa Road in Rajarajeshwari Nagar, Bengaluru, told by the family.',
     notFoundTitle: 'Page not found | Royal Indraprastha',
     notFoundDesc:
-      'This page does not exist on the Royal Indraprastha website. Go to the home page, the menu or the visit page, or call the restaurant for help finding it.',
+      'This page does not exist on the Royal Indraprastha website. Go to the home page, the menu or the branches, or call the restaurant for help finding it.',
   },
   common: {
     skip: 'Skip to content',
     navLabel: 'Main',
+    footerNav: 'Pages',
     navLabelMobile: 'Main menu',
     nav: {
       menu: 'Menu',
-      banquet: 'Banquet',
-      visit: 'Visit',
+      locations: 'Branches',
+      banquet: 'Banquet hall',
       faq: 'Questions',
       contact: 'Contact',
-      stay: 'Stay',
       about: 'About',
     },
+    branch: 'Branch',
+    branchPick: 'Choose your branch',
+    yourBranch: 'Your branch',
+    callBranch: 'Call {name}',
+    directionsTo: 'Directions to {name}',
+    branchPage: 'Branch page',
     home: 'Home',
     openMenu: 'Open menu',
     closeMenu: 'Close menu',
@@ -88,7 +94,7 @@ export const t = {
     newTab: 'opens in a new tab',
   },
   notice: {
-    text: 'This site keeps your light or dark theme choice in your browser. No cookies, no tracking.',
+    text: 'This site remembers your theme and branch choice in your browser. No cookies, no tracking.',
     ok: 'Got it',
     textConsent:
       'We would like to count visits with privacy-friendly analytics that sets no cookies. Essential storage is always on.',
@@ -137,49 +143,82 @@ export const t = {
     range: '{open} to {close}',
   },
   home: {
-    eyebrow: 'Rajarajeshwari Nagar, Bengaluru',
-    title: 'Pure vegetarian South and North Indian food in Rajarajeshwari Nagar.',
-    lead: 'Idli, vada and coffee for breakfast, North Indian dishes, chaat in the evening, and a hall for events at the same address on Field Marshal Cariappa Road.',
-    menuTitle: 'On the menu',
-    menuLead: 'A partial list. Ask at the counter for the full menu and today’s prices.',
-    menuLink: 'See the menu',
-    banquetTitle: 'Events in our hall',
-    banquetLead:
-      'Tell us the date, the occasion and how many guests you expect. We will call you back with availability and a quote.',
-    banquetLink: 'Send an event enquiry',
-    banquetCapacity: 'Up to {seated} seated, {floating} standing',
-    visitTitle: 'Visit',
-    visitLink: 'Address, hours and directions',
-    reviewsTitle: 'Reviews',
-    reviewsLine: 'Read what guests say on Google Maps.',
+    kickerPlace: 'Rajarajeshwari Nagar, Bengaluru',
+    line: 'South Indian tiffin, North Indian meals and evening chaat, at {count} in Rajarajeshwari Nagar.',
+    dishes:
+      'Idli, vada, dosa and coffee. Paneer butter masala with butter kulcha. Masala puri at the chaat counter in the evening.',
+    todayTitle: 'Today',
+    closesAt: 'closes',
+    callForHours: 'Call for today\u2019s hours',
+    noPhoneHours: 'Hours to be confirmed',
+    phoneTbc: 'Phone number to be confirmed',
+    menuKicker: 'On the board',
+    menuTitle: 'Tiffin to chaat',
+    menuLead: 'A short list from our kitchens. Ask at the counter for the full menu and today\u2019s prices.',
+    menuLink: 'The full menu',
+    hallKicker: 'Banquet hall',
+    hallTitle: 'The hall at Cariappa Road',
+    hallLead:
+      'For weddings, engagements, naming ceremonies, birthdays and office functions. The food, like everything here, is pure vegetarian.',
+    hallLink: 'Plan an event',
+    branchesTitle: '{Count} in Rajarajeshwari Nagar',
+    branchesSide:
+      'Cariappa Road has the banquet hall. Channasandra has rooms. Choose one and the call button follows it around the site.',
     faqTitle: 'Questions',
     faqLink: 'All questions',
+    reviewsLine: 'Read guest reviews on Google Maps',
   },
   menu: {
     title: 'Menu',
-    lead: 'Everything we serve is vegetarian. This is a partial list; ask at the counter for the full menu and today’s prices.',
+    lead: 'Everything here is vegetarian. This is a partial list from every branch; ask at the counter for the full menu and today\u2019s prices.',
     priceNote: 'Prices in rupees, including taxes.',
+    pricesSoon: 'Prices are at the counter.',
     print: 'Print this menu',
     jump: 'Sections',
+    show: 'Show dishes for',
+    all: 'All branches',
+    dish: 'Dish',
+    branchCol: 'Served at',
+    priceCol: 'Price',
+    onlyAt: '{name} only',
   },
-  visit: {
-    title: 'Visit',
-    lead: 'We are on Field Marshal Cariappa Road in the 4th Stage of Rajarajeshwari Nagar.',
+  locations: {
+    kicker: 'Branches',
+    title: 'Where to find us',
+    lead: '{Count} in Rajarajeshwari Nagar, Bengaluru. Choose the nearest, or the one with what you need.',
+    nearest: 'Find the nearest branch',
+    nearestHint: 'Uses your location once, in your browser only. Nothing is sent to us.',
+    nearestDone: 'Sorted by distance from you. {name} is closest.',
+    nearestFail: 'Could not get your location. Choose a branch from the list instead.',
+    away: 'about {km} km away',
     addressTitle: 'Address',
     phoneTitle: 'Phone',
+    hoursTitle: 'Hours',
+    servicesTitle: 'At this branch',
     accessTitle: 'Access',
     parkingTitle: 'Parking',
-    mapNote: 'Opens Google Maps.',
+    plusCode: 'Plus Code',
+    otherBranch: 'The other branch',
+    noPhone: 'Phone number to be confirmed. Call the Cariappa Road branch on {phone} for help.',
+    services: {
+      dineIn: ['Dine-in', 'Tiffin, meals, chaat and coffee.'],
+      banquet: ['Banquet hall', 'Weddings, engagements and family functions. Send an enquiry or call.'],
+      rooms: ['Rooms', 'Rooms in the same building. Contact the branch for availability and rates.'],
+    },
+    hallLink: 'Plan an event in the hall',
   },
   banquet: {
-    title: 'Events and banquet hall',
-    lead: 'We host events in our hall at the restaurant’s address. Send an enquiry and we will call you to talk through dates, numbers and food.',
-    whatTitle: 'What to tell us',
-    what: [
-      'The date you have in mind, and a second choice if you have one.',
-      'The occasion.',
-      'How many guests you expect.',
-      'Anything you already know about food and timing.',
+    kicker: 'Banquet hall \u00b7 Cariappa Road',
+    title: 'Hold your function at Cariappa Road',
+    lead: 'Tell us the date, the occasion and how many guests to expect. We call back with availability and a quote.',
+    stepsTitle: 'How booking works',
+    steps: [
+      ['Send the details', 'The date, a second choice if you have one, the occasion and the number of guests.'],
+      ['We call you back', 'To talk through availability, food and a quote.'],
+      [
+        'Confirm with us',
+        'The hall is booked only when we confirm it with you directly. This website takes no payments.',
+      ],
     ],
     hall: 'Hall',
     capacity: 'Capacity',
@@ -187,20 +226,23 @@ export const t = {
     floating: '{n} standing',
     included: 'Included',
     formTitle: 'Event enquiry',
+    formSide: 'Prefer to talk? Call the Cariappa Road branch.',
     faqTitle: 'Before you enquire',
   },
   contact: {
-    title: 'Contact',
-    lead: 'The quickest way to reach us is to call. You can also send a message here.',
+    kicker: 'Contact',
+    title: 'Call, or write to us',
+    lead: 'The quickest way to reach us is to call. For anything else, send a message and we will reply by phone or email.',
     formTitle: 'Send a message',
+    callTitle: 'Call a branch',
+    otherKicker: 'Other forms',
+    toBanquet: 'Enquire about the banquet hall',
+    toData: 'Ask about your personal data',
   },
   faq: {
-    title: 'Questions',
-    lead: 'Short answers to the things people ask most.',
-  },
-  stay: {
-    title: 'Stay',
-    lead: 'Rooms at Royal Indraprastha The Hotel, Channasandra, Rajarajeshwari Nagar.',
+    kicker: 'Questions',
+    title: 'Short answers',
+    lead: 'What people ask most about the food, the branches, the hall and the rooms.',
   },
   about: {
     title: 'About',
@@ -210,7 +252,7 @@ export const t = {
     lead: 'This page does not exist. It may have moved, or the link may be mistyped.',
     home: 'Go to the home page',
     menu: 'See the menu',
-    visit: 'Find us',
+    visit: 'Find a branch',
   },
   form: {
     required: 'required',
@@ -296,4 +338,11 @@ export const t = {
 /** Replaces `{key}` placeholders. */
 export function fmt(s: string, vars: Record<string, string | number>): string {
   return s.replace(/\{(\w+)\}/g, (_, k: string) => String(vars[k] ?? `{${k}}`));
+}
+
+const WORDS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+/** "two branches" / "Two branches", so copy stays true when a branch is added. */
+export function branchCount(n: number): { count: string; Count: string } {
+  const word = n === 1 ? 'one branch' : `${WORDS[n - 1] ?? n} branches`;
+  return { count: word, Count: word.charAt(0).toUpperCase() + word.slice(1) };
 }

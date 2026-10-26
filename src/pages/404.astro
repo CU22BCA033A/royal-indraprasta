@@ -12,21 +12,26 @@ import { site } from '../config/site.ts';
   noindex
   searchable={false}
 >
-  <section class="section">
-    <div class="wrap split">
-      <div class="lattice-panel" aria-hidden="true"></div>
-      <div class="stack-lg">
-        <div class="stack">
-          <h1>{t.notFound.title}</h1>
-          <p>{t.notFound.lead}</p>
-          <div class="btn-row">
-            <a class="btn" href="/">{t.notFound.home}</a>
-            <a class="btn btn--ghost" href="/menu/">{t.notFound.menu}</a>
-            <a class="btn btn--ghost" href="/visit/">{t.notFound.visit}</a>
-          </div>
-        </div>
-        <p><a href={`tel:${site.phone}`}>{site.phoneDisplay}</a></p>
+  <section class="band--sign page-sign not-found">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">404</p>
+        <h1>{t.notFound.title}</h1>
       </div>
+      <div class="lead-col">
+        <p class="lead">{t.notFound.lead}</p>
+        <div class="btn-row">
+          <a class="btn" href="/">{t.notFound.home}</a>
+          <a class="btn btn--ghost" href="/menu/">{t.notFound.menu}</a>
+          <a class="btn btn--ghost" href="/locations/">{t.notFound.visit}</a>
+        </div>
+        <p class="meta-line call-line">
+          Or call <a class="tel-label" href={`tel:${site.phone}`}>{site.phoneDisplay}</a>
+        </p>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="lattice" aria-hidden="true"></div>
     </div>
   </section>
 </BaseLayout>

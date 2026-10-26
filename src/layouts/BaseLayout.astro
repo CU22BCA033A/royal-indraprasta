@@ -10,7 +10,7 @@ import { t } from '../content/copy.ts';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import Floating from '../components/Floating.astro';
-import { restaurantJsonLd, jsonForScript } from '../lib/seo.ts';
+import { organizationJsonLd, jsonForScript } from '../lib/seo.ts';
 
 interface Props {
   /** Path of this page, for example "/menu/". */
@@ -24,12 +24,23 @@ interface Props {
   noindex?: boolean;
   /** Include the page in site search. */
   searchable?: boolean;
+  /** Draw the header on the signboard colour. */
+  signHeader?: boolean;
 }
-const { path, title, description, jsonld = [], single = false, noindex = false, searchable = true } = Astro.props;
+const {
+  path,
+  title,
+  description,
+  jsonld = [],
+  single = false,
+  noindex = false,
+  searchable = true,
+  signHeader = false,
+} = Astro.props;
 const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
 const canonical = `${origin}${path}`;
-const ld = [restaurantJsonLd(origin), ...jsonld];
-const preloads = ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
+const ld = [organizationJsonLd(origin), ...jsonld];
+const preloads = ['/fonts/rozha-one-400.woff2', '/fonts/figtree-400.woff2'];
 ---
 
 <!doctype html>
@@ -41,8 +52,8 @@ const preloads = ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     {!single && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content="#f6efe2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#1c1512" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content={signHeader ? '#4a1219' : '#f6efe2'} media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content={signHeader ? '#3a1016' : '#1c1512'} media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -58,7 +69,7 @@ const preloads = ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
     <meta property="og:image" content={`${origin}/og.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Royal Indraprastha wordmark on ivory with a maroon lattice mark" />
+    <meta property="og:image:alt" content="Royal Indraprastha set in cream lettering on a deep maroon signboard" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -70,7 +81,7 @@ const preloads = ['/fonts/figtree-400.woff2', '/fonts/young-serif-400.woff2'];
   <body id="top">
     <a class="skip" href="#main">{t.common.skip}</a>
     <div class="progress" aria-hidden="true"></div>
-    <Header path={path} />
+    <Header path={path} sign={signHeader} />
     <main id="main" tabindex="-1" data-pagefind-body={searchable ? '' : undefined}>
       <slot />
     </main>

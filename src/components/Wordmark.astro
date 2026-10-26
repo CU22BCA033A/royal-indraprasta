@@ -1,5 +1,5 @@
 ---
-/** Proposed wordmark: lattice mark plus name. Replace if the owner has a logo. */
+/** Proposed wordmark: "Royal" tracked small over "Indraprastha" in the display face. Replace if the owner has a logo. */
 interface Props {
   homeLabel: string;
 }
@@ -7,14 +7,7 @@ const { homeLabel } = Astro.props;
 ---
 
 <a class="wordmark" href="/">
-  <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false">
-    <path d="M16 2 30 16 16 30 2 16Z"></path>
-    <path d="M16 9 23 16 16 23 9 16Z"></path>
-    <path d="M9 9 23 23M23 9 9 23" stroke-width="1"></path>
-  </svg>
-  <span class="wordmark__text">
-    <span class="wordmark__royal">Royal</span>
-    <span class="wordmark__name">Indraprastha</span>
-  </span>
+  <span class="wordmark__royal">Royal</span>
+  <span class="wordmark__name">Indraprastha</span>
   <span class="visually-hidden">, {homeLabel}</span>
 </a>

@@ -1,59 +1,63 @@
 /**
- * Questions and answers, written only from verified facts.
- *
- * `requires` lists fields that must be set for the answer to be true; the
- * question is dropped while any of them is missing. `pages` controls where it
- * appears besides /faq/.
-
+ * Questions and answers, written only from verified facts. A question whose
+ * answer depends on a missing fact sets `available: false` and is dropped.
+ * `pages` controls where it appears besides /faq/.
  */
-import { site, addressText } from './site.ts';
+import { site } from './site.ts';
 import { commonClose, formatTime } from './hours.ts';
+import { liveBranches, branchBySlug, branchAddress } from '../data/branches.ts';
 
 export interface Faq {
   id: string;
-  pages: ('home' | 'banquet')[];
+  pages: ('home' | 'banquet' | 'locations')[];
   available: boolean;
   q: string;
   a: string;
 }
 
-const close = commonClose();
+const cariappa = branchBySlug('cariappa-road');
+const close = cariappa ? commonClose(cariappa.hours) : null;
+const hallBranches = liveBranches.filter((b) => b.services.banquet).map((b) => b.name);
+const roomBranches = liveBranches.filter((b) => b.services.rooms).map((b) => b.name);
+const list = (xs: string[]) => (xs.length < 2 ? xs.join('') : `${xs.slice(0, -1).join(', ')} and ${xs.at(-1)}`);
 
 export const faqs: Faq[] = [
   {
     id: 'veg',
     pages: ['home', 'banquet'],
     available: true,
-    q: 'Is the food vegetarian?',
+    q: 'Is everything vegetarian?',
     a: 'Yes. Royal Indraprastha is a pure vegetarian restaurant.',
   },
   {
-    id: 'food',
-    pages: ['home'],
-    available: true,
-    q: 'What kind of food do you serve?',
-    a: 'South Indian tiffin such as idli and vada, North Indian dishes, chaat such as masala puri, and coffee, tea, badam milk, juices and milkshakes. Ask at the counter for the full menu.',
+    id: 'branches',
+    pages: ['home', 'locations'],
+    available: liveBranches.length > 1,
+    q: 'How many branches are there?',
+    a: `${liveBranches.length}, in Rajarajeshwari Nagar: ${liveBranches
+      .map((b) => `${b.name} (${branchAddress(b)})`)
+      .join(' and ')}.`,
   },
   {
-    id: 'where',
-    pages: ['home'],
-    available: true,
-    q: 'Where are you?',
-    a: `${addressText()}.`,
+    id: 'hall',
+    pages: ['home', 'banquet', 'locations'],
+    available: hallBranches.length > 0,
+    q: 'Which branch has the banquet hall?',
+    a: `${list(hallBranches)}. Send an enquiry from the banquet page or call ${site.phoneDisplay}.`,
+  },
+  {
+    id: 'rooms',
+    pages: ['home', 'locations'],
+    available: roomBranches.length > 0,
+    q: 'Can I stay overnight?',
+    a: `Rooms are at the ${list(roomBranches)} branch. Contact that branch for availability and rates.`,
   },
   {
     id: 'hours',
-    pages: ['home'],
+    pages: ['home', 'locations'],
     available: close !== null,
-    q: 'What time do you close?',
-    a: `At ${close ? formatTime(close) : ''}. Please call ${site.phoneDisplay} to confirm the opening time.`,
-  },
-  {
-    id: 'events',
-    pages: ['home', 'banquet'],
-    available: true,
-    q: 'Can I hold an event in your hall?',
-    a: 'Yes. Send an event enquiry from the banquet page or call us, and we will talk through dates, guest numbers and food.',
+    q: 'What time does Cariappa Road close?',
+    a: `At ${close ? formatTime(close) : ''}. Call ${site.phoneDisplay} to confirm the opening time.`,
   },
   {
     id: 'booking',
@@ -63,11 +67,11 @@ export const faqs: Faq[] = [
     a: 'No. A booking is confirmed only when we confirm it with you directly. The website takes no payments.',
   },
   {
-    id: 'contact',
-    pages: ['home', 'banquet'],
+    id: 'food',
+    pages: [],
     available: true,
-    q: 'What is the quickest way to reach you?',
-    a: `Call ${site.phoneDisplay}.`,
+    q: 'What kind of food do you serve?',
+    a: 'South Indian tiffin such as idli, vada and dosa, North Indian dishes such as paneer butter masala with kulcha, chaat such as masala puri, and coffee, tea, badam milk, juices and milkshakes.',
   },
   {
     id: 'orders',
@@ -78,6 +82,6 @@ export const faqs: Faq[] = [
   },
 ];
 
-export function faqsFor(page?: 'home' | 'banquet'): Faq[] {
+export function faqsFor(page?: 'home' | 'banquet' | 'locations'): Faq[] {
   return faqs.filter((f) => f.available && (!page || f.pages.includes(page)));
 }

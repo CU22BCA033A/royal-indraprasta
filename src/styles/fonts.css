@@ -1,10 +1,10 @@
 /* Self-hosted fonts (SIL OFL 1.1), built by scripts/fonts.mjs. */
 @font-face {
-  font-family: 'Young Serif';
+  font-family: 'Rozha One';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('/fonts/young-serif-400.woff2') format('woff2');
+  src: url('/fonts/rozha-one-400.woff2') format('woff2');
   unicode-range:
     U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20B9, U+2122, U+2212;
 }

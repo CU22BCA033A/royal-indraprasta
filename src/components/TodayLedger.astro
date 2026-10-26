@@ -1,0 +1,60 @@
+---
+/** The hero's "Today" list: one row per branch, with closing time when confirmed. */
+import { t, fmt } from '../content/copy.ts';
+import { liveBranches, mainBranch, branchDirectionsUrl } from '../data/branches.ts';
+import { commonClose, timeParts } from '../config/hours.ts';
+---
+
+<div class="today">
+  <div class="today-head">
+    <h2>{t.home.todayTitle}</h2>
+    <p class="meta-line" data-today-date></p>
+  </div>
+  <ul role="list">
+    {
+      liveBranches.map((b) => {
+        const close = commonClose(b.hours);
+        return (
+          <li class="today-row" data-slug={b.slug}>
+            <div class="row-name">
+              <h3>
+                <a href={`/locations/${b.slug}/`}>{b.name}</a>
+              </h3>
+              <span class="yours" data-yours hidden={b.slug !== mainBranch.slug}>
+                {t.common.yourBranch}
+              </span>
+            </div>
+            {close ? (
+              <p class="when">
+                {t.home.closesAt} <b class="num">{timeParts(close).time}</b>
+                {timeParts(close).suffix}
+              </p>
+            ) : (
+              <p class="when">{b.phone ? t.home.callForHours : t.home.noPhoneHours}</p>
+            )}
+            <p class="where">
+              {b.area}
+              {b.services.banquet && ' · Banquet hall'}
+              {b.services.rooms && ' · Rooms'}
+            </p>
+            <p class="acts">
+              {b.phone && (
+                <a class="tel-label" href={`tel:${b.phone.e164}`}>
+                  <span class="visually-hidden">{fmt(t.common.callBranch, { name: b.name })}: </span>
+                  {b.phone.display}
+                </a>
+              )}
+              <a href={branchDirectionsUrl(b)} rel="noopener" target="_blank">
+                {t.common.directions}
+                <span class="visually-hidden">
+                  {' '}
+                  {b.name} ({t.common.newTab})
+                </span>
+              </a>
+            </p>
+          </li>
+        );
+      })
+    }
+  </ul>
+</div>

@@ -1,7 +1,8 @@
 ---
 /** Mobile contact button, back-to-top button and the storage notice. */
-import { t } from '../content/copy.ts';
-import { site, directionsUrl, whatsappUrl } from '../config/site.ts';
+import { t, fmt } from '../content/copy.ts';
+import { site, whatsappUrl } from '../config/site.ts';
+import { liveBranches, branchDirectionsUrl } from '../data/branches.ts';
 import Icon from './Icon.astro';
 
 const wa = whatsappUrl();
@@ -10,12 +11,33 @@ const consent = site.modules.analytics;
 
 <aside class="float float--contact" aria-label={t.common.contactPanel} data-contact>
   <div class="contact-panel" id="contact-panel" hidden>
-    <ul>
-      <li>
-        <a class="tel-label" href={`tel:${site.phone}`}><Icon name="phone" />{t.common.call} {site.phoneDisplay}</a>
-      </li>
-      {
-        wa && (
+    {
+      liveBranches.map((b) => (
+        <div>
+          <p>{b.name}</p>
+          <ul role="list">
+            {b.phone && (
+              <li>
+                <a class="tel-label" href={`tel:${b.phone.e164}`}>
+                  <Icon name="phone" />
+                  {t.common.call} {b.phone.display}
+                </a>
+              </li>
+            )}
+            <li>
+              <a href={branchDirectionsUrl(b)} rel="noopener" target="_blank">
+                <Icon name="pin" />
+                {fmt(t.common.directionsTo, { name: b.name })}
+                <span class="visually-hidden"> ({t.common.newTab})</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      ))
+    }
+    {
+      wa && (
+        <ul role="list">
           <li>
             <a href={wa} rel="noopener" target="_blank">
               <Icon name="chat" />
@@ -23,14 +45,9 @@ const consent = site.modules.analytics;
               <span class="visually-hidden"> ({t.common.newTab})</span>
             </a>
           </li>
-        )
-      }
-      <li>
-        <a href={directionsUrl()} rel="noopener" target="_blank"
-          ><Icon name="pin" />{t.common.directions}<span class="visually-hidden"> ({t.common.newTab})</span></a
-        >
-      </li>
-    </ul>
+        </ul>
+      )
+    }
   </div>
   <button type="button" class="btn" aria-expanded="false" aria-controls="contact-panel">
     <Icon name="phone" />{t.common.contactOpen}
@@ -45,7 +62,7 @@ const consent = site.modules.analytics;
   <div class="wrap">
     <p>
       {consent ? t.notice.textConsent : t.notice.text}{' '}
-      <a href={'/cookies/'}>{t.notice.policy}</a>
+      <a href="/cookies/">{t.notice.policy}</a>
     </p>
     {
       consent ? (

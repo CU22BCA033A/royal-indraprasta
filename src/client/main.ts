@@ -4,7 +4,7 @@
  */
 import { openStatus, formatTime, type DayHours, type DayKey } from '../config/hours.ts';
 
-const KEYS = { theme: 'ri-theme', notice: 'ri-notice', utm: 'ri-utm' } as const;
+const KEYS = { theme: 'ri-theme', notice: 'ri-notice', utm: 'ri-utm', branch: 'ri-branch' } as const;
 
 function store(kind: 'local' | 'session') {
   try {
@@ -178,6 +178,107 @@ if (searchDialog && searchBody) {
   });
 }
 
+/* Branch choice: remembered in this browser, drives the header call button and highlights */
+const selects = [...document.querySelectorAll<HTMLSelectElement>('[data-branch-select]')];
+const known = new Set(selects[0] ? [...selects[0].options].map((o) => o.value) : []);
+function applyBranch(slug: string): void {
+  if (!known.has(slug)) return;
+  document.documentElement.dataset.branch = slug;
+  selects.forEach((s) => (s.value = slug));
+  document.querySelectorAll<HTMLElement>('[data-branch-only]').forEach((el) => {
+    el.hidden = !(el.dataset.branchOnly ?? '').split(' ').includes(slug);
+  });
+  document.querySelectorAll<HTMLElement>('.today-row').forEach((row) => {
+    const yours = row.querySelector<HTMLElement>('[data-yours]');
+    if (yours) yours.hidden = row.dataset.slug !== slug;
+  });
+}
+if (selects.length) {
+  document.querySelectorAll<HTMLElement>('[data-branch-pick]').forEach((el) => (el.hidden = false));
+  const saved = get(KEYS.branch);
+  if (saved) applyBranch(saved);
+  selects.forEach((s) =>
+    s.addEventListener('change', () => {
+      set(KEYS.branch, s.value);
+      applyBranch(s.value);
+    }),
+  );
+}
+
+/* Today's date in the hero, in India time */
+document.querySelectorAll<HTMLElement>('[data-today-date]').forEach((el) => {
+  el.textContent = new Intl.DateTimeFormat('en-IN', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    timeZone: 'Asia/Kolkata',
+  }).format(new Date());
+});
+
+/* Nearest branch: location is read once, on request, and never leaves the browser */
+const nearestBtn = document.querySelector<HTMLButtonElement>('[data-nearest]');
+const ledger = document.querySelector<HTMLElement>('[data-branch-ledger]');
+if (nearestBtn && ledger && 'geolocation' in navigator) {
+  nearestBtn.hidden = false;
+  const status = document.querySelector<HTMLElement>('[data-nearest-status]');
+  const text = JSON.parse(nearestBtn.dataset.text ?? '{}') as Record<string, string>;
+  nearestBtn.addEventListener('click', () => {
+    nearestBtn.disabled = true;
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        nearestBtn.disabled = false;
+        const { latitude, longitude } = pos.coords;
+        const rad = (d: number) => (d * Math.PI) / 180;
+        const km = (lat: number, lng: number) => {
+          const a =
+            Math.sin(rad(lat - latitude) / 2) ** 2 +
+            Math.cos(rad(latitude)) * Math.cos(rad(lat)) * Math.sin(rad(lng - longitude) / 2) ** 2;
+          return 6371 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        };
+        const rows = [...ledger.querySelectorAll<HTMLElement>('.branch-row')]
+          .filter((r) => r.dataset.lat && r.dataset.lng)
+          .map((r) => ({ r, d: km(Number(r.dataset.lat), Number(r.dataset.lng)) }))
+          .sort((a, b) => a.d - b.d);
+        rows.forEach(({ r, d }) => {
+          ledger.append(r);
+          const out = r.querySelector<HTMLElement>('[data-distance]');
+          if (out) out.textContent = (text.away ?? '').replace('{km}', d < 10 ? d.toFixed(1) : String(Math.round(d)));
+        });
+        const first = rows[0];
+        if (first) {
+          const slug = first.r.dataset.slug ?? '';
+          const name = first.r.querySelector('h2, h3')?.textContent?.trim() ?? '';
+          if (status) status.textContent = (text.done ?? '').replace('{name}', name);
+          set(KEYS.branch, slug);
+          applyBranch(slug);
+        }
+      },
+      () => {
+        nearestBtn.disabled = false;
+        if (status) status.textContent = text.fail ?? '';
+      },
+      { maximumAge: 600000, timeout: 10000 },
+    );
+  });
+}
+
+/* Menu filter by branch */
+document.querySelectorAll<HTMLFieldSetElement>('[data-menu-filter]').forEach((fs) => {
+  const apply = (slug: string) => {
+    document.querySelectorAll<HTMLElement>('[data-served]').forEach((row) => {
+      const served = (row.dataset.served ?? '').split(' ');
+      row.hidden = slug !== 'all' && !served.includes(slug);
+    });
+  };
+  fs.addEventListener('change', (e) => apply((e.target as HTMLInputElement).value));
+  const saved = get(KEYS.branch);
+  const input = saved ? fs.querySelector<HTMLInputElement>(`input[value="${saved}"]`) : null;
+  if (input) {
+    input.checked = true;
+    apply(saved as string);
+  }
+});
+
 /* Scroll progress and back to top */
 const progress = document.querySelector<HTMLElement>('.progress');
 const toTop = document.querySelector<HTMLElement>('[data-back-to-top]');
@@ -283,13 +384,22 @@ if (contact) {
     if (!panel.hidden && !contact.contains(e.target as Node)) setOpen(false);
   });
   // Never cover a form's submit button.
-  const submits = document.querySelectorAll('form [type="submit"], form [data-review]');
+  // Show the button only after the first screen, and never over a submit button or the hero's own call button.
+  let blocked = false;
+  const update = () => {
+    const early = window.scrollY < window.innerHeight * 0.6;
+    contact.hidden = early || blocked;
+    if (contact.hidden) setOpen(false);
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+  const submits = document.querySelectorAll('form [type="submit"], form [data-review], [data-hero-cta]');
   if (submits.length && 'IntersectionObserver' in window) {
     const visible = new Set<Element>();
     const io = new IntersectionObserver((entries) => {
       entries.forEach((en) => (en.isIntersecting ? visible.add(en.target) : visible.delete(en.target)));
-      contact.hidden = visible.size > 0;
-      if (contact.hidden) setOpen(false);
+      blocked = visible.size > 0;
+      update();
     });
     submits.forEach((s) => io.observe(s));
   }

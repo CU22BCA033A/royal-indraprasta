@@ -1,0 +1,55 @@
+---
+/** Ruled list of branches: numeral, name, address and services, actions. */
+import { t, fmt } from '../content/copy.ts';
+import { liveBranches, branchAddress, branchDirectionsUrl, branchServices } from '../data/branches.ts';
+
+interface Props {
+  headingLevel?: 'h2' | 'h3';
+  nearest?: boolean;
+}
+const { headingLevel = 'h3', nearest = false } = Astro.props;
+const H = headingLevel;
+---
+
+<ol class="branch-ledger" role="list" data-branch-ledger>
+  {
+    liveBranches.map((b, i) => (
+      <li
+        class="branch-row"
+        data-slug={b.slug}
+        data-lat={nearest && b.approxGeo ? b.approxGeo.lat : undefined}
+        data-lng={nearest && b.approxGeo ? b.approxGeo.lng : undefined}
+      >
+        <div class="branch-row__in">
+          <span class="numeral" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <div>
+            <H>
+              <a href={`/locations/${b.slug}/`}>{b.name}</a>
+            </H>
+            <p class="distance" data-distance aria-live="polite" />
+          </div>
+          <div>
+            <address>{branchAddress(b)}</address>
+            <p class="services">{branchServices(b).join(' · ')}</p>
+          </div>
+          <div class="acts">
+            {b.phone && <a class="tel-label" href={`tel:${b.phone.e164}`}>{b.phone.display}</a>}
+            <a href={branchDirectionsUrl(b)} rel="noopener" target="_blank">
+              {t.common.directions}
+              <span class="visually-hidden">
+                {' '}
+                {fmt(t.common.directionsTo, { name: b.name })} ({t.common.newTab})
+              </span>
+            </a>
+            <a href={`/locations/${b.slug}/`}>
+              {t.common.branchPage}
+              <span class="visually-hidden"> {b.name}</span>
+            </a>
+          </div>
+        </div>
+      </li>
+    ))
+  }
+</ol>

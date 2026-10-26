@@ -1,48 +1,67 @@
-/* Design tokens. Colour pairs are checked by `npm run audit:contrast`.
+/* Design tokens. Every colour pair is checked by `npm run audit:contrast`.
    Light theme is the default; dark applies from the system setting unless the
    visitor picks a theme, which sets data-theme on <html>. */
 @layer tokens {
   :root {
     color-scheme: light;
+
+    /* Page */
     --bg: #f6efe2;
     --surface: #efe5d3;
     --text: #2a1d16;
     --muted: #5b4a3f;
     --primary: #6e1f2b;
     --on-primary: #f6efe2;
-    --accent: #b8893b;
-    --brass-text: #6f5116;
+    --brass-ink: #6f5116;
     --veg: #2f6b3f;
     --error: #a3261b;
-    --rule: #b8893b;
+    --rule: #c4a877;
+    --rule-strong: #2a1d16;
     --line: #5b4a3f;
 
-    --font-head: 'Young Serif', Georgia, serif;
+    /* Signboard field */
+    --sign: #4a1219;
+    --on-sign: #f3e6cf;
+    --on-sign-muted: #d9c7a8;
+    --brass: #d8ae62;
+    --sign-rule: #9a7840;
+
+    /* Type */
+    --font-display: 'Rozha One', 'Georgia', serif;
     --font-body: 'Figtree', system-ui, sans-serif;
 
+    /* Fluid scale, ratio about 1.25 on phones rising to about 1.414 on desktop */
+    --step--2: clamp(0.75rem, 0.73rem + 0.08vw, 0.8125rem);
     --step--1: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
-    --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
-    --step-1: clamp(1.25rem, 1.18rem + 0.35vw, 1.5rem);
-    --step-2: clamp(1.5rem, 1.38rem + 0.6vw, 2rem);
-    --step-3: clamp(1.875rem, 1.6rem + 1.3vw, 2.75rem);
-    --step-4: clamp(2.25rem, 1.8rem + 2.4vw, 4rem);
+    --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    --step-1: clamp(1.1875rem, 1.1rem + 0.4vw, 1.4375rem);
+    --step-2: clamp(1.5rem, 1.3rem + 0.9vw, 2.125rem);
+    --step-3: clamp(1.875rem, 1.5rem + 1.8vw, 3.125rem);
+    --step-4: clamp(2.375rem, 1.7rem + 3.2vw, 4.5rem);
+    --step-5: clamp(3rem, 1.6rem + 6.6vw, 8.25rem);
 
-    --space-1: 0.25rem;
-    --space-2: 0.5rem;
-    --space-3: 0.75rem;
-    --space-4: 1rem;
-    --space-5: 1.5rem;
-    --space-6: 2rem;
-    --space-7: 3rem;
-    --space-8: clamp(3rem, 2rem + 5vw, 6rem);
+    /* Spacing: 4, 8, 12, 16, 24, 32, 48, 72, 112 */
+    --s1: 0.25rem;
+    --s2: 0.5rem;
+    --s3: 0.75rem;
+    --s4: 1rem;
+    --s5: 1.5rem;
+    --s6: 2rem;
+    --s7: 3rem;
+    --s8: clamp(3rem, 2rem + 3vw, 4.5rem);
+    --s9: clamp(4rem, 2rem + 6vw, 7rem);
+
+    /* Grid */
+    --page: 82rem;
+    --gutter: clamp(1rem, 0.4rem + 2.6vw, 2.5rem);
+    --col-gap: clamp(1rem, 0.6rem + 1.6vw, 2rem);
 
     --radius: 2px;
-    --measure: 66ch;
-    --page: 76rem;
-    --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
-    --header-h: 4rem;
-    --shadow-float: 0 2px 10px rgb(42 29 22 / 0.18);
+    --measure: 64ch;
+    --header-h: 4.25rem;
+    --shadow-float: 0 2px 10px rgb(42 29 22 / 0.2);
     --tap: 44px;
+    --ease: cubic-bezier(0.2, 0, 0, 1);
   }
 
   @media (prefers-color-scheme: dark) {
@@ -54,13 +73,18 @@
       --muted: #cdbfa9;
       --primary: #e3a3a8;
       --on-primary: #1c1512;
-      --accent: #d9ae63;
-      --brass-text: #d9ae63;
+      --brass-ink: #d9ae63;
       --veg: #7fbf8e;
       --error: #f0a59e;
-      --rule: #8a6a3a;
+      --rule: #6b5233;
+      --rule-strong: #cdbfa9;
       --line: #cdbfa9;
-      --shadow-float: 0 2px 10px rgb(0 0 0 / 0.4);
+      --sign: #3a1016;
+      --on-sign: #f3e6cf;
+      --on-sign-muted: #d9c7a8;
+      --brass: #d9ae63;
+      --sign-rule: #8a6a3a;
+      --shadow-float: 0 2px 10px rgb(0 0 0 / 0.45);
     }
   }
 
@@ -72,12 +96,25 @@
     --muted: #cdbfa9;
     --primary: #e3a3a8;
     --on-primary: #1c1512;
-    --accent: #d9ae63;
-    --brass-text: #d9ae63;
+    --brass-ink: #d9ae63;
     --veg: #7fbf8e;
     --error: #f0a59e;
-    --rule: #8a6a3a;
+    --rule: #6b5233;
+    --rule-strong: #cdbfa9;
     --line: #cdbfa9;
-    --shadow-float: 0 2px 10px rgb(0 0 0 / 0.4);
+    --sign: #3a1016;
+    --on-sign: #f3e6cf;
+    --on-sign-muted: #d9c7a8;
+    --brass: #d9ae63;
+    --sign-rule: #8a6a3a;
+    --shadow-float: 0 2px 10px rgb(0 0 0 / 0.45);
+  }
+
+  @media (prefers-contrast: more) {
+    :root {
+      --muted: var(--text);
+      --rule: var(--rule-strong);
+      --on-sign-muted: var(--on-sign);
+    }
   }
 }

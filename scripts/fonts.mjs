@@ -9,7 +9,7 @@ mkdirSync(out, { recursive: true });
 const src = (pkg, file) => join(root, 'node_modules/@fontsource', pkg, 'files', file);
 
 const files = [
-  ['young-serif', 'young-serif-latin-400-normal.woff2', 'young-serif-400.woff2'],
+  ['rozha-one', 'rozha-one-latin-400-normal.woff2', 'rozha-one-400.woff2'],
   ['figtree', 'figtree-latin-400-normal.woff2', 'figtree-400.woff2'],
   ['figtree', 'figtree-latin-600-normal.woff2', 'figtree-600.woff2'],
 ];

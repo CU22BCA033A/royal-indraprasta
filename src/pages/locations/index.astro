@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BranchLedger from '../../components/BranchLedger.astro';
+import FaqList from '../../components/FaqList.astro';
+import { t, fmt, branchCount } from '../../content/copy.ts';
+import { faqsFor } from '../../config/faq.ts';
+import { liveBranches } from '../../data/branches.ts';
+import { restaurantJsonLd } from '../../lib/seo.ts';
+
+const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
+---
+
+<BaseLayout
+  path="/locations/"
+  title={t.meta.locationsTitle}
+  description={t.meta.locationsDesc}
+  jsonld={liveBranches.map((b) => restaurantJsonLd(origin, b))}
+>
+  <header class="band--sign page-sign">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker">{t.locations.kicker}</p>
+        <h1>{t.locations.title}</h1>
+      </div>
+      <div class="lead-col">
+        <p class="lead">{fmt(t.locations.lead, branchCount(liveBranches.length))}</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="band band--tight" aria-label={t.locations.kicker}>
+    <div class="wrap">
+      <div class="nearest">
+        <button
+          type="button"
+          class="btn btn--ghost"
+          data-nearest
+          hidden
+          data-text={JSON.stringify({
+            away: t.locations.away,
+            done: t.locations.nearestDone,
+            fail: t.locations.nearestFail,
+          })}
+        >
+          {t.locations.nearest}
+        </button>
+        <p class="meta-line">{t.locations.nearestHint}</p>
+        <p class="meta-line" data-nearest-status role="status" aria-live="polite"></p>
+      </div>
+      <BranchLedger headingLevel="h2" nearest />
+    </div>
+  </section>
+
+  <section class="band band--paper qa" aria-labelledby="loc-faq">
+    <div class="wrap grid">
+      <div class="side">
+        <h2 id="loc-faq">{t.home.faqTitle}</h2>
+      </div>
+      <div class="list">
+        <FaqList items={faqsFor('locations')} />
+      </div>
+    </div>
+  </section>
+</BaseLayout>

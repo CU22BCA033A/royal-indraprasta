@@ -1,0 +1,137 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import AddressBlock from '../../components/AddressBlock.astro';
+import HoursBoard from '../../components/HoursBoard.astro';
+import { t, fmt } from '../../content/copy.ts';
+import { site } from '../../config/site.ts';
+import { liveBranches, branchAddress, type Branch } from '../../data/branches.ts';
+import { restaurantJsonLd } from '../../lib/seo.ts';
+
+export function getStaticPaths() {
+  return liveBranches.map((b) => ({ params: { slug: b.slug }, props: { branch: b } }));
+}
+interface Props {
+  branch: Branch;
+}
+const { branch } = Astro.props;
+const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
+const others = liveBranches.filter((b) => b.slug !== branch.slug);
+const services = (
+  [
+    ['dineIn', branch.services.dineIn],
+    ['banquet', branch.services.banquet],
+    ['rooms', branch.services.rooms],
+  ] as const
+).filter(([, on]) => on);
+---
+
+<BaseLayout
+  path={`/locations/${branch.slug}/`}
+  title={fmt(t.meta.branchTitle, { name: branch.name })}
+  description={fmt(t.meta.branchDesc, { name: branch.name, area: branch.area })}
+  jsonld={[restaurantJsonLd(origin, branch)]}
+>
+  <header class="band--sign page-sign">
+    <div class="wrap grid">
+      <div class="title">
+        <p class="kicker"><a href="/locations/">{t.locations.kicker}</a> &middot; {branch.area}</p>
+        <h1>{branch.name}</h1>
+      </div>
+      <div class="lead-col">
+        <p class="lead">Royal Indraprastha, {branch.area}, {branch.city}. {t.common.pureVeg}.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="band branch-main" aria-label={branch.name}>
+    <div class="wrap grid">
+      <div class="where-col">
+        <AddressBlock branch={branch} />
+        {
+          !branch.phone && site.phone && (
+            <p class="note">{fmt(t.locations.noPhone, { phone: site.phoneDisplay })}</p>
+          )
+        }
+      </div>
+      <div class="hours-col">
+        <HoursBoard branch={branch} />
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--paper" aria-labelledby="services-title">
+    <div class="wrap grid">
+      <div class="services-head">
+        <h2 id="services-title">{t.locations.servicesTitle}</h2>
+      </div>
+      <ul class="service-list" role="list">
+        {
+          services.map(([key]) => (
+            <li>
+              <strong>{t.locations.services[key][0]}</strong>
+              <div>
+                <p>{t.locations.services[key][1]}</p>
+                {key === 'banquet' && (
+                  <p>
+                    <a class="arrow-link" href="/banquet/">
+                      {t.locations.hallLink}
+                    </a>
+                  </p>
+                )}
+                {key === 'dineIn' && (
+                  <p>
+                    <a class="arrow-link" href="/menu/">
+                      {t.home.menuLink}
+                    </a>
+                  </p>
+                )}
+              </div>
+            </li>
+          ))
+        }
+        {
+          branch.access && (
+            <li>
+              <strong>{t.locations.accessTitle}</strong>
+              <div>
+                {branch.access.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            </li>
+          )
+        }
+        {
+          branch.parking && (
+            <li>
+              <strong>{t.locations.parkingTitle}</strong>
+              <div>
+                {branch.parking.map((p) => (
+                  <p>{p}</p>
+                ))}
+              </div>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    others.length > 0 && (
+      <section class="band band--tight other-branch" aria-labelledby="other-title">
+        <div class="wrap">
+          <h2 id="other-title" class="kicker">
+            {t.locations.otherBranch}
+          </h2>
+          {others.map((o) => (
+            <p class="other-link">
+              <a href={`/locations/${o.slug}/`}>{o.name}</a>
+              <span class="meta-line">{branchAddress(o)}</span>
+            </p>
+          ))}
+        </div>
+      </section>
+    )
+  }
+</BaseLayout>
