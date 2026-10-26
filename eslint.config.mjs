@@ -4,6 +4,7 @@
 export default [
   {
     ignores: [
+      'api/_lib/**',
       'dist/**',
       'node_modules/**',
       '.astro/**',

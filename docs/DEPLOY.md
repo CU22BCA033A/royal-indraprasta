@@ -4,7 +4,7 @@ The site is static HTML with three small serverless functions for the forms. It 
 
 ## Vercel (chosen host)
 
-The repository deploys to Vercel as is. `vercel.json` sets the build, the output folder, trailing slashes and all security headers; the three form endpoints in `api/` run as Vercel Edge Functions.
+The repository deploys to Vercel as is. `vercel.json` sets the build, the output folder, the trailing-slash redirect for pages and all security headers. The three form endpoints in `api/` run as Vercel Edge Functions; they import `api/_lib/handler.js`, a plain JavaScript bundle of `src/lib/api.ts`, because Vercel cannot compile imports of TypeScript files outside `api/`. After changing anything in `src/lib/api.ts` or `src/lib/schemas.ts`, run `npm run api` and commit the updated bundle (`npm run check` fails if it is stale).
 
 1. In Vercel: Add New > Project > Import the GitHub repository `royal-indraprasta`.
 2. Leave the settings Vercel reads from `vercel.json` (Framework: Other, Build Command `npm run build`, Output Directory `dist`, Install Command `npm ci`). Node.js version: 22.x (Project Settings > General).

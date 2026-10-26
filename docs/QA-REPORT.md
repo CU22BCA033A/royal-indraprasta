@@ -1,14 +1,14 @@
 # QA report
 
-Run on 2026-10-26 06:19 UTC, mode: pitch demo (DEMO=1).
+Run on 2026-10-26 06:34 UTC, mode: pitch demo (DEMO=1).
 
 | Gate | Result | Time |
 |---|---|---|
 | build | Pass | 2 s |
 | check | Pass | 10 s |
-| test (unit and Playwright) | Pass | 62 s |
+| test (unit and Playwright) | Pass | 54 s |
 | links | Pass | 1 s |
-| lighthouse | Pass | 73 s |
+| lighthouse | Pass | 71 s |
 | audit:content | Pass | 0 s |
 | audit:contrast | Pass | 0 s |
 | audit:placeholders | Pass | 0 s |
@@ -20,11 +20,11 @@ Run on 2026-10-26 06:19 UTC, mode: pitch demo (DEMO=1).
 `npm run build`
 
 ```
-11:47:00 ✓ Completed in 102ms.
-11:47:00 [build] ✓ Completed in 589ms.
-11:47:00 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
-11:47:00 [build] 12 page(s) built in 755ms
-11:47:00 [build] Complete!
+12:02:09 ✓ Completed in 141ms.
+12:02:09 [build] ✓ Completed in 634ms.
+12:02:09 [@astrojs/sitemap] `sitemap-index.xml` created at `dist`
+12:02:09 [build] 12 page(s) built in 825ms
+12:02:09 [build] Complete!
 Running Pagefind v1.5.2 (Extended)
 Running from: "/home/claude/royal-indraprastha"
 Source:       "dist"
@@ -43,7 +43,7 @@ Total:
   Indexed 471 words
   Indexed 0 filters
   Indexed 0 sorts
-Finished in 0.024 seconds
+Finished in 0.037 seconds
 postbuild: no inline scripts, robots.txt and _headers written
 ```
 
@@ -53,15 +53,19 @@ postbuild: no inline scripts, robots.txt and _headers written
 
 ```
 > royal-indraprastha-site@1.0.0 check
-> astro check && eslint . && prettier --check . && html-validate "dist/**/*.html"
-11:47:01 [types] Generated 60ms
-11:47:01 [check] Getting diagnostics for Astro files in /home/claude/royal-indraprastha...
-Result (73 files): 
+> astro check && eslint . && prettier --check . && html-validate "dist/**/*.html" && node scripts/bundle-api.mjs --check
+12:02:11 [types] Generated 62ms
+12:02:11 [check] Getting diagnostics for Astro files in /home/claude/royal-indraprastha...
+api/_lib/handler.js:309:12 - warning ts(80002): This constructor function may be converted to a class declaration.
+309   function Internals(def) {
+               ~~~~~~~~~
+Result (76 files): 
 - 0 errors
 - 0 warnings
-- 0 hints
+- 1 hint
 Checking formatting...
 All matched files use Prettier code style!
+api bundle up to date
 ```
 
 ### test (unit and Playwright)
@@ -69,31 +73,31 @@ All matched files use Prettier code style!
 `npm run test`
 
 ```
-  ✓  74 tests/e2e/pages.spec.ts:30:5 › /menu/ at 768px (2.0s)
-  ✓  75 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1024px (2.2s)
-  ✓  73 tests/e2e/pages.spec.ts:30:5 › /menu/ at 390px (2.7s)
+  ✓  73 tests/e2e/pages.spec.ts:30:5 › /menu/ at 390px (2.1s)
+  ✓  75 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1024px (2.0s)
+  ✓  74 tests/e2e/pages.spec.ts:30:5 › /menu/ at 768px (2.4s)
   ✓  76 tests/e2e/pages.spec.ts:30:5 › /menu/ at 1440px (2.2s)
-  ✓  78 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 360px (2.3s)
-  ✓  77 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 320px (3.0s)
-  ✓  79 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 390px (2.9s)
-  ✓  80 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 768px (2.8s)
-  ✓  81 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1024px (2.9s)
-  ✓  83 tests/e2e/pages.spec.ts:30:5 › /terms/ at 320px (2.2s)
-  ✓  82 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1440px (2.9s)
+  ✓  77 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 320px (1.7s)
+  ✓  78 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 360px (2.6s)
+  ✓  79 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 390px (2.4s)
+  ✓  80 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 768px (2.3s)
+  ✓  81 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1024px (2.0s)
   ✓  84 tests/e2e/pages.spec.ts:30:5 › /terms/ at 360px (1.9s)
-  ✓  86 tests/e2e/pages.spec.ts:30:5 › /terms/ at 768px (1.9s)
-  ✓  85 tests/e2e/pages.spec.ts:30:5 › /terms/ at 390px (2.4s)
-  ✓  87 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1024px (2.1s)
-  ✓  88 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1440px (2.1s)
+  ✓  83 tests/e2e/pages.spec.ts:30:5 › /terms/ at 320px (2.2s)
+  ✓  82 tests/e2e/pages.spec.ts:30:5 › /privacy/ at 1440px (2.6s)
+  ✓  85 tests/e2e/pages.spec.ts:30:5 › /terms/ at 390px (1.9s)
+  ✓  87 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1024px (1.6s)
+  ✓  86 tests/e2e/pages.spec.ts:30:5 › /terms/ at 768px (2.1s)
   ✓  89 tests/e2e/pages.spec.ts:30:5 › /visit/ at 320px (1.9s)
-  ✓  90 tests/e2e/pages.spec.ts:30:5 › /visit/ at 360px (2.1s)
+  ✓  88 tests/e2e/pages.spec.ts:30:5 › /terms/ at 1440px (2.2s)
+  ✓  90 tests/e2e/pages.spec.ts:30:5 › /visit/ at 360px (1.9s)
+  ✓  92 tests/e2e/pages.spec.ts:30:5 › /visit/ at 768px (1.8s)
   ✓  91 tests/e2e/pages.spec.ts:30:5 › /visit/ at 390px (2.2s)
-  ✓  92 tests/e2e/pages.spec.ts:30:5 › /visit/ at 768px (2.1s)
-  ✓  93 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1024px (2.3s)
-  ✓  96 tests/e2e/pages.spec.ts:64:1 › titles and descriptions are unique and within limits (2.0s)
-  ✓  94 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1440px (2.6s)
-  ✓  95 tests/e2e/pages.spec.ts:54:1 › dark theme passes axe on key pages (4.8s)
-  96 passed (1.0m)
+  ✓  93 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1024px (2.2s)
+  ✓  94 tests/e2e/pages.spec.ts:30:5 › /visit/ at 1440px (2.1s)
+  ✓  96 tests/e2e/pages.spec.ts:64:1 › titles and descriptions are unique and within limits (1.6s)
+  ✓  95 tests/e2e/pages.spec.ts:54:1 › dark theme passes axe on key pages (4.3s)
+  96 passed (52.9s)
 ```
 
 ### links
@@ -112,29 +116,29 @@ links: no broken links
 `npm run lighthouse`
 
 ```
-Started a web server on port 42653...
-Running Lighthouse 1 time(s) on http://localhost:42653/
+Started a web server on port 45253...
+Running Lighthouse 1 time(s) on http://localhost:45253/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:42653/menu/
+Running Lighthouse 1 time(s) on http://localhost:45253/menu/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:42653/banquet/
+Running Lighthouse 1 time(s) on http://localhost:45253/banquet/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:42653/visit/
+Running Lighthouse 1 time(s) on http://localhost:45253/visit/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:42653/contact/
+Running Lighthouse 1 time(s) on http://localhost:45253/contact/
 Run #1...done.
-Running Lighthouse 1 time(s) on http://localhost:42653/faq/
+Running Lighthouse 1 time(s) on http://localhost:45253/faq/
 Run #1...done.
 Done running Lighthouse!
 Dumping 6 reports to disk at /home/claude/royal-indraprastha/.lighthouseci/reports...
 Done writing reports to disk.
 Done running autorun.
-/            perf 100, a11y 100, best practices 100, SEO 100, LCP 1369 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
-/banquet/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1516 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
-/contact/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1521 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
+/            perf 100, a11y 100, best practices 100, SEO 100, LCP 1357 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
+/banquet/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1512 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
+/contact/    perf 100, a11y 100, best practices 100, SEO 100, LCP 1513 ms, CLS 0.000, TBT 0 ms, JS 13.5 KB
 /faq/        perf 100, a11y 100, best practices 100, SEO 100, LCP 1366 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
-/menu/       perf 100, a11y 100, best practices 100, SEO 100, LCP 1381 ms, CLS 0.000, TBT 0 ms, JS 4.2 KB
-/visit/      perf 100, a11y 100, best practices 100, SEO 100, LCP 1360 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
+/menu/       perf 100, a11y 100, best practices 100, SEO 100, LCP 1366 ms, CLS 0.000, TBT 0 ms, JS 4.2 KB
+/visit/      perf 100, a11y 100, best practices 100, SEO 100, LCP 1358 ms, CLS 0.000, TBT 0 ms, JS 3.8 KB
 Checking assertions against 6 URL(s), 6 total run(s)
 All results processed!
 ```

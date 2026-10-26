@@ -15,6 +15,7 @@
     "@axe-core/playwright": "^4.14.0",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.64.1",
+    "esbuild": "^0.28.2",
     "eslint": "^10.13.0",
     "html-validate": "^11.17.0",
     "linkinator": "^8.1.0",
@@ -35,7 +36,7 @@
     "build": "node scripts/photos.mjs && astro build && pagefind --site dist && node scripts/postbuild.mjs",
     "build:demo": "DEMO=1 npm run build",
     "preview": "astro preview --port 4321",
-    "check": "astro check && eslint . && prettier --check . && html-validate \"dist/**/*.html\"",
+    "check": "astro check && eslint . && prettier --check . && html-validate \"dist/**/*.html\" && node scripts/bundle-api.mjs --check",
     "format": "prettier --write .",
     "test": "node --test tests/unit/*.test.ts && playwright test",
     "test:unit": "node --test tests/unit/*.test.ts",
@@ -46,6 +47,7 @@
     "audit:placeholders": "node scripts/audit-placeholders.mjs",
     "qa": "node scripts/qa.mjs",
     "pages:dev": "wrangler pages dev dist",
-    "deploy": "wrangler pages deploy dist"
+    "deploy": "wrangler pages deploy dist",
+    "api": "node scripts/bundle-api.mjs"
   }
 }
