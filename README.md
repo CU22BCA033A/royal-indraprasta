@@ -2,7 +2,7 @@
 
 English website for Royal Indraprastha, a pure vegetarian restaurant with a banquet hall on Field Marshal Cariappa Road, Rajarajeshwari Nagar, Bengaluru.
 
-- Static site built with Astro, hosted on Cloudflare Pages.
+- Static site built with Astro, deployed on Vercel (Cloudflare Pages also supported).
 - Three small serverless functions send enquiry, contact and data request forms by email.
 - No cookies, no third-party scripts, no tracking.
 

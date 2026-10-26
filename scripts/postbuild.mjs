@@ -1,15 +1,20 @@
 // Runs after `astro build` and `pagefind`:
 // - removes photo originals and any stray files that must not deploy
 // - writes robots.txt with the sitemap URL
-// - writes _headers with a strict Content-Security-Policy, hashing every
-//   inline script actually present in the built HTML
-import { createHash } from 'node:crypto';
+// - fails if any inline script appears, because the Content-Security-Policy
+//   in vercel.json (and _headers for Cloudflare) allows only same-origin scripts
+// - writes _headers for Cloudflare Pages (skipped on Vercel, which uses vercel.json)
 import { existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, relative } from 'node:path';
 
 const root = new URL('..', import.meta.url).pathname;
 const dist = join(root, 'dist');
-const SITE = (process.env.SITE_URL ?? 'https://royal-indraprastha.pages.dev').replace(/\/$/, '');
+const SITE = (
+  process.env.SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'https://royal-indraprasta.vercel.app')
+).replace(/\/$/, '');
 
 for (const p of ['photos-incoming']) rmSync(join(dist, p), { recursive: true, force: true });
 
@@ -21,57 +26,28 @@ function htmlFiles(dir) {
   });
 }
 
-const hashes = new Set();
+const inline = [];
 for (const file of htmlFiles(dist)) {
   const html = readFileSync(file, 'utf8');
   for (const m of html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/g)) {
-    const attrs = m[1] ?? '';
-    if (/type="application\/ld\+json"/.test(attrs)) continue;
-    hashes.add(
-      `'sha256-${createHash('sha256')
-        .update(m[2] ?? '')
-        .digest('base64')}'`,
-    );
+    if (/type="application\/ld\+json"/.test(m[1] ?? '')) continue;
+    inline.push(relative(dist, file));
   }
 }
+if (inline.length) {
+  throw new Error(`Inline scripts would be blocked by the CSP. Move them to files: ${[...new Set(inline)].join(', ')}`);
+}
 
-const csp = [
-  "default-src 'self'",
-  `script-src 'self' 'wasm-unsafe-eval' ${[...hashes].join(' ')}`.trim(),
-  "style-src 'self'",
-  "img-src 'self' data:",
-  "font-src 'self'",
-  "connect-src 'self'",
-  "manifest-src 'self'",
-  "frame-src 'none'",
-  "frame-ancestors 'none'",
-  "object-src 'none'",
-  "base-uri 'self'",
-  "form-action 'self'",
-  'upgrade-insecure-requests',
-].join('; ');
-
-const headers = `/*
-  Content-Security-Policy: ${csp}
-  Strict-Transport-Security: max-age=31536000; includeSubDomains
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Cross-Origin-Opener-Policy: same-origin
-  X-Frame-Options: DENY
-
-/_astro/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/fonts/*
-  Cache-Control: public, max-age=31536000, immutable
-
-/photos/*
-  Cache-Control: public, max-age=2592000
-`;
-writeFileSync(join(dist, '_headers'), headers);
+// Cloudflare Pages reads dist/_headers; generate it from vercel.json so both hosts send the same headers.
+if (!process.env.VERCEL) {
+  const { headers: rules } = JSON.parse(readFileSync(join(root, 'vercel.json'), 'utf8'));
+  const blocks = rules.map(
+    (r) => `${r.source.replace('/(.*)', '/*')}\n${r.headers.map((h) => `  ${h.key}: ${h.value}`).join('\n')}`,
+  );
+  writeFileSync(join(dist, '_headers'), blocks.join('\n\n') + '\n');
+}
 
 writeFileSync(join(dist, 'robots.txt'), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap-index.xml\n`);
 
 if (!existsSync(join(dist, '404.html'))) throw new Error('404.html missing from build');
-console.log(`postbuild: ${hashes.size} inline script hash(es), _headers and robots.txt written`);
+console.log(`postbuild: no inline scripts, robots.txt${process.env.VERCEL ? '' : ' and _headers'} written`);

@@ -2,8 +2,13 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Canonical origin. Set SITE_URL to the real domain at launch.
-const SITE = process.env.SITE_URL ?? 'https://royal-indraprastha.pages.dev';
+// Canonical origin. Set SITE_URL to the real domain at launch. On Vercel the
+// production domain is used automatically until then.
+const SITE =
+  process.env.SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'https://royal-indraprasta.vercel.app');
 
 export default defineConfig({
   site: SITE,

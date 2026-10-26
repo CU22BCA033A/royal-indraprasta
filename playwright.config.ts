@@ -15,7 +15,7 @@ export default defineConfig({
     launchOptions: executablePath ? { executablePath, args: ['--no-sandbox', '--no-zygote', '--disable-gpu'] } : {},
   },
   webServer: {
-    command: 'npx astro preview --port 4321',
+    command: 'npx astro preview --port 4321 --ignore-lock',
     url: 'http://localhost:4321/',
     reuseExistingServer: true,
     timeout: 60_000,

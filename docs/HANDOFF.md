@@ -28,7 +28,7 @@ Rule of the codebase: an unconfirmed fact is `null`, and anything that depends o
 
 ## How to deploy
 
-See `DEPLOY.md`. In short: connect the repository to Cloudflare Pages with build command `npm run build` and output `dist`, add the four email secrets, connect the domain.
+Vercel: import the GitHub repository, add the email environment variables, deploy. `vercel.json` already holds the build settings and security headers, and the forms run from `api/` as Edge Functions. Full steps, including the Cloudflare alternative, are in `DEPLOY.md`.
 
 ## Blocked on the owner
 

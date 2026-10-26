@@ -13,12 +13,12 @@ export interface KV {
 }
 
 export interface Env {
-  RESEND_API_KEY?: string;
-  OWNER_EMAIL?: string;
-  FROM_EMAIL?: string;
+  RESEND_API_KEY?: string | undefined;
+  OWNER_EMAIL?: string | undefined;
+  FROM_EMAIL?: string | undefined;
   /** Allowed origin, for example https://royalindraprastha.in. Defaults to the request's own origin. */
-  SITE_ORIGIN?: string;
-  /** Optional Workers KV namespace for per-IP rate limiting. */
+  SITE_ORIGIN?: string | undefined;
+  /** Optional Workers KV namespace for per-IP rate limiting (Cloudflare only). */
   RATE_LIMIT?: KV;
 }
 
@@ -198,7 +198,11 @@ export async function handle(
   if (typeof body.elapsed !== 'number' || body.elapsed < LIMITS.minFillMs) return json(200, { ok: true }, origin);
 
   if (env.RATE_LIMIT) {
-    const ip = request.headers.get('CF-Connecting-IP') ?? 'unknown';
+    const ip =
+      request.headers.get('CF-Connecting-IP') ??
+      request.headers.get('X-Real-IP') ??
+      request.headers.get('X-Forwarded-For')?.split(',')[0]?.trim() ??
+      'unknown';
     const key = `rl:${kind}:${await sha256(`${ip}:${Math.floor(Date.now() / (RATE_WINDOW_S * 1000))}`)}`;
     const count = Number((await env.RATE_LIMIT.get(key)) ?? '0');
     if (count >= RATE_MAX) return json(429, { ok: false, code: 'rate' }, origin);

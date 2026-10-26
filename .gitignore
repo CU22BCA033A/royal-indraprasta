@@ -10,3 +10,4 @@ test-results/
 playwright-report/
 src/assets/photos/generated/
 .dev.vars
+.vercel/
