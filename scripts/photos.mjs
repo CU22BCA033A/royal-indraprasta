@@ -2,7 +2,7 @@
 // WebP files in public/photos/, strips metadata (including GPS), and writes
 // src/config/photos.generated.json with sizes for <picture>.
 // Originals are never deployed: scripts/postbuild.mjs removes the incoming folder from dist.
-import { existsSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join, parse } from 'node:path';
 import sharp from 'sharp';
 
@@ -15,7 +15,17 @@ const WIDTHS = [480, 800, 1200, 1600];
 mkdirSync(inDir, { recursive: true });
 mkdirSync(outDir, { recursive: true });
 
+// Start from the committed manifest so a build without the originals (as on
+// Vercel, where photos-incoming/ is not in the repo) keeps every photo that is
+// already processed. Entries whose files are gone are dropped.
+const previous = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, 'utf8')) : {};
 const manifest = {};
+for (const [slug, entry] of Object.entries(previous)) {
+  const ok = entry.widths.every(
+    (w) => existsSync(join(outDir, `${slug}-${w}.avif`)) && existsSync(join(outDir, `${slug}-${w}.webp`)),
+  );
+  if (ok) manifest[slug] = entry;
+}
 const files = readdirSync(inDir).filter((f) => /\.(jpe?g|png|webp|tiff?)$/i.test(f));
 for (const file of files) {
   const slug = parse(file).name.toLowerCase();
