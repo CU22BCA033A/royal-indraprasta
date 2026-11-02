@@ -10,9 +10,8 @@ import Icon from '../components/Icon.astro';
 import { t, fmt, branchCount } from '../content/copy.ts';
 import { menu, itemsFor } from '../config/menu.ts';
 import { faqsFor } from '../config/faq.ts';
-import { liveBranches, mainBranch, branchMapsUrl } from '../data/branches.ts';
+import { liveBranches, mainBranch, branchMapsUrl, branchDirectionsUrl } from '../data/branches.ts';
 import { restaurantJsonLd } from '../lib/seo.ts';
-import { hasPhoto } from '../lib/photos.ts';
 
 const counts = branchCount(liveBranches.length);
 const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
@@ -27,41 +26,54 @@ const boardCats = menu.filter((c) => ['tiffin', 'dosa', 'north-indian', 'chaat']
   jsonld={liveBranches.map((b) => restaurantJsonLd(origin, b))}
   signHeader
 >
-  <section class="band--sign sign-hero" aria-labelledby="hero-title">
-    <div class="wrap grid">
-      <div class="board">
-        <p class="kicker kicker--split"><span>{t.common.pureVeg}</span><span>{t.home.kickerPlace}</span></p>
-        <h1 id="hero-title" class="sign-title">
-          <span class="name"><span>Royal</span><span>Indraprastha</span></span>
-          <span class="line">{fmt(t.home.line, counts)}</span>
+  <section class="facade" aria-labelledby="hero-title">
+    <div class="wrap grid facade__grid">
+      <div class="panel band--sign">
+        <h1 id="hero-title" class="signname">
+          <span class="royal">Royal</span>
+          <span class="name">Indraprastha</span>
         </h1>
-        <p class="sign-dishes">{t.home.dishes}</p>
+        <p class="facade__line">{fmt(t.home.line, counts)}</p>
         <div class="btn-row" data-hero-cta>
           {
             mainBranch.phone && (
-              <a class="btn" href={`tel:${mainBranch.phone.e164}`}>
+              <a class="btn btn--gold" href={`tel:${mainBranch.phone.e164}`}>
                 <Icon name="phone" />
                 {fmt(t.common.callBranch, { name: mainBranch.name })}
               </a>
             )
           }
-          <a class="btn btn--ghost" href="/menu/">{t.home.menuLink}</a>
+          <a class="btn btn--ghost" href={branchDirectionsUrl(mainBranch)} rel="noopener" target="_blank">
+            <Icon name="pin" />
+            {t.common.directions}
+            <span class="visually-hidden">
+              {' '}
+              {fmt(t.common.directionsTo, { name: mainBranch.name })} ({t.common.newTab})
+            </span>
+          </a>
         </div>
+        <p class="facade__more"><a href="/menu/">{t.home.menuLink}</a></p>
+        <p class="tagline">{t.home.tagline}</p>
       </div>
+      <Photo
+        slug="cariappa-render"
+        sizes="(min-width: 82rem) 50rem, (min-width: 60rem) 62vw, 100vw"
+        eager
+        class="facade__view"
+        caption={t.home.renderCaption}
+      />
+    </div>
+  </section>
+
+  <section class="band band--tight today-band" aria-labelledby="today-title">
+    <div class="wrap">
       <TodayLedger />
     </div>
   </section>
 
-  {hasPhoto('exterior') && (
-    <div class="wrap band--tight">
-      <Photo slug="exterior" sizes="(min-width: 82rem) 78rem, 100vw" />
-    </div>
-  )}
-
   <section class="band menu-board" aria-labelledby="menu-title">
     <div class="wrap grid">
       <div class="intro">
-        <p class="kicker">{t.home.menuKicker}</p>
         <h2 id="menu-title">{t.home.menuTitle}</h2>
         <p>{t.home.menuLead}</p>
         <a class="arrow-link" href="/menu/">{t.home.menuLink}</a>
@@ -69,14 +81,9 @@ const boardCats = menu.filter((c) => ['tiffin', 'dosa', 'north-indian', 'chaat']
       </div>
       <div class="columns">
         {
-          boardCats.map((c, i) => (
+          boardCats.map((c) => (
             <section aria-labelledby={`board-${c.id}`}>
-              <h3 id={`board-${c.id}`}>
-                <span class="numeral" aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                {c.name}
-              </h3>
+              <h3 id={`board-${c.id}`}>{c.name}</h3>
               <ul class="dish-list" role="list">
                 {itemsFor(c, null).map((item) => (
                   <li>
@@ -106,8 +113,9 @@ const boardCats = menu.filter((c) => ['tiffin', 'dosa', 'north-indian', 'chaat']
       <section class="band band--paper hall" aria-labelledby="hall-title">
         <div class="wrap grid">
           <div class="statement">
-            <p class="kicker">{t.home.hallKicker}</p>
-            <h2 id="hall-title">{t.home.hallTitle}</h2>
+            <h2 id="hall-title">
+              {hallBranch.hall?.name ? fmt(t.home.hallTitle, { hall: hallBranch.hall.name }) : t.home.hallTitleNoName}
+            </h2>
             <p>{t.home.hallLead}</p>
             {hallBranch.hall && (hallBranch.hall.seated !== null || hallBranch.hall.standing !== null) && (
               <dl class="facts">

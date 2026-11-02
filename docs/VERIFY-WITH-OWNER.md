@@ -61,3 +61,10 @@ Each item below is `null` or hidden on the site until the owner confirms it. Upd
 - Rooms: mentioned on the Channasandra branch only, with no details.
 - About page: not built into the site.
 - Ratings: not shown. A Google Maps search link is used for reviews until the exact listing link is supplied.
+
+## From the images supplied on 2 November 2026
+
+35. The rendering names the hall "Anugraha Banquet"; the site now uses that name. Confirm it, and that the finished building matches the rendering.
+36. The daytime photo shows "Chenniga Arcade" on the building. Is that the building name to give guests as a landmark?
+37. Confirm you own the four images (the rendering is credited to an interiors firm) and that the people visible in them agree to appear.
+38. The logo (magenta field, gold paisley, gold lobed frame) is only seen in the rendering. Please send the original artwork so it can be used on the site and in the favicon.

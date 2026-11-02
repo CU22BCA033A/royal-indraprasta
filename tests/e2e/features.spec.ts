@@ -56,7 +56,7 @@ test('theme toggle switches and persists', async ({ page }) => {
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
   const bg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-  expect(bg).toBe('rgb(28, 21, 18)');
+  expect(bg).toBe('rgb(23, 16, 13)');
 });
 
 test('search finds pages and reports no results', async ({ page }) => {

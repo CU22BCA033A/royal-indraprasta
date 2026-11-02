@@ -1,3 +1,4 @@
+import type { PhotoSlug } from '../config/photos.ts';
 /**
  * Every outlet of Royal Indraprastha. One object per branch; the site renders
  * only branches with `confirmed: true` (two independent sources or the owner).
@@ -65,6 +66,8 @@ export interface Branch {
     rooms: boolean;
   };
   hall: Hall | null;
+  /** Photo of the branch front, a slug in src/config/photos.ts, or null. */
+  photo: PhotoSlug | null;
   fssaiLicence: string | null;
   access: string[] | null;
   parking: string[] | null;
@@ -110,7 +113,9 @@ export const branches: Branch[] = [
     hours: everyDay(null, '22:30'),
     services: { dineIn: true, takeaway: null, banquet: true, rooms: false },
     // A venue marketplace lists 150 seated and 250 standing (S4, single source).
-    hall: { name: null, seated: null, standing: null, inclusions: null },
+    // Hall name from the owner's building rendering (2 November 2026).
+    hall: { name: 'Anugraha Banquet', seated: null, standing: null, inclusions: null },
+    photo: 'cariappa-day',
     fssaiLicence: null,
     access: null,
     parking: null,
@@ -144,6 +149,7 @@ export const branches: Branch[] = [
     hours: everyDay(null, null),
     services: { dineIn: true, takeaway: null, banquet: false, rooms: true },
     hall: null,
+    photo: 'channasandra-hotel',
     fssaiLicence: null,
     access: null,
     parking: null,

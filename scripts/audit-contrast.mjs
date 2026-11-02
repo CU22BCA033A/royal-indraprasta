@@ -49,7 +49,14 @@ const PAIRS = [
   ['on-sign', 'sign', 7, 'Signboard text (AAA)'],
   ['on-sign-muted', 'sign', 4.5, 'Secondary text on the signboard'],
   ['brass', 'sign', 4.5, 'Brass labels and buttons on the signboard'],
-  ['sign', 'brass', 4.5, 'Button label on brass'],
+  ['sign', 'brass', 4.5, 'Button label on gold'],
+  ['on-sign', 'sign-2', 7, 'Page-head text on the lighter wood (AAA)'],
+  ['brass', 'sign-2', 4.5, 'Gold links on the lighter wood'],
+  ['plate-ink', 'plate', 7, 'Name on the sign plate (AAA)'],
+  ['plate-gold', 'plate', 3, 'Script Royal on the sign plate (large text)'],
+  ['on-brick', 'brick', 7, 'Footer text on brick (AAA)'],
+  ['on-brick-muted', 'brick', 4.5, 'Secondary footer text on brick'],
+  ['brass', 'brick', 3, 'Large gold script in the footer (large text)'],
 ];
 const DECORATIVE = [
   ['rule', 'bg', 'Hairline rules only, carries no information'],

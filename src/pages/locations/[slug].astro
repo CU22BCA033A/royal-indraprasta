@@ -1,4 +1,5 @@
 ---
+import Photo from '../../components/Photo.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import AddressBlock from '../../components/AddressBlock.astro';
 import HoursBoard from '../../components/HoursBoard.astro';
@@ -34,7 +35,11 @@ const services = (
   <header class="band--sign page-sign">
     <div class="wrap grid">
       <div class="title">
-        <p class="kicker"><a href="/locations/">{t.locations.kicker}</a> &middot; {branch.area}</p>
+        <nav class="crumbs" aria-label="Breadcrumb">
+          <a href="/locations/">{t.locations.kicker}</a>
+          <span aria-hidden="true"> / </span>
+          <span aria-current="page">{branch.name}</span>
+        </nav>
         <h1>{branch.name}</h1>
       </div>
       <div class="lead-col">
@@ -43,7 +48,15 @@ const services = (
     </div>
   </header>
 
-  <section class="band branch-main" aria-label={branch.name}>
+  {
+    branch.photo && (
+      <div class="wrap branch-hero">
+        <Photo slug={branch.photo} sizes="(min-width: 82rem) 78rem, 100vw" eager />
+      </div>
+    )
+  }
+
+  <section class="band branch-main" aria-label={`${branch.name}: address and hours`}>
     <div class="wrap grid">
       <div class="where-col">
         <AddressBlock branch={branch} />

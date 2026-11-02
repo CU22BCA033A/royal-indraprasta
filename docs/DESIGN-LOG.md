@@ -71,3 +71,33 @@ Ivory pages, one section padding everywhere, equal weight on every block, Young 
 | Dark                | `round-4-dark/`                                                 | Signboard deepens to `#3A1016`; paper bands become warm brown, not black. All pairs pass in `CONTRAST.md`. Pass.                                                                                                                                              |
 | Forced colours      | `forced-colors: active` rules in `base.css`                     | Buttons, the board frame and the branch select keep visible borders.                                                                                                                                                                                          |
 | Lighthouse (mobile) | `npm run lighthouse` on 7 pages                                 | 100 / 100 / 100 / 100 on every page tested; largest contentful paint 1.2 to 1.5 s simulated; layout shift 0.                                                                                                                                                  |
+
+## Round 5: the building itself (2 November 2026)
+
+The owner supplied the architect's rendering of the Cariappa Road building and three photos, asked for the rendering to lead, and chose to follow the real brand closely. The maroon signboard look was replaced.
+
+- Palette from the building: dark wood `#2B1712`, cream wall and sign plate, gold script `#D9A947`, magenta from the logo `#8A2775` for links and actions, brick `#7A3324` for the footer.
+- Type from the signage: Zilla Slab 700 for "Indraprastha" and headings (matches the bracketed slab letters on the sign), Yellowtail for "Royal" and "Relish. Like a King", Figtree for text.
+- Header is the eave, with the white filigree trim drawn as a repeating SVG hanging below it; page heads repeat the trim.
+- Hero: the wood panel carries the cream sign plate, a Call and a Directions button and the tagline; the rendering sits beside it on desktop and above it on phones.
+- Branch list and branch pages carry each branch's own photo.
+- Dark mode is the building at night: the plate goes dark and the letters glow.
+- Impeccable rules applied: no eyebrow labels above headings, no decorative section numbers, no thick coloured side borders; caret and scrollbar themed.
+- Independent review (Impeccable finish reviewer, run in a separate agent) returned "fix" with seven items; all seven were fixed: Directions added to the hero, sign-plate lettering so the shadow reads, rendering first on phones, crop that keeps the banquet wing visible, darker-mode panel separated from the page, footer heading order, and the night sign photo dropped where it was cut.
+- Impeccable's detector: no findings. All QA gates pass; Lighthouse 99 to 100 on every tested page.
+
+| Area            | R4  | R5  |
+| --------------- | --- | --- |
+| Hierarchy       | 9   | 9   |
+| Spacing rhythm  | 9   | 9   |
+| Typography      | 9   | 9   |
+| Colour use      | 9   | 9   |
+| Imagery         | 6   | 8   |
+| Consistency     | 9   | 9   |
+| Craft details   | 9   | 9   |
+| Distinctiveness | 9   | 9   |
+| Mobile quality  | 9   | 9   |
+| Copy quality    | 9   | 9   |
+| **Average**     | 8.7 | 8.9 |
+
+Imagery is 8, not 9: there are still no food, dining room or banquet hall photos.

@@ -1,5 +1,7 @@
 # Asset request
 
+Received on 2 November 2026: the architect's rendering of the Cariappa Road building, a daytime photo of the Cariappa Road front, a night photo of the lit sign, and a night photo of the Channasandra building. All four are in use except the night sign photo. Still needed: the logo artwork, and the food, dining room and banquet hall photos below.
+
 One list of everything the site still needs from the owner. Nothing here is invented on the site in the meantime: each missing item is hidden or replaced by a prompt to call.
 
 ## 1. Brand

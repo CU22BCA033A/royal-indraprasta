@@ -92,7 +92,7 @@
   }
   .form-status {
     padding: var(--s4) var(--s5);
-    border-left: 3px solid var(--primary);
+    border: 1px solid var(--primary);
     background: var(--bg);
   }
   .form-status h3 {
@@ -102,7 +102,7 @@
     margin-bottom: var(--s2);
   }
   .form-status[data-kind='error'] {
-    border-left-color: var(--error);
+    border-color: var(--error);
   }
   .form-status[data-kind='error'] h3 {
     color: var(--error);

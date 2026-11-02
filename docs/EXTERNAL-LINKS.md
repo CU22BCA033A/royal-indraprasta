@@ -1,6 +1,6 @@
 # External links
 
-Checked 2026-10-26 (listed only: outbound requests blocked in the build environment).
+Checked 2026-11-02 (listed only: outbound requests blocked in the build environment).
 
 | URL | Result |
 |---|---|

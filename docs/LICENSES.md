@@ -2,10 +2,11 @@
 
 ## Fonts (self-hosted from `public/fonts/`)
 
-| Family      | Package                   | Version | Licence                   |
-| ----------- | ------------------------- | ------- | ------------------------- |
-| Young Serif | `@fontsource/young-serif` | 5.3.0   | SIL Open Font License 1.1 |
-| Figtree     | `@fontsource/figtree`     | 5.3.0   | SIL Open Font License 1.1 |
+| Family     | Package                  | Version | Licence                   |
+| ---------- | ------------------------ | ------- | ------------------------- |
+| Zilla Slab | `@fontsource/zilla-slab` | 5.3.0   | SIL Open Font License 1.1 |
+| Yellowtail | `@fontsource/yellowtail` | 5.3.0   | Apache License 2.0        |
+| Figtree    | `@fontsource/figtree`    | 5.3.0   | SIL Open Font License 1.1 |
 
 ## Code dependencies
 

@@ -5,29 +5,42 @@
   :root {
     color-scheme: light;
 
-    /* Page */
-    --bg: #f6efe2;
-    --surface: #efe5d3;
-    --text: #2a1d16;
-    --muted: #5b4a3f;
-    --primary: #6e1f2b;
-    --on-primary: #f6efe2;
-    --brass-ink: #6f5116;
+    /* Page: the cream signboard and wall */
+    --bg: #f2ece2;
+    --surface: #e8dfd1;
+    --text: #2b1712;
+    --muted: #5e4a40;
+    --primary: #8a2775;
+    --on-primary: #f4ebdd;
+    --brass-ink: #6e5313;
     --veg: #2f6b3f;
     --error: #a3261b;
-    --rule: #c4a877;
-    --rule-strong: #2a1d16;
-    --line: #5b4a3f;
+    --rule: #c9b593;
+    --rule-strong: #2b1712;
+    --line: #5e4a40;
 
-    /* Signboard field */
-    --sign: #4a1219;
-    --on-sign: #f3e6cf;
-    --on-sign-muted: #d9c7a8;
-    --brass: #d8ae62;
-    --sign-rule: #9a7840;
+    /* Wood panel (token names kept from the signboard system) */
+    --sign: #2b1712;
+    --sign-2: #3d241c;
+    --on-sign: #f4ebdd;
+    --on-sign-muted: #d8c6b0;
+    --brass: #d9a947;
+    --sign-rule: #6b4a35;
+    --glow: none;
+    --plate: #ece4d6;
+    --plate-ink: #2b1712;
+    --plate-gold: #7f5d12;
+    --plate-shadow: 0.03em 0.05em 0.025em rgb(43 23 18 / 0.42);
+
+    /* Brick base */
+    --brick: #7a3324;
+    --on-brick: #f4ebdd;
+    --on-brick-muted: #e6c9a6;
+    --brick-line: #6c2c1f;
 
     /* Type */
-    --font-display: 'Rozha One', 'Georgia', serif;
+    --font-display: 'Zilla Slab', 'Rockwell', Georgia, serif;
+    --font-script: 'Yellowtail', cursive;
     --font-body: 'Figtree', system-ui, sans-serif;
 
     /* Fluid scale, ratio about 1.25 on phones rising to about 1.414 on desktop */
@@ -59,7 +72,7 @@
     --radius: 2px;
     --measure: 64ch;
     --header-h: 4.25rem;
-    --shadow-float: 0 2px 10px rgb(42 29 22 / 0.2);
+    --shadow-float: 0 2px 10px rgb(43 23 18 / 0.2);
     --tap: 44px;
     --ease: cubic-bezier(0.2, 0, 0, 1);
   }
@@ -67,46 +80,66 @@
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme='light']) {
       color-scheme: dark;
-      --bg: #1c1512;
-      --surface: #261c17;
-      --text: #f1e8d8;
-      --muted: #cdbfa9;
-      --primary: #e3a3a8;
-      --on-primary: #1c1512;
-      --brass-ink: #d9ae63;
+      --bg: #17100d;
+      --surface: #221815;
+      --text: #f4ebdd;
+      --muted: #cdbba8;
+      --primary: #e7a6d8;
+      --on-primary: #17100d;
+      --brass-ink: #e8be5c;
       --veg: #7fbf8e;
       --error: #f0a59e;
-      --rule: #6b5233;
-      --rule-strong: #cdbfa9;
-      --line: #cdbfa9;
-      --sign: #3a1016;
-      --on-sign: #f3e6cf;
-      --on-sign-muted: #d9c7a8;
-      --brass: #d9ae63;
-      --sign-rule: #8a6a3a;
+      --rule: #4d382c;
+      --rule-strong: #cdbba8;
+      --line: #cdbba8;
+      --sign: #3a221b;
+      --sign-2: #47291f;
+      --on-sign: #fff1d6;
+      --on-sign-muted: #d8c6b0;
+      --brass: #e8be5c;
+      --sign-rule: #6a4a37;
+      --glow: 0 0 0.35em rgb(255 200 110 / 0.45);
+      --plate: #3a221b;
+      --plate-ink: #fff1d6;
+      --plate-gold: #e8be5c;
+      --plate-shadow: 0.035em 0.055em 0.03em rgb(0 0 0 / 0.55);
+      --brick: #3d1a13;
+      --on-brick: #f4ebdd;
+      --on-brick-muted: #e6c9a6;
+      --brick-line: #4a2117;
       --shadow-float: 0 2px 10px rgb(0 0 0 / 0.45);
     }
   }
 
   :root[data-theme='dark'] {
     color-scheme: dark;
-    --bg: #1c1512;
-    --surface: #261c17;
-    --text: #f1e8d8;
-    --muted: #cdbfa9;
-    --primary: #e3a3a8;
-    --on-primary: #1c1512;
-    --brass-ink: #d9ae63;
+    --bg: #17100d;
+    --surface: #221815;
+    --text: #f4ebdd;
+    --muted: #cdbba8;
+    --primary: #e7a6d8;
+    --on-primary: #17100d;
+    --brass-ink: #e8be5c;
     --veg: #7fbf8e;
     --error: #f0a59e;
-    --rule: #6b5233;
-    --rule-strong: #cdbfa9;
-    --line: #cdbfa9;
-    --sign: #3a1016;
-    --on-sign: #f3e6cf;
-    --on-sign-muted: #d9c7a8;
-    --brass: #d9ae63;
-    --sign-rule: #8a6a3a;
+    --rule: #4d382c;
+    --rule-strong: #cdbba8;
+    --line: #cdbba8;
+    --sign: #3a221b;
+    --sign-2: #47291f;
+    --on-sign: #fff1d6;
+    --on-sign-muted: #d8c6b0;
+    --brass: #e8be5c;
+    --sign-rule: #6a4a37;
+    --glow: 0 0 0.35em rgb(255 200 110 / 0.45);
+    --plate: #3a221b;
+    --plate-ink: #fff1d6;
+    --plate-gold: #e8be5c;
+    --plate-shadow: 0.035em 0.055em 0.03em rgb(0 0 0 / 0.55);
+    --brick: #3d1a13;
+    --on-brick: #f4ebdd;
+    --on-brick-muted: #e6c9a6;
+    --brick-line: #4a2117;
     --shadow-float: 0 2px 10px rgb(0 0 0 / 0.45);
   }
 
@@ -115,6 +148,7 @@
       --muted: var(--text);
       --rule: var(--rule-strong);
       --on-sign-muted: var(--on-sign);
+      --on-brick-muted: var(--on-brick);
     }
   }
 }

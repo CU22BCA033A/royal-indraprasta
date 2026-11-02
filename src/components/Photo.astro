@@ -11,8 +11,9 @@ interface Props {
   sizes: string;
   eager?: boolean;
   class?: string;
+  caption?: string;
 }
-const { slug, sizes, eager = false, class: cls } = Astro.props;
+const { slug, sizes, eager = false, class: cls, caption } = Astro.props;
 const entry = (manifest as Record<string, { width: number; height: number; widths: number[] }>)[slug];
 const alt = photoAlt[slug];
 const largest = entry?.widths.at(-1);
@@ -35,6 +36,7 @@ const set = (ext: string) => entry?.widths.map((w) => `/photos/${slug}-${w}.${ex
           decoding="async"
         />
       </picture>
+      {caption && <figcaption>{caption}</figcaption>}
     </figure>
   )
 }

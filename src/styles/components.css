@@ -3,11 +3,9 @@
   .kicker {
     font-family: var(--font-body);
     line-height: 1.4;
-    font-size: var(--step--2);
+    font-size: var(--step--1);
     font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--brass-ink);
+    color: var(--muted);
   }
   .numeral {
     font-family: var(--font-display);
@@ -20,7 +18,7 @@
     color: var(--muted);
   }
   .note {
-    border-inline-start: 2px solid var(--rule);
+    border-inline-start: 1px solid var(--rule);
     padding-inline-start: var(--s4);
     color: var(--muted);
   }
@@ -75,6 +73,17 @@
     height: 1.15em;
     flex: none;
   }
+  .btn--gold,
+  .band--sign .btn--gold {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: var(--sign);
+  }
+  .band--sign .btn--gold:hover {
+    background: var(--on-sign);
+    border-color: var(--on-sign);
+    color: var(--sign);
+  }
   .btn-row {
     display: flex;
     flex-wrap: wrap;
@@ -107,17 +116,21 @@
     line-height: 1;
   }
   .wordmark__royal {
-    font-weight: 600;
-    font-size: 0.625rem;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    color: var(--brass-ink);
+    font-family: var(--font-script);
+    font-size: 1.05rem;
+    line-height: 0.9;
+    color: var(--brass);
+    margin-inline-start: 0.1rem;
   }
   .wordmark__name {
     font-family: var(--font-display);
+    font-weight: 700;
     font-size: 1.5rem;
-    margin-top: 0.2rem;
+    line-height: 1;
     letter-spacing: 0.005em;
+    text-shadow:
+      0.04em 0.06em 0.04em rgb(0 0 0 / 0.45),
+      var(--glow);
   }
 
   /* ---------- Tool buttons and branch picker in the header ---------- */
@@ -188,89 +201,139 @@
     background: #f6efe2;
   }
 
-  /* ---------- Signboard hero ---------- */
-  .sign-hero {
-    padding-block: var(--s7) var(--s9);
+  /* ---------- Facade hero: the wood signboard panel over the building ---------- */
+  .facade {
+    padding-block: calc(var(--s7) + 14px) var(--s5);
   }
-  .sign-hero .grid {
-    row-gap: var(--s8);
-    align-items: stretch;
+  .today-band {
+    padding-block: var(--s6) var(--s5);
   }
-  @media (min-width: 60rem) {
-    .sign-hero .board {
-      grid-column: 1 / 9;
-    }
-    .sign-hero .today {
-      grid-column: 9 / -1;
-    }
+  .facade__grid {
+    row-gap: 0;
   }
-  .board {
+  .panel {
     position: relative;
+    isolation: isolate;
     container-type: inline-size;
-    border: 1px solid var(--brass);
-    outline: 1px solid var(--brass);
-    outline-offset: 6px;
-    margin: 7px;
-    padding: clamp(1.5rem, 0.5rem + 4vw, 3.5rem);
+    padding: clamp(1.75rem, 0.8rem + 4vw, 3.5rem);
+    box-shadow: 0 18px 40px -18px rgb(43 23 18 / 0.55);
   }
-  .board::before,
-  .board::after {
+  .panel::before {
+    /* Plank joints of the wood panel */
     content: '';
     position: absolute;
-    width: 14px;
-    height: 14px;
-    border: 1px solid var(--brass);
-    transform: rotate(45deg);
-    background: var(--sign);
-    inset-block-start: -8px;
+    inset: 0;
+    z-index: -1;
+    background: var(--sign-rule);
+    mask: url('/planks.svg') 0 0 / 100% 46px repeat-y;
+    opacity: 0.22;
   }
-  .board::before {
-    inset-inline-start: calc(50% - 7px);
+  /* The cream sign plate from the building, set into the wood panel. At night it goes dark and the letters glow. */
+  .signname {
+    display: grid;
+    justify-items: start;
+    line-height: 1;
+    background: var(--plate);
+    padding: clamp(0.6rem, 2.4cqi, 1.1rem) clamp(0.9rem, 3.6cqi, 1.6rem) clamp(0.7rem, 2.8cqi, 1.3rem);
+    margin-inline: calc(clamp(0.9rem, 3.6cqi, 1.6rem) * -1);
+    box-shadow: 0 2px 0 rgb(0 0 0 / 0.18);
   }
-  .board::after {
-    inset-block-start: auto;
-    inset-block-end: -8px;
-    inset-inline-start: calc(50% - 7px);
+  .signname .royal {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: clamp(2rem, 8cqi, 3.5rem);
+    color: var(--plate-gold);
+    line-height: 1;
+    margin-inline-start: 0.06em;
+    margin-bottom: -0.14em;
+    text-shadow: var(--glow);
   }
-  .sign-title {
+  .signname .name {
+    /* Sized to the panel so the name never breaks: about 6.6 em wide in Zilla Slab. */
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.25rem, 13.4cqi, 5.5rem);
+    letter-spacing: -0.01em;
+    color: var(--plate-ink);
+    text-shadow: var(--plate-shadow), var(--glow);
+  }
+  .facade__line {
     margin-block: var(--s5) var(--s6);
-  }
-  .sign-title .name {
-    display: block;
-    /* Sized to the board so "Indraprastha" never breaks: about 7.3 em wide in Rozha One. */
-    font-size: clamp(2.5rem, 13cqi, 8.25rem);
-    line-height: 0.92;
-    letter-spacing: -0.012em;
-  }
-  .sign-title .name span {
-    display: block;
-  }
-  .sign-title .line {
-    display: block;
-    margin-top: var(--s5);
-    font-family: var(--font-body);
     font-size: var(--step-1);
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--on-sign-muted);
-    max-width: 34ch;
-    letter-spacing: 0;
+    max-width: 36ch;
   }
-  .sign-dishes {
-    border-top: 1px solid var(--sign-rule);
-    padding-top: var(--s5);
-    margin-bottom: var(--s6);
-    font-size: var(--step-0);
+  .facade__more {
+    margin-top: var(--s4);
+  }
+  .facade__more a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
     color: var(--on-sign);
-    max-width: 52ch;
+    font-weight: 600;
+  }
+  .facade__more a:hover {
+    color: var(--brass);
+  }
+  .tagline {
+    margin-top: var(--s5);
+    padding-top: var(--s4);
+    border-top: 1px solid var(--sign-rule);
+    font-family: var(--font-script);
+    font-size: var(--step-2);
+    line-height: 1.2;
+    color: var(--brass);
+    text-shadow: var(--glow);
+  }
+  .facade__view {
+    order: -1;
+    margin-inline: calc(var(--gutter) * -1);
+    margin-bottom: var(--s5);
+  }
+  .photo.facade__view img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: 64% 50%;
+  }
+  .photo figcaption {
+    margin-top: var(--s2);
+    font-size: var(--step--1);
+    color: var(--muted);
+    padding-inline: var(--gutter);
+  }
+  @media (min-width: 60rem) {
+    .facade__grid > * {
+      grid-row: 1;
+    }
+    .panel {
+      grid-column: 1 / 6;
+      align-self: center;
+      z-index: 1;
+      margin-inline-end: calc(var(--col-gap) * -1 - 1.5rem);
+    }
+    .facade__view {
+      order: 0;
+      grid-column: 6 / -1;
+      margin: 0 calc(var(--gutter) * -1) 0 0;
+    }
+    .photo.facade__view img {
+      aspect-ratio: auto;
+      height: clamp(26rem, 34vw, 34rem);
+      object-position: 12% 50%;
+    }
+    .photo.facade__view figcaption {
+      padding-inline: calc(1.5rem + var(--s4)) var(--gutter);
+    }
   }
   .veg-chip {
     display: inline-flex;
     align-items: center;
     gap: var(--s2);
-    font-size: var(--step--2);
+    font-size: var(--step--1);
     font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
   }
   .veg-chip svg {
     width: 14px;
@@ -279,9 +342,16 @@
 
   /* ---------- Today ledger ---------- */
   .today {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    display: grid;
+  }
+  .today ul {
+    display: grid;
+    column-gap: var(--col-gap);
+  }
+  @media (min-width: 48rem) {
+    .today ul {
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    }
   }
   .today-head {
     display: flex;
@@ -289,14 +359,14 @@
     justify-content: space-between;
     gap: var(--s3);
     padding-bottom: var(--s3);
-    border-bottom: 1px solid var(--on-sign);
+    border-bottom: 2px solid var(--rule-strong);
   }
   .today-head h2 {
     font-size: var(--step-2);
   }
   .today-row {
     padding-block: var(--s5);
-    border-bottom: 1px solid var(--sign-rule);
+    border-bottom: 1px solid var(--rule);
     display: grid;
     gap: var(--s2);
   }
@@ -308,7 +378,7 @@
   }
   .today-row h3 {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 700;
     font-size: var(--step-2);
     line-height: 1.1;
   }
@@ -321,11 +391,9 @@
     text-decoration-thickness: 1px;
   }
   .yours {
-    font-size: var(--step--2);
+    font-size: var(--step--1);
     font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brass);
+    color: var(--primary);
     white-space: nowrap;
   }
   .today-row .when {
@@ -333,13 +401,13 @@
   }
   .today-row .when b {
     font-family: var(--font-display);
-    font-weight: 400;
+    font-weight: 700;
     font-size: var(--step-3);
     line-height: 1;
     margin-inline-end: 0.15em;
   }
   .today-row .where {
-    color: var(--on-sign-muted);
+    color: var(--muted);
     font-size: var(--step--1);
   }
   .today-row .acts {
@@ -352,7 +420,7 @@
     display: inline-flex;
     align-items: center;
     min-height: var(--tap);
-    color: var(--brass);
+    font-weight: 600;
   }
 
   /* ---------- Menu board (home) ---------- */
@@ -372,7 +440,7 @@
     line-height: 1;
     margin-block: var(--s3) var(--s5);
   }
-  .menu-board .intro p:not(.kicker) {
+  .menu-board .intro p {
     font-size: var(--step-1);
     line-height: 1.5;
   }
@@ -396,18 +464,11 @@
     }
   }
   .columns section h3 {
-    display: flex;
-    align-items: baseline;
-    gap: var(--s3);
-    font-size: var(--step--1);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--brass-ink);
-    padding-bottom: var(--s2);
-  }
-  .columns section h3 .numeral {
+    font-family: var(--font-display);
+    font-weight: 700;
     font-size: var(--step-2);
-    letter-spacing: 0;
+    color: var(--text);
+    padding-bottom: var(--s2);
   }
   .dish-list li {
     display: flex;
@@ -440,7 +501,7 @@
     line-height: 1;
     margin-block: var(--s3) var(--s5);
   }
-  .hall .statement p:not(.kicker) {
+  .hall .statement p {
     font-size: var(--step-1);
     line-height: 1.5;
   }
@@ -518,17 +579,23 @@
   }
   @container (min-width: 46rem) {
     .branch-row__in {
-      grid-template-columns: 5rem minmax(0, 1.3fr) minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
       align-items: start;
     }
+    .branch-row__in.has-photo {
+      grid-template-columns: minmax(14rem, 1.3fr) minmax(0, 1.6fr) minmax(0, 0.9fr);
+    }
   }
-  .branch-row .numeral {
-    font-size: var(--step-4);
+  .photo.branch-photo img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
   }
   .branch-row h3 {
     font-family: var(--font-display);
-    font-weight: 400;
-    font-size: var(--step-3);
+    font-weight: 700;
+    font-size: var(--step-2);
+    overflow-wrap: normal;
     line-height: 1.05;
   }
   .branch-row h3 a {
@@ -541,6 +608,8 @@
   }
   .branch-row address {
     font-style: normal;
+    margin-top: var(--s3);
+    max-width: 34ch;
   }
   .branch-row .services {
     margin-top: var(--s2);
@@ -1089,6 +1158,14 @@
   }
 
   /* ---------- Photos ---------- */
+  .branch-hero {
+    margin-top: var(--s7);
+  }
+  .photo.branch-hero img,
+  .branch-hero .photo img {
+    max-height: 34rem;
+    object-fit: cover;
+  }
   .photo img {
     width: 100%;
     height: auto;

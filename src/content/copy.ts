@@ -143,8 +143,9 @@ export const t = {
     range: '{open} to {close}',
   },
   home: {
-    kickerPlace: 'Rajarajeshwari Nagar, Bengaluru',
-    line: 'South Indian tiffin, North Indian meals and evening chaat, at {count} in Rajarajeshwari Nagar.',
+    tagline: 'Relish. Like a King',
+    line: 'Pure vegetarian. South Indian tiffin, North Indian meals and evening chaat, at {count} in Rajarajeshwari Nagar, Bengaluru.',
+    renderCaption: 'The Cariappa Road building, as drawn by the architect.',
     dishes:
       'Idli, vada, dosa and coffee. Paneer butter masala with butter kulcha. Masala puri at the chaat counter in the evening.',
     todayTitle: 'Today',
@@ -152,12 +153,11 @@ export const t = {
     callForHours: 'Call for today\u2019s hours',
     noPhoneHours: 'Hours to be confirmed',
     phoneTbc: 'Phone number to be confirmed',
-    menuKicker: 'On the board',
     menuTitle: 'Tiffin to chaat',
     menuLead: 'A short list from our kitchens. Ask at the counter for the full menu and today\u2019s prices.',
     menuLink: 'The full menu',
-    hallKicker: 'Banquet hall',
-    hallTitle: 'The hall at Cariappa Road',
+    hallTitle: '{hall}, above the Cariappa Road branch',
+    hallTitleNoName: 'The hall above the Cariappa Road branch',
     hallLead:
       'For weddings, engagements, naming ceremonies, birthdays and office functions. The food, like everything here, is pure vegetarian.',
     hallLink: 'Plan an event',
@@ -208,6 +208,8 @@ export const t = {
     hallLink: 'Plan an event in the hall',
   },
   banquet: {
+    renderCaption:
+      'The architect\u2019s rendering of the Cariappa Road building. Anugraha Banquet is the upper floor on the left.',
     kicker: 'Banquet hall \u00b7 Cariappa Road',
     title: 'Hold your function at Cariappa Road',
     lead: 'Tell us the date, the occasion and how many guests to expect. We call back with availability and a quote.',

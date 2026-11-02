@@ -1,1 +1,43 @@
-{}
+{
+  "cariappa-day": {
+    "width": 1728,
+    "height": 1296,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      1728
+    ]
+  },
+  "cariappa-night": {
+    "width": 1728,
+    "height": 972,
+    "widths": [
+      480,
+      800,
+      1200,
+      1600,
+      1728
+    ]
+  },
+  "cariappa-render": {
+    "width": 1350,
+    "height": 690,
+    "widths": [
+      480,
+      800,
+      1200,
+      1350
+    ]
+  },
+  "channasandra-hotel": {
+    "width": 1090,
+    "height": 793,
+    "widths": [
+      480,
+      800,
+      1090
+    ]
+  }
+}

@@ -3,8 +3,8 @@
   "short_name": "Indraprastha",
   "start_url": "/",
   "display": "browser",
-  "background_color": "#4A1219",
-  "theme_color": "#4A1219",
+  "background_color": "#2B1712",
+  "theme_color": "#2B1712",
   "icons": [
     {
       "src": "/icon-192.png",

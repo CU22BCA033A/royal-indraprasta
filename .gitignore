@@ -11,3 +11,4 @@ playwright-report/
 src/assets/photos/generated/
 .dev.vars
 .vercel/
+public/photos-incoming/

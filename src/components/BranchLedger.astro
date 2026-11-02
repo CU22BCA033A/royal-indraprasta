@@ -1,7 +1,9 @@
 ---
-/** Ruled list of branches: numeral, name, address and services, actions. */
+/** Ruled list of branches: photo of the front where supplied, name, address and services, actions. */
 import { t, fmt } from '../content/copy.ts';
 import { liveBranches, branchAddress, branchDirectionsUrl, branchServices } from '../data/branches.ts';
+import Photo from './Photo.astro';
+import { hasPhoto } from '../lib/photos.ts';
 
 interface Props {
   headingLevel?: 'h2' | 'h3';
@@ -13,24 +15,20 @@ const H = headingLevel;
 
 <ol class="branch-ledger" role="list" data-branch-ledger>
   {
-    liveBranches.map((b, i) => (
+    liveBranches.map((b) => (
       <li
         class="branch-row"
         data-slug={b.slug}
         data-lat={nearest && b.approxGeo ? b.approxGeo.lat : undefined}
         data-lng={nearest && b.approxGeo ? b.approxGeo.lng : undefined}
       >
-        <div class="branch-row__in">
-          <span class="numeral" aria-hidden="true">
-            {String(i + 1).padStart(2, '0')}
-          </span>
+        <div class:list={['branch-row__in', { 'has-photo': b.photo && hasPhoto(b.photo) }]}>
+          {b.photo && <Photo slug={b.photo} sizes="(min-width: 60rem) 22rem, 100vw" class="branch-photo" />}
           <div>
             <H>
               <a href={`/locations/${b.slug}/`}>{b.name}</a>
             </H>
             <p class="distance" data-distance aria-live="polite" />
-          </div>
-          <div>
             <address>{branchAddress(b)}</address>
             <p class="services">{branchServices(b).join(' · ')}</p>
           </div>

@@ -25,10 +25,10 @@ const catPhoto: Record<string, PhotoSlug> = {
   <header class="page-menu">
     <div class="wrap grid">
       <div class="title">
-        <p class="kicker"><VegMark label={t.common.pureVeg} /></p>
         <h1>{t.menu.title}</h1>
       </div>
       <div class="lead-col">
+        <p class="veg-chip"><VegMark label={t.common.pureVeg} /></p>
         <p class="lead">{t.menu.lead}</p>
         <p class="meta-line">
           {t.common.lastUpdated}: <time datetime={contentDates.menu}>{formatDate(contentDates.menu)}</time>

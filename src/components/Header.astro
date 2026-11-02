@@ -15,7 +15,7 @@ const items = navItems();
 const many = liveBranches.length > 1;
 ---
 
-<header class:list={['site-header', { 'band--sign': sign }]}>
+<header class:list={['site-header', 'band--sign', { 'site-header--home': sign }]}>
   <div class="wrap">
     <Wordmark homeLabel={t.common.home} />
     <nav class="primary-nav" aria-label={t.common.navLabel}>

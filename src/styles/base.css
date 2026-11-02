@@ -48,6 +48,8 @@
     scroll-padding-top: calc(var(--header-h) + var(--s4));
     hanging-punctuation: first allow-end last;
     accent-color: var(--primary);
+    caret-color: var(--primary);
+    scrollbar-color: var(--sign-rule) var(--bg);
   }
   body {
     background: var(--bg);
@@ -71,7 +73,8 @@
   h1,
   h2 {
     font-family: var(--font-display);
-    letter-spacing: -0.005em;
+    font-weight: 700;
+    letter-spacing: -0.01em;
   }
   h3 {
     font-family: var(--font-body);

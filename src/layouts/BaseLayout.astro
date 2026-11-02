@@ -40,7 +40,7 @@ const {
 const origin = (Astro.site?.href ?? '').replace(/\/$/, '');
 const canonical = `${origin}${path}`;
 const ld = [organizationJsonLd(origin), ...jsonld];
-const preloads = ['/fonts/rozha-one-400.woff2', '/fonts/figtree-400.woff2'];
+const preloads = ['/fonts/zilla-slab-700.woff2', '/fonts/yellowtail-400.woff2', '/fonts/figtree-400.woff2'];
 ---
 
 <!doctype html>
@@ -52,8 +52,8 @@ const preloads = ['/fonts/rozha-one-400.woff2', '/fonts/figtree-400.woff2'];
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     {!single && <link rel="canonical" href={canonical} />}
-    <meta name="theme-color" content={signHeader ? '#4a1219' : '#f6efe2'} media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content={signHeader ? '#3a1016' : '#1c1512'} media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#2b1712" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#3a221b" media="(prefers-color-scheme: dark)" />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -69,7 +69,7 @@ const preloads = ['/fonts/rozha-one-400.woff2', '/fonts/figtree-400.woff2'];
     <meta property="og:image" content={`${origin}/og.png`} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Royal Indraprastha set in cream lettering on a deep maroon signboard" />
+    <meta property="og:image:alt" content="Royal Indraprastha in cream lettering with a gold script Royal on a dark wood signboard, with the line Relish. Like a King" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />

@@ -24,7 +24,7 @@ for (const file of files) {
   const w0 = meta.autoOrient?.width ?? meta.width;
   const h0 = meta.autoOrient?.height ?? meta.height;
   const widths = WIDTHS.filter((w) => w <= w0);
-  if (widths.length === 0) widths.push(w0);
+  if (widths.length === 0 || widths.at(-1) < w0 - 100) widths.push(w0);
   const sources = [];
   for (const w of widths) {
     const h = Math.round((h0 * w) / w0);
